@@ -6,10 +6,10 @@ function HomePage() {
     return (
         <>
             <Header />
-                <main>Some test text</main>
+                <main className='justify-content-center min-vh-100'>Some test text</main>
             <Footer />
         </>
-    )
+    );
 }
 
 export default HomePage
