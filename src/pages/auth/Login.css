@@ -1,0 +1,29 @@
+/*body {
+    padding-block: 4rem;
+    height: 100%;
+}
+
+h1 {
+    padding: 0;
+    justify-content: start;
+}
+
+article {
+    display: flex;
+    justify-content: center;
+}*/
+.login-form-container {
+    display: flex;
+    justify-content: center;
+    max-width: max-content;
+    font-size: 0.1px;
+}
+
+.form {
+    padding: 1rem;
+}
+
+.bg-red-100 {
+    background-color: red;
+}
+
