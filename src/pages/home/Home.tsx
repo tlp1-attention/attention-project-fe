@@ -1,4 +1,5 @@
 import { IUser } from "@interfaces/user"
+import { Link } from "react-router-dom"
 
 type HomePageProps = {
     user?: IUser
@@ -14,12 +15,12 @@ export default function HomePage({ user }: HomePageProps) {
                     ¡Bienvenido a nuestra web, donde la concentración se
                     convierte en un superpoder!
                 </h1>
-                <a
+                <Link
                     className="boton flex-grow-0 text-decoration-none"
-                    href={ user ? "/workspace/timer" : "/login" }
+                    to={ user ? "/workspace/timer" : "/login" }
                 >Empieza ahora
                     <i className="bi bi-arrow-right fs-3 p-2"></i>
-                </a>
+                </Link>
             </hgroup>
             <article className="m-auto" id="grid">
                 <h2 className="d-flex justify-content-center text-center fw-bold pb-4">

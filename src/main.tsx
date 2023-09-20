@@ -8,6 +8,7 @@ import MainLayout from './pages/layouts/MainLayout'
 import HomePage from '@pages/home/Home'
 import LoginForm from '@pages/auth/LoginForm'
 import { Register } from '@pages/auth/Register'
+import WorkspaceLayout from '@pages/layouts/WorkspaceLayout'
 
 const router = createBrowserRouter([
     {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <HomePage />
-            }
+            },
         ]
     },
     {
@@ -28,6 +29,16 @@ const router = createBrowserRouter([
     {
         path: '/register',
         element: <Register />
+    },
+    { 
+        path: '/workspace',
+        element: <WorkspaceLayout />,
+        children: [
+            {
+                index: true,
+                element: <p>Timer component</p>
+            },
+        ]
     }
 ])
 

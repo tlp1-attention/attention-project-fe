@@ -1,16 +1,16 @@
-import { IUser } from '@interfaces/user';
-
+import { IUser } from '@interfaces/user'
+import { Navbar } from 'react-bootstrap'
 
 export function Header({ user }: { user?: IUser }) {
     return (
         <>
             <header>
-                <nav className="sticky-top">
+                <Navbar className="nav-custom sticky-top">
                     <input type="checkbox" id="check" />
                     <label htmlFor="check" className="check">
                         <i className="fas fa-bars"></i>
                     </label>
-                    <a href="#" className="enlace">
+                    <a href="#" className="enlace me-auto">
                         <img
                             src="/assets/attention-logo.png"
                             alt="imagen logo"
@@ -22,7 +22,7 @@ export function Header({ user }: { user?: IUser }) {
                             className="logo-1"
                         />
                     </a>
-                    <ul>
+                    <ul className="">
                         <li>
                             <a href="#" className="text-decoration-none">
                                 Contacto
@@ -30,7 +30,7 @@ export function Header({ user }: { user?: IUser }) {
                         </li>
                         <SignButton signedIn={!!user} />
                     </ul>
-                </nav>
+                </Navbar>
             </header>
         </>
     )
@@ -50,23 +50,22 @@ function SignButton({ signedIn }: { signedIn: boolean }) {
                 </li>
             </>
         )
-    } else {
-        return (
-            <>
-                <li>
-                    <a href="./login.html" className="text-decoration-none">
-                        Iniciar sesión
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="./register.html"
-                        className="active text-decoration-none"
-                    >
-                        Registrate
-                    </a>
-                </li>
-            </>
-        )
     }
+    return (
+        <>
+            <li>
+                <a href="./login.html" className="text-decoration-none">
+                    Iniciar sesión
+                </a>
+            </li>
+            <li>
+                <a
+                    href="./register.html"
+                    className="active text-decoration-none"
+                >
+                    Registrate
+                </a>
+            </li>
+        </>
+    )
 }

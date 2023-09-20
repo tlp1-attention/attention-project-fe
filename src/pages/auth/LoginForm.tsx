@@ -1,8 +1,10 @@
 import './Login.css'
 import './Register.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function LoginForm() {
+    const navigate = useNavigate();
+
     return (
         <main className="min-vh-100 fs-5 login-form-container d-flex justify-content-center align-items-center">
             <article className="border border-3 mx-lg-5 my-lg-2 d-flex flex-column flex-md-row rounded-2">
@@ -42,7 +44,7 @@ export default function LoginForm() {
                                 ¿Aún no tiene una cuenta? Regístrese.
                             </Link>
                         </div>
-                        <button type="submit" className="form-button w-100">
+                        <button type="submit" onClick={() => navigate('/workspace')} className="form-button w-100">
                             Enviar
                         </button>
                     </form>
