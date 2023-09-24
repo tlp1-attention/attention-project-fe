@@ -15,14 +15,14 @@ export default function HomePage({ user }: HomePageProps) {
                     convierte en un superpoder!
                 </h1>
                 <Link
-                    className="boton flex-grow-0 text-decoration-none"
+                    className="cta-button flex-grow-0 text-decoration-none"
                     to={ user ? "/workspace/timer" : "/login" }
                 >Empieza ahora
-                    <i className="bi bi-arrow-right fs-3 p-2"></i>
+                    <i className="bi bi-arrow-right arrow-animation fs-3 p-2"></i>
                 </Link>
             </hgroup>
             <article className="m-auto" id="grid">
-                <h2 className="d-flex justify-content-center text-center fw-bold pb-4">
+                <h2 className="d-flex justify-content-center article-title text-center fw-bold pb-4">
                     Potencia tu capacidad de atención
                 </h2>
                 <section className="d-flex flex-column flex-xl-row p-3 m-4 mx-md-5 justify-content-center gap-5 text-justify">
@@ -58,7 +58,7 @@ export default function HomePage({ user }: HomePageProps) {
                         <img
                             src="./assets/imagen-1.png"
                             alt="imagen de niño feliz"
-                            className="im-1 object-fit-cover shadow-lg"
+                            className="image-main object-fit-cover shadow-lg"
                         />
                     </div>
                 </section>
@@ -93,7 +93,7 @@ export default function HomePage({ user }: HomePageProps) {
                         <img
                             src="./assets/imagen-2.png"
                             alt="imagen de niño feliz"
-                            className="im-1 object-fit-cover shadow-lg"
+                            className="image-main object-fit-cover shadow-lg"
                         />
                     </div>
                 </section>
