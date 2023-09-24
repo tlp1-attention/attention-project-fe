@@ -77,7 +77,7 @@ export default function HomePage({ user }: HomePageProps) {
                             dónde dirigimos nuestra atención.
                         </p>
                         <p className="w-100">
-                            Nuestro
+                            Nuestro{' '}
                             <b>
                                 objetivo es brindarte información y apoyo para
                                 que puedas alcanzar un nivel óptimo de
