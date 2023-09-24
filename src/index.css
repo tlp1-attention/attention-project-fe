@@ -1,3 +1,10 @@
+* {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  box-sizing: border-box;
+}
+
 :root {
     --clr-secondary-800: #5b5c61;
     --clr-secondary-200: #f8f8f8;

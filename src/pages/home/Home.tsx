@@ -1,13 +1,12 @@
 import { IUser } from "@interfaces/user"
 import { Link } from "react-router-dom"
+import '../home/Home.css'
 
 type HomePageProps = {
     user?: IUser
 }
 
 export default function HomePage({ user }: HomePageProps) {
-
-
     return (
         <main>
             <hgroup className="m-large d-flex justify-content-start align-items-center flex-column gap-2 height-full">
