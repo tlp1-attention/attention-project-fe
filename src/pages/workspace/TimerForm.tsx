@@ -1,3 +1,6 @@
+import '../css/Form.css';
+import './TimerForm.css';
+
 type TimerFormProps = {
   show: boolean;
 }
