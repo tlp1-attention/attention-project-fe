@@ -131,13 +131,15 @@
     .lateral-bar {
         position: relative;
     }
+}
 
-
+.lateral-bar {
+    max-width: 1.2rem;
 }
 
 @media (max-width: 768px) {
   .workspace-layout footer {
-      margin-top: 18rem !important;
+    margin-top: 18rem !important;
   }
 }
 
@@ -159,6 +161,7 @@
 
 @media (max-width: 578px) {
   .lateral-bar {
-      position: absolute;
+    position: absolute;
+    max-height: 0;
   }
 }

@@ -1,6 +1,7 @@
-import { ComponentProps, useReducer } from "react";
+import { useReducer } from "react";
 import { BrandLogoSmall } from "../logo/BrandLogoSmall";
 import "./LateralNav.css";
+import { Link, type LinkProps } from "react-router-dom";
 
 const ROUTES = [
   {
@@ -22,6 +23,11 @@ const ROUTES = [
     text: "Temporizador",
     icon: "clock",
     url: "/timer",
+  },
+  {
+    text: 'Eventos',
+    icon: 'calendar',
+    url: '/events'
   },
   {
     text: "Espacio colaborativo",
@@ -57,7 +63,7 @@ export function LateralNav() {
               </button>
             </li>
             {ROUTES.map(({ text, icon, url }) => {
-              return <SlideButton text={text} icon={icon} url={url} />;
+              return <SlideButton text={text} icon={icon} to={url} />;
             })}
             <li>
               <LogOut />
@@ -72,16 +78,15 @@ export function LateralNav() {
 type SlideButtonProps = {
   text: string;
   icon: string;
-  url: string;
-} & Exclude<ComponentProps<"a">, "className">;
+} & Exclude<LinkProps, "className">;
 
-function SlideButton({ text, icon, url, ...rest }: SlideButtonProps) {
+function SlideButton({ text, icon, to, ...rest }: SlideButtonProps) {
   return (
     <li>
-      <a href={url} id="a-1" className="text-decoration-none" {...rest}>
+      <Link to={to} id="a-1" className="text-decoration-none" {...rest}>
         <i className={`fas fa-${icon}`} />
         <span className="nav-item">{text.toUpperCase()}</span>
-      </a>
+      </Link>
     </li>
   );
 }
