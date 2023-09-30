@@ -56,8 +56,8 @@ export function LateralNav() {
                 </a>
               </button>
             </li>
-            {ROUTES.map((route) => {
-              return <SlideButton {...route} />;
+            {ROUTES.map(({ text, icon, url }) => {
+              return <SlideButton text={text} icon={icon} url={url} />;
             })}
             <li>
               <LogOut />

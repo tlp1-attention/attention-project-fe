@@ -1,4 +1,4 @@
-import '../css/Form.css';
+import '@pages/css/Form.css';
 import './TimerForm.css';
 
 type TimerFormProps = {
