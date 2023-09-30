@@ -37,7 +37,7 @@ export function LateralNav() {
         <>
             <header className="lateral-bar">
                 <button className="bg-transparent border-0 position-relative mb-5 mb-sm-0 d-sm-none slide-button">
-                    <BrandLogoSmall />
+                    <BrandLogoSmall className="m-4" onClick={toggle} />
                 </button>
                 <nav
                     className={`position-fixed left-0 min-vh-100 z-3 ${isOpen ? 'open' : ''}`}
@@ -50,7 +50,6 @@ export function LateralNav() {
                                     href="#"
                                     className="logo text-decoration-none"
                                 >
-                                    <BrandLogoSmall />
                                     <img
                                         src="/assets/logo-1.png"
                                         alt="logo pequeño"
