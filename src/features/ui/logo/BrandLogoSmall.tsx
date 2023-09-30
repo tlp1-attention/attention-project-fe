@@ -7,7 +7,7 @@ export function BrandLogoSmall({ className, ...rest }: BrandLogoSmallProps) {
     <img
       src="/assets/logo-1.png"
       alt="logo pequeño"
-      className={`brand-logo small ${className}`}
+      className={`brand-logo small ${className ?? "default"}`}
       {...rest}
     />
   );
