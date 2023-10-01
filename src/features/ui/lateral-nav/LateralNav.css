@@ -27,10 +27,12 @@
 
     @media (max-width: 578px) {
         & {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto 1fr auto;
             grid-template-areas:
-                'nav nav'
-                'main main'
-                'footer footer';
+                'nav'
+                'main'
+                'footer';
             gap: 6rem;
         }
     }

@@ -10,6 +10,7 @@ import LoginForm from '@pages/auth/LoginForm'
 import { Register } from '@pages/auth/Register'
 import WorkspaceLayout from '@pages/layouts/WorkspaceLayout'
 import { TimerPage } from '@pages/workspace/TimerPage'
+import { EventPage } from '@pages/workspace/EventPage'
 
 const router = createBrowserRouter([
     {
@@ -37,8 +38,13 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
+                path: '/workspace/timer',
                 element: <TimerPage />
             },
+            {
+                path: '/workspace/events',
+                element: <EventPage />
+            }
         ]
     }
 ])

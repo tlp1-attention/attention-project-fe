@@ -27,7 +27,7 @@ const ROUTES = [
   {
     text: 'Eventos',
     icon: 'calendar',
-    url: '/events'
+    url: './events'
   },
   {
     text: "Espacio colaborativo",
@@ -63,7 +63,7 @@ export function LateralNav() {
               </button>
             </li>
             {ROUTES.map(({ text, icon, url }) => {
-              return <SlideButton text={text} icon={icon} to={url} />;
+              return <SlideButton text={text} icon={icon} to={url} key={url}/>;
             })}
             <li>
               <LogOut />
