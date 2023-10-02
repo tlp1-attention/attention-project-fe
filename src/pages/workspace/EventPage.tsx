@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { EventList } from "@features/events/EventList";
 import { IEvent } from "@interfaces/event";
+import { EventActions } from "@features/events/EventActions";
 
 const EVENTS: IEvent[] = [
   {
@@ -18,6 +19,7 @@ export function EventPage() {
 
   return (
     <>
+      <EventActions />
       <EventList events={events} />;
     </>
   );
