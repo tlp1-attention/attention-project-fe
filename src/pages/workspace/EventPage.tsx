@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { EventList } from "@features/events/EventList";
 import { IEvent } from "@interfaces/event";
-import { EventActions } from "@features/events/EventActions";
+import { EventsHeader } from "@features/events/EventHeader";
 
 const EVENTS: IEvent[] = [
   {
@@ -18,9 +18,9 @@ export function EventPage() {
   const [events] = useState(EVENTS);
 
   return (
-    <>
-      <EventActions />
-      <EventList events={events} />;
-    </>
+    <main className="color-brand-light px-3 me-3 py-0">
+      <EventsHeader />
+      <EventList events={events} />
+    </main>
   );
 }

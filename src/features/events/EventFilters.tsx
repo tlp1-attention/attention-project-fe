@@ -1,6 +1,6 @@
 export function EventFilters() {
    return (
-        <form id="preference-criteria" className="d-flex align-items-stretch">
+        <form id="preference-criteria" className="d-flex gap-4 p-2 align-items-center">
           <select
             className="btn btn-primary-brand-outline fs-2 form-control"
             id="filter-criteria"

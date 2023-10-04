@@ -78,6 +78,10 @@
     color: var(--clr-accent-800);
 }
 
+.color-brand-light {
+    color: var(--clr-accent-400);
+}
+
 .logo-with-text img {
     max-width: 25rem;
 }

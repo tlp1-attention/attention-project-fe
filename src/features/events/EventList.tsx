@@ -7,7 +7,7 @@ type EventListProps = {
 
 export function EventList({ events }: EventListProps) {
   return (
-    <article className="px-3 w-100">
+    <article className="px-3 py-0 w-100">
       {events.map(evt => (
         <EventElement event={evt} key={evt.id} />
       ))}

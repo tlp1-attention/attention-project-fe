@@ -1,3 +1,4 @@
+import './ActionButton.css';
 import { ComponentProps } from "react";
 
 type ActionButtonProps = ComponentProps<"button"> & {
@@ -8,7 +9,7 @@ export function ActionButton({ onClick, children, className, outline }: ActionBu
   return (
     <button
       onClick={onClick}
-      className={`btn btn-primary-brand${outline ? '-outline' : ''} d-flex justify-content-center gap-3 align-items-center ${className}`}
+      className={`action-btn btn btn-primary-brand${outline ? '-outline hover-brand' : 'hover-'} d-flex justify-content-center gap-3 align-items-center ${className}`}
     >
       {children}
     </button>
