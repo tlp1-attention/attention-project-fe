@@ -6,11 +6,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-icons/font/bootstrap-icons.min.css';
 import MainLayout from './pages/layouts/MainLayout'
 import HomePage from '@pages/home/Home'
-import LoginForm from '@pages/auth/LoginForm'
+import LoginForm from '@pages/auth/login/LoginForm'
 import { Register } from '@pages/auth/Register'
 import WorkspaceLayout from '@pages/layouts/WorkspaceLayout'
 import { TimerPage } from '@pages/workspace/TimerPage'
 import { EventPage } from '@pages/workspace/EventPage'
+import { AuthContextProvider } from './auth/context/AuthContext'
 
 const router = createBrowserRouter([
     {
@@ -51,6 +52,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <AuthContextProvider>
+            <RouterProvider router={router} />
+        </AuthContextProvider>
     </React.StrictMode>
 )

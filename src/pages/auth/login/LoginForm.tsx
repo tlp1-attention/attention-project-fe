@@ -1,9 +1,22 @@
+import { useAuth } from 'src/auth/hooks/useAuth';
 import './Login.css'
 import './Register.css'
 import { Link, useNavigate } from 'react-router-dom'
+import { useForm } from 'src/hook/useForm';
+
 
 export default function LoginForm() {
     const navigate = useNavigate();
+    const [loginData, { resetInputs, handleChange }] = useForm();
+    const { login } = useAuth()!;
+
+    const handleSubmit: React.FormEventHandler = (evt) => {
+       evt.preventDefault();
+       login(
+        loginData.username,
+        loginData.password
+       ) ;
+    }
 
     return (
         <main className="min-vh-100 fs-5 login-form-container d-flex justify-content-center align-items-center">
@@ -19,6 +32,7 @@ export default function LoginForm() {
                         className="m-2 form w-100"
                         method="POST"
                         action="/login"
+                        onSubmit={handleSubmit}
                     >
                         <label htmlFor="username" className="label">
                             Usuario:{' '}
@@ -27,6 +41,7 @@ export default function LoginForm() {
                             type="text"
                             name="username"
                             className="form-control"
+                            onChange={handleChange}
                         />
                         <label htmlFor="password" className="label">
                             Contraseña:{' '}
@@ -35,6 +50,7 @@ export default function LoginForm() {
                             type="password"
                             name="password"
                             className="form-control"
+                            onChange={handleChange}
                         />
                         <div className="form-small-text d-flex flex-wrap gap-1">
                             <a href="/reset-password.html">

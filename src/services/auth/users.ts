@@ -1,23 +1,37 @@
-import { IUser } from '@interfaces/user';
-import axios from 'axios';
+import axios from "axios";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const request = axios.create({
-    baseURL: BACKEND_URL,
+  baseURL: BACKEND_URL
 });
 
-export async function loginUser(user: IUser) {
-    return request.post(
-        '/login',
-        user,
-    );
+type LoginParams = {
+  username: string;
+  password: string;
+};
+
+export async function loginUser({ username, password }: LoginParams) {
+  return request.post("/login", {
+    username,
+    password
+  });
 }
 
-export async function registerUser(user: IUser) {
-    return request.post(
-        '/register',
-        user
-    );
-}
+type RegisterParams = {
+  username: string;
+  email: string;
+  password: string;
+};
 
+export async function registerUser({
+  username,
+  email,
+  password
+}: RegisterParams) {
+  return request.post("/register", {
+    username,
+    email,
+    password
+  });
+}
