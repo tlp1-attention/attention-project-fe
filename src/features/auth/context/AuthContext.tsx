@@ -1,11 +1,12 @@
-import { createContext, useState, useMemo } from "react";
-import { loginUser, registerUser } from "src/services/auth/users";
+import { createContext, useState, useMemo, useEffect } from "react";
+import { loginUser, registerUser } from "@services/auth/users";
+import { ValidationError } from "@interfaces/validation.error";
 
 type AuthContextValue = {
-    login: (username: string, password: string) => void;
-    register: (username: string, password: string, email: string) => void;
+    login: (username: string, password: string) => Promise<void>;
+    register: (username: string, password: string, email: string) => Promise<void>;
     logout: () => void;
-    isAuthenticated: () => boolean
+    isAuthenticated: boolean
 }
 
 export const AuthContext = createContext<
@@ -14,19 +15,21 @@ export const AuthContext = createContext<
 
 export function AuthContextProvider({ children }: { children: React.ReactElement }) {
     const [token, setToken] = useState<string | null>(
-        () => localStorage.getItem('token') ?? null
+        () => localStorage.getItem('token')
     );
 
     const login = async (username: string, password: string) => {
-        const loginResponse = await loginUser({ username, password });
-        if (loginResponse.status === 200) {
-            const { errors } = loginResponse.data;
-            throw errors;
-        } 
-        const { token } = loginResponse.data;
+        const loginData = await loginUser({ username, password });
+        const { token } = loginData;
+        if (!token) {
+            throw new ValidationError("Token no encontrado!");
+        }
         setToken(token);
     }
 
+    useEffect(() => {
+        if (token) localStorage.setItem('token', token);
+    }, [token]);
 
     const register = async (username: string, password: string, email: string) => {
         const registerResponse = await registerUser({
@@ -34,7 +37,7 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
             password,
             email
         });
-        if (registerResponse.status === 200) {
+        if (registerResponse.status !== 200) {
             const { errors } = registerResponse.data;
             throw errors;
         } 

@@ -10,7 +10,9 @@
       "@components/*": ["src/components/*"],
       "@interfaces/*": ["src/interfaces/*"],
       "@pages/*": ["src/pages/*"],
-      "@features/*": ["src/features/*"]
+      "@features/*": ["src/features/*"],
+      "@services/*": ["src/services/*"],
+      "@hooks/*": ["src/hooks/*"]
     },
 
     /* Bundler mode */

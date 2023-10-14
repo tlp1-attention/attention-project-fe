@@ -9,7 +9,9 @@ export default defineConfig({
       "@components": path.resolve("src/components"),
       "@interfaces": path.resolve("src/interfaces"),
       "@pages": path.resolve("src/pages"),
-      "@features": path.resolve("src/features")
+      "@features": path.resolve("src/features"),
+      "@services": path.resolve("src/services"),
+      "@hooks": path.resolve("src/hooks")
     },
   },
   plugins: [
