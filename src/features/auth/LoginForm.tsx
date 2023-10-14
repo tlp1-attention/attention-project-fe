@@ -28,7 +28,7 @@ export function LoginForm() {
             err instanceof ValidationError
           ) {
             toast.error(err?.message);
-          }
+          } 
           console.error(err);
         }
       }}

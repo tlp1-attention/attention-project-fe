@@ -32,16 +32,12 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
     }, [token]);
 
     const register = async (username: string, password: string, email: string) => {
-        const registerResponse = await registerUser({
+        const registerData = await registerUser({
             username,
             password,
             email
         });
-        if (registerResponse.status !== 200) {
-            const { errors } = registerResponse.data;
-            throw errors;
-        } 
-        const { token } = registerResponse.data;
+        const { token } = registerData;
         setToken(token);
     }
 
@@ -50,7 +46,7 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
     }
 
     const isAuthenticated = useMemo(() => {
-        return token == null;
+        return token != null;
     }, [token]);
 
     return (

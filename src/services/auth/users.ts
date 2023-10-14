@@ -26,7 +26,7 @@ export async function loginUser({ username, password }: LoginParams) {
       const { response } = err;
       if (response?.status == 400) {
         const { errors } = response.data;
-        throw errors.map(({ msg }: { msg: string }) => new ValidationError(msg));
+        throw errors.map(({ msg }: { msg: string }) => new ValidationError(msg))[0];
       }
       throw new ValidationError(err.response?.data.message);
     }
@@ -45,9 +45,24 @@ export async function registerUser({
   email,
   password
 }: RegisterParams) {
-  return request.post("/register", {
-    username,
-    email,
-    password
-  });
+  try {
+    const response = await request.post("/register", {
+      username,
+      password,
+      email
+    });
+
+    return response.data;
+
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const { response } = err;
+      if (response?.status == 400) {
+        const { errors } = response.data;
+        throw errors.map(({ msg }: { msg: string }) => new ValidationError(msg))[0];
+      }
+      throw new ValidationError(err.response?.data.message);
+    }
+    
+  }
 }
