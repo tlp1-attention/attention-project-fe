@@ -1,12 +1,14 @@
 import { createContext, useState, useMemo, useEffect } from "react";
-import { loginUser, registerUser } from "@services/auth/users";
+import { getUserInfo, loginUser, registerUser } from "@services/auth/users";
 import { ValidationError } from "@interfaces/validation.error";
+import { IUser } from "@interfaces/user";
 
 type AuthContextValue = {
     login: (username: string, password: string) => Promise<void>;
     register: (username: string, password: string, email: string) => Promise<void>;
     logout: () => void;
-    isAuthenticated: boolean
+    isAuthenticated: boolean,
+    user?: IUser
 }
 
 export const AuthContext = createContext<
@@ -17,6 +19,7 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
     const [token, setToken] = useState<string | null>(
         () => localStorage.getItem('token')
     );
+    const [user, setUser] = useState<IUser | undefined>(undefined);
 
     const login = async (username: string, password: string) => {
         const loginData = await loginUser({ username, password });
@@ -41,6 +44,12 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
         setToken(token);
     }
 
+    useEffect(() => {
+        if (!token) return;
+        getUserInfo(token)
+            .then(({ user }: { user: IUser }) => setUser(user));
+    }, [token])
+
     const logout = async () => {
         localStorage.removeItem('token');
     }
@@ -54,7 +63,8 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
             login,
             register,
             isAuthenticated,
-            logout
+            logout,
+            user
         }}>
             {children}
         </AuthContext.Provider>

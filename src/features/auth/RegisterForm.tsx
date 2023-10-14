@@ -18,8 +18,9 @@ export function RegisterForm() {
           navigate("/workspace/timer");
         } catch (err) {
           if (err instanceof ValidationError) {
-            toast.error(err?.message);
+            return toast.error(err?.message);
           }
+          toast.error('Error desconocido. Contáctese con los desarrolladores del sitio');
           console.error(err);
         }
       }}

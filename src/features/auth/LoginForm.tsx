@@ -27,8 +27,9 @@ export function LoginForm() {
           if (
             err instanceof ValidationError
           ) {
-            toast.error(err?.message);
+            return toast.error(err?.message);
           } 
+          toast.error('Error desconocido. Contacte a los desarrolladores del sitio.');
           console.error(err);
         }
       }}

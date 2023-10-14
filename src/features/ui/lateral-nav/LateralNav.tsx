@@ -2,6 +2,7 @@ import { useReducer } from "react";
 import { BrandLogoSmall } from "../logo/BrandLogoSmall";
 import "./LateralNav.css";
 import { Link, type LinkProps } from "react-router-dom";
+import { useAuth } from "@features/auth/hooks/useAuth";
 
 const ROUTES = [
   {
@@ -38,6 +39,7 @@ const ROUTES = [
 
 export function LateralNav() {
   const [isOpen, toggle] = useReducer((opened) => !opened, false);
+  const { user } = useAuth()!;
 
   return (
     <>
@@ -57,7 +59,7 @@ export function LateralNav() {
                 <a href="#" className="logo text-decoration-none">
                   <BrandLogoSmall className="d-block" />
                   <span className="nav-item text-normal-case">
-                    Nombre de usuario
+                    {user?.name}
                   </span>
                 </a>
               </button>

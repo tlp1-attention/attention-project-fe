@@ -66,3 +66,26 @@ export async function registerUser({
     
   }
 }
+
+export async function getUserInfo(token: string) {
+  try {
+
+    const response = await request.get("/api/users", { 
+      headers: {
+        'Authorization': token
+      }
+    });
+
+    return response.data;
+
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const { response } = err;
+      if (response?.status == 400) {
+        const { errors } = response.data;
+        throw errors.map(({ msg }: { msg: string }) => new ValidationError(msg))[0];
+      }
+      throw new ValidationError(err.response?.data.message);
+    }
+  }
+}
