@@ -67,11 +67,17 @@ body {
     outline: 1px solid var(--clr-accent-400);
 }
 
-.btn-primary-brand:hover,
-.btn-primary-brand:active,
-.btn-primary-brand:first-child:active {
+.btn-primary-brand:not(:disabled):hover,
+.btn-primary-brand:not(:disabled):active,
+.btn-primary-brand:not(:disabled):first-child:active {
     color: var(--clr-secondary-200) !important;
     background-color: var(--clr-accent-800) !important;
+}
+
+.btn-primary-brand:disabled:hover {
+    color: var(--clr-accent-800) !important;
+    background-color: var(--clr-secondary-200) !important;
+    outline: 1px solid var(--clr-accent-400) !important;
 }
 
 .logo-f {
