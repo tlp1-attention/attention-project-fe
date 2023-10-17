@@ -8,7 +8,8 @@ type AuthContextValue = {
     register: (username: string, password: string, email: string) => Promise<void>;
     logout: () => void;
     isAuthenticated: boolean,
-    user?: IUser
+    user?: IUser;
+    token: string | null;
 }
 
 export const AuthContext = createContext<
@@ -64,7 +65,8 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
             register,
             isAuthenticated,
             logout,
-            user
+            user,
+            token
         }}>
             {children}
         </AuthContext.Provider>

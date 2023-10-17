@@ -1,11 +1,10 @@
 import { IEvent } from "@interfaces/event";
 import './EventList.css';
+import { useEvents } from "./hooks/useEvents";
 
-type EventListProps = {
-  events: IEvent[];
-};
+export function EventList() {
+  const { events } = useEvents()!;
 
-export function EventList({ events }: EventListProps) {
   return (
     <article className="px-3 py-0 w-100">
       {events.map(evt => (

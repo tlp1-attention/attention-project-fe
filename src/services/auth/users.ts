@@ -1,11 +1,6 @@
 import { ValidationError } from "@interfaces/validation.error";
-import axios, { AxiosError } from "axios";
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
-const request = axios.create({
-  baseURL: BACKEND_URL
-});
+import { AxiosError } from "axios";
+import { request } from "@services/setup";
 
 type LoginParams = {
   username: string;

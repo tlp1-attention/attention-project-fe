@@ -2,6 +2,7 @@ import { IEvent } from "@interfaces/event";
 import { EventFilters } from "./EventFilters";
 import { Modal } from "react-bootstrap";
 import { ActionButton } from "@features/ui/action-button/ActionButton";
+import { useState } from "react";
 
 export function EventActions() {
   return (
@@ -18,11 +19,16 @@ type AddEventButton = {
 };
 
 function AddEventButton() {
+  const [show, setShow] = useState(false);
+
+  const handleOpen = () => setShow(true);
+  const handleClose = () => setShow(false);
+
   return (
     <>
-      <AddEventForm show={false} />
-      <ActionButton outline={true} id="new-event">
-        <i className="bi bi-plus-circle fs-2 color-brand"></i>
+      <AddEventForm show={show} close={handleClose}/>
+      <ActionButton outline={true} id="new-event" onClick={handleOpen}>
+        <i className="bi bi-plus-circle fs-2"></i>
         <span className="visually-hidden">Nuevo evento</span>
       </ActionButton>
     </>
@@ -38,18 +44,17 @@ function NotifyButton() {
   );
 }
 
-function AddEventForm({ show }: { show: boolean }) {
-  if (!show) return null;
+function AddEventForm({ show, close }: { show: boolean, close: (() => void) }) {
   return (
-    <Modal as="form" className="p-1 p-md-3 p-lg-5 fs-1 event-form">
-      <Modal.Dialog>
-        <Modal.Body className="modal-content w-100">
+    <Modal as="form" show={show}  className="p-1 p-md-3 p-lg-5 fs-1 event-form">
+        <Modal.Body className="w-100 p-0">
           <div className="modal-header bg-primary-brand d-flex justify-content-between align-items-center">
             <h1 className="text-white modal-title p-4">Crear Evento</h1>
             <button
               className="btn text-white p-4"
               data-bs-dismiss="modal"
               aria-label="close"
+              onClick={close}
             >
               <i className="bi bi-x-lg fs-2"></i>
             </button>
@@ -73,7 +78,7 @@ function AddEventForm({ show }: { show: boolean }) {
               id="description"
               cols={30}
               rows={5}
-              className="form-small-text"
+              className="form-small-text border-top-0 border-left-0 border-right-0 outline-none"
               maxLength={200}
               required
             ></textarea>
@@ -112,7 +117,6 @@ function AddEventForm({ show }: { show: boolean }) {
             </button>
           </form>
         </Modal.Body>
-      </Modal.Dialog>
     </Modal>
   );
 }
