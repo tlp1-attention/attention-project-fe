@@ -51,8 +51,10 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
             .then(({ user }: { user: IUser }) => setUser(user));
     }, [token])
 
-    const logout = async () => {
+    const logout = () => {
         localStorage.removeItem('token');
+        setToken(null);
+        setUser(undefined);
     }
 
     const isAuthenticated = useMemo(() => {

@@ -39,7 +39,7 @@ const ROUTES = [
 
 export function LateralNav() {
   const [isOpen, toggle] = useReducer((opened) => !opened, false);
-  const { user } = useAuth()!;
+  const { user, logout } = useAuth()!;
 
   return (
     <>
@@ -68,7 +68,7 @@ export function LateralNav() {
               return <SlideButton text={text} icon={icon} to={url} key={url}/>;
             })}
             <li>
-              <LogOut />
+              <LogOut logout={logout} />
             </li>
           </ul>
         </nav>
@@ -93,9 +93,9 @@ function SlideButton({ text, icon, to, ...rest }: SlideButtonProps) {
   );
 }
 
-function LogOut() {
+function LogOut({ logout }: { logout: () => void }) {
   return (
-    <a href="/log-out" id="a-1" className="logout text-decoration-none">
+    <a id="a-1"  onClick={logout} className="logout text-decoration-none cursor-pointer">
       <i className="fas fa-user" />
       <span className="nav-item">CERRAR SESIÓN</span>
     </a>

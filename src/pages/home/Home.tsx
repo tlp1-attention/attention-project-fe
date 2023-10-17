@@ -1,14 +1,12 @@
 import type { ComponentProps } from 'react'
-import { IUser } from "@interfaces/user";
 import { Link } from "react-router-dom";
 import "../home/Home.css";
 import { PropsWithChildren } from "react";
+import { useAuth } from '@features/auth/hooks/useAuth';
 
-type HomePageProps = {
-  user?: IUser;
-};
+export default function HomePage() {
+  const { user } = useAuth()!;
 
-export default function HomePage({ user }: HomePageProps) {
   return (
     <main>
       <article className="m-auto" id="grid">
