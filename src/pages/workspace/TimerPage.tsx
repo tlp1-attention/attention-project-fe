@@ -15,7 +15,7 @@ export function TimerPage() {
   /** The time to divide between the two clocks */
   const [totalTimeMin, setTotalTimeMin] = useState(0);
 
-  const [seconds, { setSeconds } ] = useTimer(totalTimeMin, () => {
+  const [seconds, { setSeconds }] = useTimer(totalTimeMin, () => {
     if (intervalIndex > intervals.length - 1) {
       return;
     }
@@ -27,8 +27,7 @@ export function TimerPage() {
   const mode = useMemo(() => {
     const currentInterval = intervals[intervalIndex];
     return currentInterval?.mode;
-  }, [intervalIndex, intervals])
-
+  }, [intervalIndex, intervals]);
 
   const freeTime = useMemo(() => {
     const currentInterval = intervals[intervalIndex];
@@ -47,9 +46,9 @@ export function TimerPage() {
     setSeconds(time * 60);
   }, [mode, workTime, freeTime, setSeconds]);
 
-  const handleSubmit = (minutes: number) => { 
-    setTotalTimeMin(minutes); 
-  }
+  const handleSubmit = (minutes: number) => {
+    setTotalTimeMin(minutes);
+  };
 
   const showTimerForm = () => setParams({ ...params, show: "open" });
 
@@ -62,27 +61,33 @@ export function TimerPage() {
   const stopTimer = () => setTotalTimeMin(0);
 
   return (
-    <main className="color-brand">
-      <div className="m-5 d-flex justify-content-center gap-3 align-items-center">
-        <StartTimerButton onClick={showTimerForm} disabled={seconds != 0} />
-        <StopTimerButton onClick={stopTimer} disabled={seconds == 0} />
-      </div>
-      <article className="m-5 timer-container d-flex flex-wrap-reverse justify-content-center align-items-center align-content-center">
-        <TimerForm show={show == "open"} onSubmit={handleSubmit} close={hideTimerForm} />
-        <Timer
-          currentTime={mode == MODES.FREE ? seconds : 0}
-          title={"Tiempo libre"}
-          strokeColor="green"
-          totalTime={+freeTime * 60}
-        />
-        <Timer
-          currentTime={mode == MODES.WORK ? seconds : 0}
-          title={"Trabajo"}
-          strokeColor="blue"
-          totalTime={+workTime * 60}
-        />
-      </article>
-    </main>
+    <>
+      <main className="color-brand">
+        <div className="m-5 d-flex justify-content-center gap-3 align-items-center">
+          <StartTimerButton onClick={showTimerForm} disabled={seconds != 0} />
+          <StopTimerButton onClick={stopTimer} disabled={seconds == 0} />
+        </div>
+        <article className="m-5 timer-container d-flex flex-wrap-reverse justify-content-center align-items-center align-content-center">
+          <TimerForm
+            show={show == "open"}
+            onSubmit={handleSubmit}
+            close={hideTimerForm}
+          />
+          <Timer
+            currentTime={mode == MODES.FREE ? seconds : 0}
+            title={"Tiempo libre"}
+            strokeColor="green"
+            totalTime={+freeTime * 60}
+          />
+          <Timer
+            currentTime={mode == MODES.WORK ? seconds : 0}
+            title={"Trabajo"}
+            strokeColor="blue"
+            totalTime={+workTime * 60}
+          />
+        </article>
+      </main>
+    </>
   );
 }
 
@@ -130,7 +135,7 @@ function divideTime(minutes: number) {
  * using the minutes it receives
  */
 function getTimerConfig(minutes: number) {
-  console.log("Minutes: ",minutes);
+  console.log("Minutes: ", minutes);
   switch (minutes) {
     case 60:
       return {
