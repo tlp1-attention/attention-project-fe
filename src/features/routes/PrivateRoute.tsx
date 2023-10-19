@@ -1,5 +1,7 @@
 import { useAuth } from "@features/auth/hooks/useAuth";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
+import toast from "react-hot-toast";
 
 type PrivateRouteProps = React.PropsWithChildren<{
     redirectPath?: string;
@@ -7,10 +9,14 @@ type PrivateRouteProps = React.PropsWithChildren<{
 
 export function PrivateRoute({ children, redirectPath = "/" }: PrivateRouteProps) {
     const { isAuthenticated } = useAuth()!;
+    const navigate = useNavigate();
 
-    if (!isAuthenticated) {
-        return <Navigate to={redirectPath} />
-    }
+    useEffect(() => {
+        if (!isAuthenticated) {
+            toast.error('No se encuentra autenticado. Por favor inicie sesión e intente ingresar nuevamente.')
+            navigate(redirectPath);
+        }
+    }, [isAuthenticated, navigate, redirectPath]);
 
     return children;
 }

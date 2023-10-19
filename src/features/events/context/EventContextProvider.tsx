@@ -8,9 +8,9 @@ import toast from "react-hot-toast";
 
 type EventContextValue = {
     events: IEvent[];
-    addEvent: (event: IEvent) => void;
-    deleteEvent: (eventId: number) => void;
-    updateEvent: (eventId: number, event: IEvent) => void;
+    addEvent: (event: IEvent) => Promise<void>;
+    deleteEvent: (eventId: number) => Promise<void>;
+    updateEvent: (eventId: number, event: IEvent) => Promise<void>;
     getEvents: () => void;
 }
 
@@ -52,11 +52,13 @@ export function EventContextProvider({ children }: PropsWithChildren<unknown>) {
 
     const addEvent = async (event: IEvent) => {
         if (!token) return;
+        console.log(token);
         try {
             const result = await createEventForUser({
                 token,
                 event
             });
+
             if (result.message) {
                 toast.success('¡Evento creado exitosamente!');
             }

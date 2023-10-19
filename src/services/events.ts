@@ -9,7 +9,7 @@ type GetEventParams = {
 
 export async function getEventsForUser({
     token
-}: GetEventParams) {
+}: GetEventParams): Promise<{ events: IEvent[] }> {
   try {
     const response = await request.get("/api/events", {
         headers: {
@@ -25,10 +25,17 @@ export async function getEventsForUser({
       if (response?.status == 400) {
         const { errors } = response.data;
         throw errors.map(({ msg }: { msg: string }) => new ValidationError(msg))[0];
+      } else if (response?.status == 404) {
+        return {
+          events: []
+        };
       }
       throw new ValidationError(err.response?.data.message);
     }
+    console.error(err);
+    return { events: [] };
   }
+
 }
 
 type CreateEventParams = {

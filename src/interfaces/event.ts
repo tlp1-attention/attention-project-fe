@@ -1,5 +1,5 @@
 export interface IEvent {
-    id: number;
+    id?: number;
     title: string;
     description: string;
     startDate: Date;

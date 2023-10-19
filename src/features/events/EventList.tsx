@@ -1,5 +1,5 @@
 import { IEvent } from "@interfaces/event";
-import './EventList.css';
+import "./EventList.css";
 import { useEvents } from "./hooks/useEvents";
 
 export function EventList() {
@@ -7,9 +7,13 @@ export function EventList() {
 
   return (
     <article className="px-3 py-0 w-100">
-      {events.map(evt => (
-        <EventElement event={evt} key={evt.id} />
-      ))}
+      {events.length == 0 ? (
+        <p className="display-5 text-center mt-5">
+          No se han encontrado eventos para el usuario
+        </p>
+      ) : (
+        events.map(evt => <EventElement event={evt} key={evt.id} />)
+      )}
     </article>
   );
 }
@@ -58,9 +62,9 @@ type ActionIconProps = {
   className: string;
 };
 
-function ActionIcon({ icon, text, className }: ActionIconProps) {
+function ActionIcon({ icon, text, className, onClick }: ActionIconProps) {
   return (
-    <button className={`btn ${className}`}>
+    <button className={`btn ${className}`} onClick={onClick}>
       <i className={`bi bi-${icon}`}></i>
       <span className="visually-hidden">{text}</span>
     </button>
