@@ -3,28 +3,31 @@ import { request } from "./setup";
 import { ValidationError } from "@interfaces/validation.error";
 import { IEvent } from "@interfaces/event";
 
+// const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 type GetEventParams = {
-    token: string;
-}
+  token: string;
+};
 
 export async function getEventsForUser({
-    token
+  token
 }: GetEventParams): Promise<{ events: IEvent[] }> {
   try {
     const response = await request.get("/api/events", {
-        headers: {
-            'Authorization': token
-        }
+      headers: {
+        Authorization: token
+      }
     });
 
     return response.data;
-
   } catch (err) {
     if (err instanceof AxiosError) {
       const { response } = err;
       if (response?.status == 400) {
         const { errors } = response.data;
-        throw errors.map(({ msg }: { msg: string }) => new ValidationError(msg))[0];
+        throw errors.map(
+          ({ msg }: { msg: string }) => new ValidationError(msg)
+        )[0];
       } else if (response?.status == 404) {
         return {
           events: []
@@ -35,25 +38,24 @@ export async function getEventsForUser({
     console.error(err);
     return { events: [] };
   }
-
 }
 
 type CreateEventParams = {
-    event: IEvent;
-    token: string;
-}
+  event: IEvent;
+  token: string;
+};
 
-export async function createEventForUser({
-    token,
-    event
-}: CreateEventParams) {
+export async function createEventForUser({ token, event }: CreateEventParams) {
   try {
-    const response = await request.post("/api/events", {
+    const response = await request.post(
+      "/api/events",
+      event,
+      {
         headers: {
-            'Authorization': token
-        },
-        body: event
-    });
+          Authorization: token
+        }
+      }
+    );
 
     return response.data;
 
@@ -62,41 +64,45 @@ export async function createEventForUser({
       const { response } = err;
       if (response?.status == 400) {
         const { errors } = response.data;
-        throw errors.map(({ msg }: { msg: string }) => new ValidationError(msg))[0];
+        throw errors.map(
+          ({ msg }: { msg: string }) => new ValidationError(msg)
+        )[0];
       }
       throw new ValidationError(err.response?.data.message);
     }
   }
 }
 
-
 type UpdateEventParams = {
-    eventId: number;
-    event: IEvent;
-    token: string;
-}
+  eventId: number;
+  event: IEvent;
+  token: string;
+};
 
 export async function updateEventForUser({
-    token,
-    event,
-    eventId
+  token,
+  event,
+  eventId
 }: UpdateEventParams) {
   try {
-    const response = await request.put(`/api/events/${eventId}`, {
+    const response = await request.put(`/api/events/${eventId}`,
+      event,
+      {
         headers: {
-            'Authorization': token
-        },
-        body: event
-    });
+          'Authorization': token
+        }
+      }
+    );
 
     return response.data;
-
   } catch (err) {
     if (err instanceof AxiosError) {
       const { response } = err;
       if (response?.status == 400) {
         const { errors } = response.data;
-        throw errors.map(({ msg }: { msg: string }) => new ValidationError(msg))[0];
+        throw errors.map(
+          ({ msg }: { msg: string }) => new ValidationError(msg)
+        )[0];
       }
       throw new ValidationError(err.response?.data.message);
     }
@@ -104,29 +110,30 @@ export async function updateEventForUser({
 }
 
 type DeleteEventParams = {
-    token: string;
-    eventId: number;
-}
+  token: string;
+  eventId: number;
+};
 
 export async function deleteEventForUser({
-    token,
-    eventId,
+  token,
+  eventId
 }: DeleteEventParams) {
   try {
     const response = await request.delete(`/api/events/${eventId}`, {
-        headers: {
-            'Authorization': token
-        },
+      headers: {
+        Authorization: token
+      }
     });
 
     return response.data;
-
   } catch (err) {
     if (err instanceof AxiosError) {
       const { response } = err;
       if (response?.status == 400) {
         const { errors } = response.data;
-        throw errors.map(({ msg }: { msg: string }) => new ValidationError(msg))[0];
+        throw errors.map(
+          ({ msg }: { msg: string }) => new ValidationError(msg)
+        )[0];
       }
       throw new ValidationError(err.response?.data.message);
     }

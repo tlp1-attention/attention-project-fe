@@ -10,19 +10,29 @@ export const request = axios.create({
 
 // Globally notify about network errors
 
-// Keep the notifications limited 
+// Keep the notifications limited
 // even when multiple requests fail
 const toastError = debounce(() => {
-  toast.error('Hubo un error al conectarse con el servidor. Contáctese con los desarrolladores del sitio');
+  toast.error(
+    "Hubo un error al conectarse con el servidor. Contáctese con los desarrolladores del sitio"
+  );
 }, 1000);
 
+request.interceptors.request.use(
+  req => {
+    console.log("Request Interceptor: ", req.headers);
+    return req;
+  },
+  err => err
+);
+
 request.interceptors.response.use(
-  (res) => res,
-  (err) => {
+  res => res,
+  err => {
     if (err.request && !err.response) {
       toastError();
       return;
     }
     throw err;
   }
-)
+);

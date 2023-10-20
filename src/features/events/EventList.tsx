@@ -2,7 +2,11 @@ import { IEvent } from "@interfaces/event";
 import "./EventList.css";
 import { useEvents } from "./hooks/useEvents";
 
-export function EventList() {
+export function EventList({
+  onUpdate
+}: {
+  onUpdate: (id: number) => void;
+}) {
   const { events } = useEvents()!;
 
   return (
@@ -12,7 +16,9 @@ export function EventList() {
           No se han encontrado eventos para el usuario
         </p>
       ) : (
-        events.map(evt => <EventElement event={evt} key={evt.id} />)
+        events.map(evt => (
+          <EventElement event={evt} key={evt.id} onUpdate={onUpdate} />
+        ))
       )}
     </article>
   );
@@ -33,7 +39,13 @@ const MONTHS = [
   "Diciembre"
 ];
 
-function EventElement({ event }: { event: IEvent }) {
+function EventElement({
+  event,
+  onUpdate
+}: {
+  event: IEvent;
+  onUpdate: (id: number) => void;
+}) {
   const { title, description, startDate, endDate, typeId } = event;
 
   return (
@@ -45,6 +57,7 @@ function EventElement({ event }: { event: IEvent }) {
           className="event-update-btn"
           icon="pencil"
           text="Actualizar"
+          onClick={() => onUpdate(event.id!)}
         />
       </div>
       <div className="p-2 my-2 mx-3 event-text flex-shrink-1">
