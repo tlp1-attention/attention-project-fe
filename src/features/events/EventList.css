@@ -131,15 +131,16 @@
     }
 }
 
-textarea {
+.event-textarea {
     resize: none;
     width: 100%;
-    font-size: 6rem;
+    outline: none;
+    border: 0;
     border-bottom: 5px solid var(--clr-accent-400);
 }
 
-textarea:focus,
-textarea:active {
+.event-textarea:focus,
+.event-textarea:active {
     outline: var(--clr-accent-400);
 }
 
@@ -148,4 +149,19 @@ textarea:active {
     animation: ring 5s ease-in infinite;
 }
 
+.fc > * {
+    font-size: 1.4rem !important;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.4rem !important;
+}
+
+.modal-dialog {
+    font-size: 1.0rem;
+}
+
+.calendar-view {
+    font-size: 1.0rem !important;
+}
 
