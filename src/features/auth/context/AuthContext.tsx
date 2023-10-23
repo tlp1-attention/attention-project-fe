@@ -26,7 +26,7 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
         const loginData = await loginUser({ username, password });
         const { token } = loginData;
         if (!token) {
-            throw new ValidationError("Token no encontrado!");
+            throw new ValidationError("¡Token no encontrado!");
         }
         setToken(token);
     }

@@ -3,9 +3,11 @@ import "./EventList.css";
 import { useEvents } from "./hooks/useEvents";
 
 export function EventList({
-  onUpdate
+  onUpdate,
+  onDelete
 }: {
   onUpdate: (id: number) => void;
+  onDelete: (id: number) => void;
 }) {
   const { events } = useEvents()!;
 
@@ -17,7 +19,12 @@ export function EventList({
         </p>
       ) : (
         events.map(evt => (
-          <EventElement event={evt} key={evt.id} onUpdate={onUpdate} />
+          <EventElement
+            event={evt}
+            key={evt.id}
+            onUpdate={onUpdate}
+            onDelete={onDelete}
+          />
         ))
       )}
     </article>
@@ -41,10 +48,12 @@ const MONTHS = [
 
 function EventElement({
   event,
-  onUpdate
+  onUpdate,
+  onDelete
 }: {
   event: IEvent;
   onUpdate: (id: number) => void;
+  onDelete: (id: number) => void;
 }) {
   const { title, description, startDate, endDate, typeId } = event;
 
@@ -52,7 +61,12 @@ function EventElement({
     <section className="d-flex position-relative flex-column flex-md-row border border-3 shadow event-container align-content-center">
       <EventDate startDate={startDate} endDate={endDate} typeId={typeId} />
       <div className="event-btns">
-        <ActionIcon className="event-delete-btn" icon="trash" text="Eliminar" />
+        <ActionIcon
+          className="event-delete-btn"
+          icon="trash"
+          text="Eliminar"
+          onClick={() => onDelete(event.id!)}
+        />
         <ActionIcon
           className="event-update-btn"
           icon="pencil"

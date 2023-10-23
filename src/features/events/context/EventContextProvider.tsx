@@ -122,7 +122,6 @@ export function EventContextProvider({ children }: PropsWithChildren<unknown>) {
         addEvent,
         updateEvent,
         deleteEvent,
-
     }}>
         {children}
     </EventContext.Provider>

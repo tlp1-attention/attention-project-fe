@@ -92,7 +92,7 @@ export function TimerPage() {
 }
 
 /**
- * Available models for a Timer: 'Free' and 'Work'
+ * Available modes for a Timer: 'Free' and 'Work'
  */
 const MODES = {
   WORK: "Work",
