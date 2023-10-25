@@ -1,6 +1,8 @@
 import { IEvent } from "@interfaces/event";
 import "./EventList.css";
 import { useEvents } from "./hooks/useEvents";
+import { Spinner } from "@features/ui/spinner/Spinner";
+import { ErrorScreen } from "@features/ui/error-screen/ErrorScreen";
 
 export function EventList({
   onUpdate,
@@ -9,7 +11,15 @@ export function EventList({
   onUpdate: (id: number) => void;
   onDelete: (id: number) => void;
 }) {
-  const { events } = useEvents()!;
+  const { loading, error, events } = useEvents()!;
+
+  if (loading)
+    return (
+      <div className="min-vh-100 d-flex justify-content-center align-items-center">
+        <Spinner className="text-center d-flex justify-content-center align-items-center mt-3" />
+      </div>
+    );
+  if (!events || error) return <ErrorScreen error={error as Error} />;
 
   return (
     <article className="px-3 py-0 w-100">

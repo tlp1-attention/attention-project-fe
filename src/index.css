@@ -29,6 +29,9 @@
     --clr-yellow-600: rgb(223, 226, 60);
     --clr-yellow-100: hsla(62, 88%, 66%, 0.4);
 
+    --clr-error-600: #f6c7be;
+    --clr-error-800: #cb2520;
+
     --fnt-size-500: 1.7rem;
     --border-radius: 6px;
     font-size: 0.76rem;
@@ -104,5 +107,18 @@ body {
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+.error-screen {
+    background-color: var(--clr-error-600);
+    color: var(--clr-error-800);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+}
+
+.error-screen h6 {
+    color: var(--clr-error-800);
+    font-size: 4rem;
+    border-bottom: 1px solid #a82020;
 }
 

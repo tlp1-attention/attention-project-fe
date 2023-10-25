@@ -1,19 +1,21 @@
 import dayjs from "dayjs";
 import { Modal } from "react-bootstrap";
 import { FormDefaultValues } from "./constants";
-import Calendar from "react-calendar";
-import 'react-calendar/dist/Calendar.css';
+import "react-datepicker/dist/react-datepicker.min.css";
 
 type EventFormProps = {
   show: boolean;
   close: () => void;
   defaultValues?: FormDefaultValues;
-  handleChange: React.ChangeEventHandler<
-    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-  >;
+  handleChange: <T>(name: string, value: T) => void;
   values: FormDefaultValues;
   onSubmit: () => void;
 };
+
+type FormFieldChangeEvent =
+  | HTMLInputElement
+  | HTMLSelectElement
+  | HTMLTextAreaElement;
 
 export function EventForm({
   show,
@@ -22,6 +24,10 @@ export function EventForm({
   onSubmit,
   values
 }: EventFormProps) {
+  const handleValueChange: React.ChangeEventHandler<FormFieldChangeEvent> = e => {
+    handleChange(e.target.name, e.target.value);
+  };
+
   return (
     <Modal show={show} className="p-1 p-md-3 p-lg-5 fs-1 event-form">
       <Modal.Body className="w-100 p-0">
@@ -51,7 +57,7 @@ export function EventForm({
             id="title"
             className="form-control"
             required
-            onChange={handleChange}
+            onChange={handleValueChange}
             value={values.title}
           />
 
@@ -64,28 +70,24 @@ export function EventForm({
             className="form-small-text event-textarea"
             maxLength={200}
             required
-            onChange={handleChange}
+            onChange={handleValueChange}
             value={values.description}
           ></textarea>
-          <div className="fs-5">
-            <Calendar />
-          </div>
           <label htmlFor="startDate">Fecha de inicio: </label>
           <input
             type="datetime-local"
             name="startDate"
             className="form-control"
             required
-            onChange={handleChange}
+            onChange={handleValueChange}
             value={dayjs(values.startDate).format("YYYY-MM-DDTHH:mm")}
           />
-
           <label htmlFor="endDate">Fecha final: </label>
           <input
             type="datetime-local"
             name="endDate"
             className="form-control"
-            onChange={handleChange}
+            onChange={handleValueChange}
             value={dayjs(values.endDate).format("YYYY-MM-DDTHH:mm")}
           />
 
@@ -96,7 +98,7 @@ export function EventForm({
             name="importance"
             className="form-select w-100 m-2"
             required
-            onChange={handleChange}
+            onChange={handleValueChange}
             value={values.typeId}
           >
             <option value="1">Importante</option>

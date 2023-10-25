@@ -26,7 +26,7 @@ export function Agenda() {
 
   const handleUpdate = (id: number) => {
     setUpdatingId(id);
-    const event = events.find(e => e.id == id);
+    const event = events?.find(e => e.id == id);
     if (!event) {
       toast.error("Evento no encontrado.");
       return;
@@ -45,10 +45,10 @@ export function Agenda() {
         show={formOpen}
         close={handleClose}
         values={formValues}
-        handleChange={e =>
+        handleChange={(name, value) =>
           setFormValues({
             ...formValues,
-            [e.target.name]: e.target.value
+            [name]: value
           })
         }
         onSubmit={async () => {
