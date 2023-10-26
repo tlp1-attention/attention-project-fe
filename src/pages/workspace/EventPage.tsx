@@ -3,6 +3,7 @@ import { EventsHeader } from "@features/events/EventHeader";
 import { EventList } from "@features/events/EventList";
 import { EVENT_DEFAULT, FormDefaultValues } from "@features/events/constants";
 import { EventContextProvider } from "@features/events/context/EventContextProvider";
+import { NotificationContextProvider } from "@features/events/context/NotificationContext";
 import { useEvents } from "@features/events/hooks/useEvents";
 import { IEvent } from "@interfaces/event";
 import { useState } from "react";
@@ -73,8 +74,10 @@ export function Agenda() {
 
 export function EventPage() {
   return (
-    <EventContextProvider>
-      <Agenda />
-    </EventContextProvider>
+    <NotificationContextProvider>
+      <EventContextProvider>
+        <Agenda />
+      </EventContextProvider>
+    </NotificationContextProvider>
   );
 }

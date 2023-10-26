@@ -1,5 +1,10 @@
 import { ActionButton } from "@features/ui/action-button/ActionButton";
 import { EventFilters } from "./EventFilters";
+import { useState } from "react";
+import { useNotifications } from "./hooks/useNotifications";
+import { ValidationError } from "@interfaces/validation.error";
+import toast from "react-hot-toast";
+import { subscribe, unsubscribe } from "diagnostics_channel";
 
 export function EventActions({
   onAddClick
@@ -27,11 +32,28 @@ function AddEventButton({ onClick }: { onClick: React.MouseEventHandler }) {
 }
 
 function NotifyButton() {
+  const { notificationsAllowed, subscribe, unsubscribe } = useNotifications()!;
+
+  const promptNotifications = async () => {
+    const permission = await Notification.requestPermission();
+    try {
+    if (permission == "granted") {
+    } else {
+      void unsubscribe();
+    }} catch(err) {
+
+        if (err instanceof ValidationError) {
+          toast.error(err.message);
+        }
+    }
+  }
+
   return (
     <ActionButton outline={true}>
-      <i className="bi bi-bell bi-bell-fill fs-2"></i>
+      <i className="bi bi-bell-fill fs-2"></i>
       <span className="visually-hidden">Notíficame</span>
     </ActionButton>
   );
 }
+
 

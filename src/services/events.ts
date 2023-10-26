@@ -139,3 +139,91 @@ export async function deleteEventForUser({
     }
   }
 }
+
+type GetPublicKeyParams = {
+  token: string;
+}
+
+
+export async function getPublicKey({
+  token
+}: GetPublicKeyParams) {
+  try {
+    const response = await request.get(`/api/notifications/vapid-key`, {
+      headers: {
+        Authorization: token
+      }
+    });
+
+    return response.data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const { response } = err;
+      if (response?.status == 400) {
+        const { errors } = response.data;
+        throw errors.map(
+          ({ msg }: { msg: string }) => new ValidationError(msg)
+        )[0];
+      }
+      throw new ValidationError(err.response?.data.message);
+    }
+  }
+}
+
+type SubscribeNotificationParams = {
+  token: string;
+}
+
+export async function subscribeToNotifications({
+  token
+}: SubscribeNotificationParams) {
+  try {
+    const response = await request.post(`/api/notifications/subscription`, {
+      headers: {
+        Authorization: token
+      }
+    });
+
+    return response.data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const { response } = err;
+      if (response?.status == 400) {
+        const { errors } = response.data;
+        throw errors.map(
+          ({ msg }: { msg: string }) => new ValidationError(msg)
+        )[0];
+      }
+      throw new ValidationError(err.response?.data.message);
+    }
+  }
+}
+
+type DeleteSubscriptionParams = {
+  token: string;
+}
+
+export async function unsubscribeToNotifications({
+  token
+}: DeleteSubscriptionParams) {
+  try {
+    const response = await request.delete(`/api/notifications/subscription`, {
+      headers: {
+        Authorization: token
+      }
+    });
+
+    return response.data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const { response } = err;
+      if (response?.status == 400) {
+        const { errors } = response.data;
+        throw errors.map(
+          ({ msg }: { msg: string }) => new ValidationError(msg)
+        )[0];
+      }
+      throw new ValidationError(err.response?.data.message);
+    }
+  }
+}
