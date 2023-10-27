@@ -1,10 +1,9 @@
 import { ActionButton } from "@features/ui/action-button/ActionButton";
 import { EventFilters } from "./EventFilters";
-import { useState } from "react";
 import { useNotifications } from "./hooks/useNotifications";
 import { ValidationError } from "@interfaces/validation.error";
 import toast from "react-hot-toast";
-import { subscribe, unsubscribe } from "diagnostics_channel";
+import { Alert } from "@features/ui/alert/Alert";
 
 export function EventActions({
   onAddClick
@@ -35,25 +34,37 @@ function NotifyButton() {
   const { notificationsAllowed, subscribe, unsubscribe } = useNotifications()!;
 
   const promptNotifications = async () => {
-    const permission = await Notification.requestPermission();
-    try {
-    if (permission == "granted") {
-    } else {
-      void unsubscribe();
-    }} catch(err) {
+    const result = await Alert.prompt({
+      title:
+        "¿Quiere recibir notificaciones sobre sus eventos cuando se acercan?",
+      confirmButtonText: "Sí",
+      cancelButtonText: "Ignorar"
+    });
+    const permission: NotificationPermission = result.isConfirmed
+      ? await Notification.requestPermission()
+      : "denied";
 
-        if (err instanceof ValidationError) {
-          toast.error(err.message);
-        }
+    try {
+      if (permission == "granted") {
+        await subscribe();
+      } else {
+        await unsubscribe();
+      }
+    } catch (err) {
+      if (err instanceof ValidationError) {
+        toast.error(err.message);
+      }
     }
-  }
+  };
 
   return (
-    <ActionButton outline={true}>
-      <i className="bi bi-bell-fill fs-2"></i>
+    <ActionButton outline={true} onClick={promptNotifications}>
+      <i
+        className={`bi ${
+          !notificationsAllowed ? "bi-bell" : ""
+        } bi-bell-fill fs-2`}
+      ></i>
       <span className="visually-hidden">Notíficame</span>
     </ActionButton>
   );
 }
-
-

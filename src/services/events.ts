@@ -47,18 +47,13 @@ type CreateEventParams = {
 
 export async function createEventForUser({ token, event }: CreateEventParams) {
   try {
-    const response = await request.post(
-      "/api/events",
-      event,
-      {
-        headers: {
-          Authorization: token
-        }
+    const response = await request.post("/api/events", event, {
+      headers: {
+        Authorization: token
       }
-    );
+    });
 
     return response.data;
-
   } catch (err) {
     if (err instanceof AxiosError) {
       const { response } = err;
@@ -85,14 +80,11 @@ export async function updateEventForUser({
   eventId
 }: UpdateEventParams) {
   try {
-    const response = await request.put(`/api/events/${eventId}`,
-      event,
-      {
-        headers: {
-          'Authorization': token
-        }
+    const response = await request.put(`/api/events/${eventId}`, event, {
+      headers: {
+        Authorization: token
       }
-    );
+    });
 
     return response.data;
   } catch (err) {
@@ -142,12 +134,9 @@ export async function deleteEventForUser({
 
 type GetPublicKeyParams = {
   token: string;
-}
+};
 
-
-export async function getPublicKey({
-  token
-}: GetPublicKeyParams) {
+export async function getPublicKey({ token }: GetPublicKeyParams) {
   try {
     const response = await request.get(`/api/notifications/vapid-key`, {
       headers: {
@@ -155,7 +144,10 @@ export async function getPublicKey({
       }
     });
 
-    return response.data;
+    const { publicKey: key } = response.data;
+    console.log("Llega: ", key);
+    return key;
+
   } catch (err) {
     if (err instanceof AxiosError) {
       const { response } = err;
@@ -171,18 +163,24 @@ export async function getPublicKey({
 }
 
 type SubscribeNotificationParams = {
+  subscription: PushSubscription;
   token: string;
-}
+};
 
 export async function subscribeToNotifications({
+  subscription,
   token
 }: SubscribeNotificationParams) {
   try {
-    const response = await request.post(`/api/notifications/subscription`, {
-      headers: {
-        Authorization: token
+    const response = await request.post(
+      `/api/notifications/subscription`,
+      subscription,
+      {
+        headers: {
+          Authorization: token
+        }
       }
-    });
+    );
 
     return response.data;
   } catch (err) {
@@ -201,7 +199,7 @@ export async function subscribeToNotifications({
 
 type DeleteSubscriptionParams = {
   token: string;
-}
+};
 
 export async function unsubscribeToNotifications({
   token
