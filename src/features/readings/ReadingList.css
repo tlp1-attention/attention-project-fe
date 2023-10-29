@@ -1,0 +1,120 @@
+
+#reading-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+}
+
+#reading-container > * {
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+
+.reading-card {
+    background-color: var(--clr-secondary-200);
+    border: 3px solid var(--clr-secondary-400);
+
+    width: 90%;
+    margin-inline: auto;
+    height: min-content;
+    min-height: 290px;
+    max-height: 300px;
+    text-overflow: ellipsis;
+    line-clamp: 5;
+    border-radius: var(--border-radius);
+
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.reading-card-text {
+    padding-block: 0.3rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 8;
+    text-overflow: ellipsis;
+}
+
+.reading-img {
+    cursor: pointer !important;
+    flex-basis: 45%;
+    border-radius: var(--border-radius);
+    margin-inline: 2.5rem;
+    position: relative;
+    max-height: 300px;
+    top: -0.8rem;
+    overflow: hidden;
+}
+
+.reading-img img {
+   object-fit: contain;
+   max-height: 300px;
+}
+
+@media (min-width: 578px) {
+    .reading-card {
+        margin: 0;
+        flex-direction: row;
+        width: 450px;
+    }
+
+    .reading-img {
+        margin: 0;
+        bottom: 10px;
+        left: 10px;
+        max-height: 250px;
+    }
+}
+
+.reading-category {
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+}
+
+.reading-title {
+    font-weight: 700;
+    font-size: 1.9rem;
+    display: block;
+}
+
+.overlay {
+    position: absolute !important;
+    inset: 0;
+    background-image: linear-gradient(transparent, var(--clr-accent-800));
+    opacity: 0;
+    z-index: 2;
+    width: 100% !important;
+    height: 100%;
+    cursor: pointer;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    transition: all 150ms ease-in ;
+}
+
+.overlay:hover {
+    opacity: 1;
+}
+
+.reading-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.bg-green {
+    background-color: var(--clr-green-400);
+}
+
+.bg-blue {
+    background-color: var(--clr-blue-400);
+}
+
+.bg-yellow {
+    background-color: var(--clr-accent-400);
+}

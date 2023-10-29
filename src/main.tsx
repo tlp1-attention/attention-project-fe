@@ -13,6 +13,7 @@ import { TimerPage } from '@pages/workspace/TimerPage'
 import { EventPage } from '@pages/workspace/EventPage'
 import { AuthContextProvider } from '@features/auth/context/AuthContext'
 import { Toaster } from '@features/ui/toaster/Toaster';
+import { ReadingListPage } from '@pages/workspace/ReadingListPage'
 
 const router = createBrowserRouter([
     {
@@ -48,7 +49,8 @@ const router = createBrowserRouter([
                 element: <EventPage />
             },
             {
-                path: '',
+                path: '/workspace/readings',
+                element: <ReadingListPage />
             }
         ]
     }

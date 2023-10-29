@@ -13,7 +13,7 @@ const ROUTES = [
   {
     text: "Lectura",
     icon: "book",
-    url: "/readings",
+    url: "./readings",
   },
   {
     text: "Aprender Jugando",
