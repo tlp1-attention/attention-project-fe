@@ -56,20 +56,26 @@ body {
     color: black;
 }
 
+.btn:first-child:hover {
+  color: var(--clr-secondary-200);
+  background-color: var(--clr-accent-800);
+}
+
 button:focus:not(:focus-visible) {
     outline: 1px solid var(--clr-accent-800) !important;
 }
 
 .btn-primary-brand-outline {
+
   color: var(--clr-accent-400) !important;
   background-color: var(--clr-secondary-200) !important;
-  outline: 1px solid var(--clr-accent-400);
+  outline: 1px solid var(--clr-accent-400); 
   transition: all 300ms ease;
 }
 
 .btn-primary-brand-outline:not(:disabled):hover {
-  background-color: var(--clr-accent-400);
-  color: var(--clr-secondary-200);
+  background-color: var(--clr-accent-400) !important;
+  color: var(--clr-secondary-200) !important;
 }
 
 .btn:focus-visible {

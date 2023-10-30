@@ -11,7 +11,7 @@ export type ResourceResult<R> = {
   | {
       loading: false;
       data: R;
-      error: null;
+      error: null | undefined;
     }
   | {
       loading: false;

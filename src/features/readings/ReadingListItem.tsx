@@ -24,7 +24,7 @@ export function ReadingListItem({ reading }: ReadingListItemProps) {
         <div className="px-3 px-md-2 py-3">
           <hgroup className="">
             <span className="reading-category"></span>
-            <h3 className="reading-title">{reading.readTitle}</h3>
+            <h3 className="reading-card-title">{reading.readTitle}</h3>
           </hgroup>
           <p className="reading-card-text">{reading.readSummary}</p>
         </div>

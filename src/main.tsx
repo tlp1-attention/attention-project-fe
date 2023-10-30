@@ -14,6 +14,8 @@ import { EventPage } from '@pages/workspace/EventPage'
 import { AuthContextProvider } from '@features/auth/context/AuthContext'
 import { Toaster } from '@features/ui/toaster/Toaster';
 import { ReadingListPage } from '@pages/workspace/ReadingListPage'
+import { ReadingPage } from '@pages/workspace/IndividualReading'
+import { ReadingQuizPage } from '@pages/ReadingQuiz'
 
 const router = createBrowserRouter([
     {
@@ -51,6 +53,14 @@ const router = createBrowserRouter([
             {
                 path: '/workspace/readings',
                 element: <ReadingListPage />
+            },
+            {
+                path: '/workspace/readings/:readingId',
+                element: <ReadingPage />
+            },
+            {
+                path: '/workspace/readings/:readingId/quiz',
+                element: <ReadingQuizPage />
             }
         ]
     }
