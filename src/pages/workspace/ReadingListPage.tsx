@@ -11,7 +11,7 @@ export function ReadingListPage() {
   return (
     <ReadingContextProvider>
       <main className="py-3">
-        <h1 className="display-3 fw-semibold text-brand text-start">
+        <h1 className="display-3 ps-3 ps-md-0 fw-semibold text-brand text-start">
           Lista de textos
         </h1>
         <article className="m-3" id="reading-container">

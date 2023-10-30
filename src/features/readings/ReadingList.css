@@ -1,6 +1,12 @@
 
+
+main {
+    max-width: 100%;
+}
+
 #reading-container {
     display: flex;
+    max-width: 100%;
     flex-wrap: wrap;
     gap: 1.2rem;
 }
@@ -16,7 +22,6 @@
     border: 3px solid var(--clr-secondary-400);
 
     width: 90%;
-    margin-inline: auto;
     height: min-content;
     min-height: 290px;
     max-height: 300px;
@@ -25,8 +30,8 @@
     border-radius: var(--border-radius);
 
     display: flex;
-    gap: 1rem;
-    flex-direction: column;
+    gap: 4px;
+    flex-direction: row;
 }
 
 .reading-card-text {
@@ -42,9 +47,10 @@
     cursor: pointer !important;
     flex-basis: 45%;
     border-radius: var(--border-radius);
-    margin-inline: 2.5rem;
+    margin-inline: 1.2rem;
+    margin-inline-start: 0.7rem;
     position: relative;
-    max-height: 300px;
+    max-height: 350px;
     top: -0.8rem;
     overflow: hidden;
 }
@@ -55,6 +61,7 @@
 }
 
 @media (min-width: 578px) {
+
     .reading-card {
         margin: 0;
         flex-direction: row;
@@ -63,6 +70,7 @@
 
     .reading-img {
         margin: 0;
+        margin-inline: 1.5rem;
         bottom: 10px;
         left: 10px;
         max-height: 250px;
