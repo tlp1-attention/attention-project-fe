@@ -50,8 +50,13 @@ body {
 }
 
 .btn {
-  background-color: white;
-  color: black;
+    --bs-btn-border-color: var(--clr-accent-800);
+    background-color: white;
+    color: black;
+}
+
+button:focus:not(:focus-visible) {
+    outline: 1px solid var(--clr-accent-800) !important;
 }
 
 .btn-primary-brand-outline {
