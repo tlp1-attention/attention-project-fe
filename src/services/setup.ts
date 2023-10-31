@@ -20,7 +20,6 @@ const toastError = debounce(() => {
 
 request.interceptors.request.use(
   req => {
-    console.log("Request Interceptor: ", req.headers);
     return req;
   },
   err => err

@@ -7,7 +7,7 @@ import { useTimer } from "@features/timer/hooks/useTimer";
 import { formatTime } from "@utils/formatTime";
 import { usePromise } from "@hooks/usePromise";
 import { useReadings } from "@features/readings/hooks/useReadings";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { Spinner } from "@features/ui/spinner/Spinner";
 import { ErrorScreen } from "@features/ui/error-screen/ErrorScreen";
 import { IQuestion } from "@interfaces/question";
@@ -20,8 +20,10 @@ function ReadingQuiz() {
     readingId
   ]);
   const { data: questions, loading, error } = usePromise(getQuestions);
-  const options = ["Opción 1", "Opción 2", "Opción 3", "Opción 4"];
+  const [score, setScore] = useState(0);
+  const [seconds] = useTimer(300);
 
+  if (!questions) return <Navigate to="/not-found" />;
   if (loading) {
     return (
       <div className="vh-100 d-flex justify-content-center align-items-center">
@@ -29,52 +31,92 @@ function ReadingQuiz() {
       </div>
     );
   }
-  if (error) return <ErrorScreen error={error as Error} />;
+  if (error || !questions) return <ErrorScreen error={error as Error} />;
 
-  console.log("Rerenderizando ReadingQuiz...");
+  const step = Math.floor(100 / questions?.length);
+
+  const handleOptionSelect = (optionId: number) => {
+    const option = questions[0].response.find(r => r.id == optionId);
+    if (!option) return;
+    const sum = option.correct ? step : 0;
+    setScore(score => score + sum);
+  };
+
   return (
     <>
       <main className="quiz-page-container">
-        <link rel="stylesheet" href="/css/quiz.css" />
-        <link rel="stylesheet" href="/css/report.css" />
-        <article>
-          <section className="quiz-section">
-            <div className="question-container" data-id="<%= readingId %>">
-              <p className="question shadow-lg">{questions?.[0]?.text}</p>
-              <p className="timer border border-1 shadow-lg">
-                <i className="bi bi-clock mx-3"></i>
-                <span className="reading-timer-text">
-                  {/* {formatTime(seconds)} */}
-                </span>
-              </p>
-            </div>
-            <div className="options">
-              {options.map((option, i) => (
-                <QuizOption
-                  key={option}
-                  optionNumber={i}
-                  optionText={option}
-                  correct={false}
-                  onSelect={() => {}} //rerender()}
-                />
-              ))}
-            </div>
-            <div className="score-container">
-              <p className="score text-brand border border-3 shadow-sm">
-                <i className="bi bi-trophy"></i>
-                <span className="score-text">{0}</span>
-              </p>
-              <p className="w-50 mx-auto question-count text-brand shadow-sm border border-3">
-                <span className="question-count-current">{}</span>
-                <span className="question-count-total">{}</span>
-              </p>
-            </div>
-          </section>
-        </article>
+        <Question
+          question={questions[0]}
+          onSelect={handleOptionSelect}
+          score={score}
+          totalQuestions={questions.length}
+          currentIndex={1}
+          seconds={seconds}
+        />
+        ;
       </main>
     </>
   );
 }
+
+
+type QuestionProps = {
+  question: IQuestion;
+  onSelect: (responseId: number) => void;
+  score: number;
+  totalQuestions: number;
+  currentIndex: number;
+  seconds: number;
+};
+
+function Question({
+  question,
+  score,
+  totalQuestions,
+  currentIndex,
+  seconds,
+  onSelect
+}: QuestionProps) {
+  const responses = question.response;
+  
+  return (
+    <article>
+      <section className="quiz-section">
+        <div className="question-container" data-id="<%= readingId %>">
+          <p className="question shadow-lg">{question.text}</p>
+          <p className="timer border border-1 shadow-lg">
+            <i className="bi bi-clock mx-3"></i>
+            <span className="reading-timer-text">
+              {formatTime(seconds)}
+            </span>
+          </p>
+        </div>
+        <div className="options">
+          {responses.map((response, i) => (
+            <QuizOption
+              key={response.id}
+              optionNumber={i}
+              optionText={response.response}
+              correct={response.correct}
+              onSelect={() => onSelect(response.id)}
+            />
+          ))}
+        </div>
+        <div className="score-container">
+          <p className="score text-brand border border-3 shadow-sm">
+            <i className="bi bi-trophy"></i>
+            <span className="score-text">{score}</span>
+          </p>
+          <p className="w-50 mx-auto question-count text-brand shadow-sm border border-3">
+            <span className="question-count-current">{currentIndex}</span>
+            <span className="question-count-total">{ totalQuestions }</span>
+          </p>
+        </div>
+      </section>
+    </article>
+  );
+}
+
 
 type QuizOptionProps = {
   optionNumber: number;
