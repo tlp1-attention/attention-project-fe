@@ -1,18 +1,9 @@
-import { ReadingContextProvider } from "@features/readings/context/ReadingContextProvider";
 import { useReadings } from "@features/readings/hooks/useReadings";
 import { ErrorScreen } from "@features/ui/error-screen/ErrorScreen";
 import { Spinner } from "@features/ui/spinner/Spinner";
-import { Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 
-export function ReadingPage() {
-  return (
-    <ReadingContextProvider>
-      <IndividualReading />
-    </ReadingContextProvider>
-  );
-}
-
-function IndividualReading() {
+export function IndividualReading() {
   const { readings } = useReadings()!;
   const { readingId = 1 } = useParams();
 
@@ -117,13 +108,13 @@ function IndividualReading() {
                   atrás hará perder tu progreso. Trata de recordar la
                   información que leíste para formar un hábito. ¡Buena suerte!
                 </p>
-                <a
+                <Link
                   className="btn btn-primary-brand align-self-end fs-3 mt-3"
-                  href={`/workspace/readings/${reading.id}/quiz`}
+                  to={`/workspace/readings/${reading.id}/quiz`}
                 >
                   <i className="bi bi-question-mark"></i>
                   Contestar
-                </a>
+                </Link>
               </div>
             </div>
           </div>

@@ -4,16 +4,19 @@ export type ResourceResult<R> = {
   revalidate: () => void;
 } & (
   | {
+      status: "loading";
       loading: true;
       data: undefined;
       error: null;
     }
   | {
+      status: "success";
       loading: false;
       data: R;
       error: null | undefined;
     }
   | {
+      status: "error";
       loading: false;
       data: undefined;
       error: unknown;
@@ -42,7 +45,12 @@ export function usePromise<R>(func: () => Promise<R>) {
       .finally(() => setLoading(false));
   };
 
+  const status = (data && "success") ||
+                 (error && "error") || 
+                 (loading && "loading");
+
   return {
+    status,
     data,
     error,
     loading,

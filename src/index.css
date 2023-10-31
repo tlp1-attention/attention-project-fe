@@ -73,6 +73,10 @@ button:focus:not(:focus-visible) {
   transition: all 300ms ease;
 }
 
+.mark {
+   background-color: var(--clr-accent-800);
+}
+
 .btn-primary-brand-outline:not(:disabled):hover {
   background-color: var(--clr-accent-400) !important;
   color: var(--clr-secondary-200) !important;
