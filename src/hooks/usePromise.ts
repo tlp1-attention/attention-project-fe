@@ -19,7 +19,7 @@ export type ResourceResult<R> = {
       status: "error";
       loading: false;
       data: undefined;
-      error: unknown;
+      error: Error;
     }
 );
 
@@ -56,4 +56,10 @@ export function usePromise<R>(func: () => Promise<R>) {
     loading,
     revalidate
   } as ResourceResult<R>;
+}
+
+function Test() { 
+  const result = usePromise(async () => 1); 
+  if (result.error) return;
+  if (result.loading) return;
 }
