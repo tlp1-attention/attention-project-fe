@@ -10,6 +10,7 @@ import LoginForm from '@pages/auth/LoginForm'
 import { Register } from '@pages/auth/Register'
 import WorkspaceLayout from '@pages/layouts/WorkspaceLayout'
 import { UsersPage } from '@pages/users/UsersPage'
+import TimerForm from '@pages/workspace/TimerForm'
 
 const router = createBrowserRouter([
     {
@@ -41,7 +42,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <p>Timer component</p>
+                element: <TimerForm show={true} />
             },
             {
                 
