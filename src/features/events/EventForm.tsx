@@ -95,7 +95,7 @@ export function EventForm({
             Elija la importancia del evento:{" "}
           </label>
           <select
-            name="importance"
+            name="typeId"
             className="form-select w-100 m-2"
             required
             onChange={handleValueChange}

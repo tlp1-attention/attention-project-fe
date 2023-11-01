@@ -1,4 +1,7 @@
+import { useSearchParams } from "react-router-dom";
+
 export function EventFilters() {
+
   return (
     <form
       id="preference-criteria"

@@ -40,7 +40,9 @@ export function Agenda() {
 
   return (
     <main className="color-brand-light px-3 me-3 py-0">
-      <EventsHeader onAddClick={handleOpen} />
+      <EventsHeader 
+        onAddClick={handleOpen} 
+      />
       <EventList onUpdate={handleUpdate} onDelete={id => deleteEvent(id)} />
       <EventForm
         show={formOpen}

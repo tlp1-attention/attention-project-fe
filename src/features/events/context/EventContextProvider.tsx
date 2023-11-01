@@ -5,12 +5,13 @@ import { ValidationError } from "@interfaces/validation.error";
 import { createEventForUser, deleteEventForUser, getEventsForUser, updateEventForUser } from "@services/events";
 import { PropsWithChildren, createContext } from "react";
 import toast from "react-hot-toast";
-import { ResourceResult, usePromise } from "@hooks/usePromise";
+import { UsePromiseResult, usePromise } from "@hooks/usePromise";
+import { useSearchParams } from "react-router-dom";
 
 type EventContextValue = {
-    events?: ResourceResult<IEvent[]>["data"];
-    error: ResourceResult<IEvent[]>["error"];
-    loading: ResourceResult<IEvent[]>["loading"];
+    events?: UsePromiseResult<IEvent[], Error>["data"];
+    error: UsePromiseResult<IEvent[], Error>["error"];
+    loading: UsePromiseResult<IEvent[], Error>["loading"];
     addEvent: (event: IEvent) => Promise<void>;
     deleteEvent: (eventId: number) => Promise<void>;
     updateEvent: (eventId: number, event: IEvent) => Promise<void>;
@@ -21,12 +22,14 @@ export const EventContext = createContext<EventContextValue | null>(null);
 
 export function EventContextProvider({ children }: PropsWithChildren<unknown>) {
     const { token } = useAuth()!;
+    const [params] = useSearchParams();
 
     const getEvents = useCallback(async () => {
         if (!token) return;
         try {
             const result = await getEventsForUser({
-                token
+                token,
+                params
             });
 
             const { events } = result;
@@ -51,7 +54,6 @@ export function EventContextProvider({ children }: PropsWithChildren<unknown>) {
 
     const addEvent = async (event: IEvent) => {
         if (!token) return;
-        console.log(token);
         try {
             const result = await createEventForUser({
                 token,

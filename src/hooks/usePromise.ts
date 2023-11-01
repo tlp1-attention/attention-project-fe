@@ -20,7 +20,7 @@ export type UsePromiseResult<R, E = Error> = {
     }
 );
 
-export function usePromise<R, E>(func: () => Promise<R>) {
+export function usePromise<R, E = Error>(func: () => Promise<R>) {
   const [data, setData] = useState<R | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

@@ -7,17 +7,20 @@ import { IEvent } from "@interfaces/event";
 
 type GetEventParams = {
   token: string;
+  params: URLSearchParams;
 };
 
 export async function getEventsForUser({
-  token
+  token,
+  params
 }: GetEventParams): Promise<{ events: IEvent[] }> {
   try {
-    const response = await request.get("/api/events", {
+    const response = await request.get(`/api/events?${params.toString()}`, {
       headers: {
         Authorization: token
       }
     });
+    console.log("Response: ", response.status);
 
     return response.data;
   } catch (err) {
@@ -147,7 +150,6 @@ export async function getPublicKey({ token }: GetPublicKeyParams) {
     const { publicKey: key } = response.data;
     console.log("Llega: ", key);
     return key;
-
   } catch (err) {
     if (err instanceof AxiosError) {
       const { response } = err;
