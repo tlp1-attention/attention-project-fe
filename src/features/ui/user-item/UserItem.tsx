@@ -1,14 +1,17 @@
+
 import './user-item.css';
 
-export function UserItem({ name }: { name: string }) {
+export function UserItem({ userInfo:{ name, description }, showUser }: { userInfo: {name: string, description: string}, showUser: ( user: {name: string, description: string}) => void }) {
+
+
     return (
-        <div className="user-item d-flex align-items-center">
+        <button className="user-item d-flex align-items-center my-2 userbtn" onClick={ () => showUser( {name, description} ) }>
             <div className="icon-container">
-                <img className="img-fluid" src="https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png" />
+                <img className="image-icon" src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png" />
             </div>
             <div className=" w-100 text-center">
-                <p>{name}</p>
+                <p className='fw-bolder'>{name}</p>
             </div>
-        </div>
+        </button>
     )
 }
