@@ -1,29 +1,26 @@
 import { useEffect, useState } from "react";
 
-export type ResourceResult<R> = {
+export type UsePromiseResult<R, E = Error> = {
   revalidate: () => void;
 } & (
   | {
-      status: "loading";
       loading: true;
       data: undefined;
       error: null;
     }
   | {
-      status: "success";
       loading: false;
       data: R;
       error: null | undefined;
     }
   | {
-      status: "error";
       loading: false;
       data: undefined;
-      error: Error;
+      error: E;
     }
 );
 
-export function usePromise<R>(func: () => Promise<R>) {
+export function usePromise<R, E>(func: () => Promise<R>) {
   const [data, setData] = useState<R | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -45,21 +42,10 @@ export function usePromise<R>(func: () => Promise<R>) {
       .finally(() => setLoading(false));
   };
 
-  const status = (data && "success") ||
-                 (error && "error") || 
-                 (loading && "loading");
-
   return {
-    status,
     data,
     error,
     loading,
     revalidate
-  } as ResourceResult<R>;
-}
-
-function Test() { 
-  const result = usePromise(async () => 1); 
-  if (result.error) return;
-  if (result.loading) return;
+  } as UsePromiseResult<R, E>;
 }

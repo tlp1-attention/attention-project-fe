@@ -113,6 +113,10 @@ button:focus:not(:focus-visible) {
   color: var(--clr-accent-400);
 }
 
+.border-brand {
+  border-color: var(--clr-accent-400) !important;
+}
+
 .logo-with-text img {
   max-width: 25rem;
 }

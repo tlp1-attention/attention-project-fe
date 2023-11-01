@@ -5,7 +5,6 @@ import { Spinner } from "@features/ui/spinner/Spinner";
 
 export function ReadingList() {
   const { readings } = useReadings()!;
-  console.log(readings);
 
   if (readings.loading)
     return (
@@ -13,7 +12,7 @@ export function ReadingList() {
         <Spinner />
       </div>
     );
-  if (readings.error || !readings.data)
+  if (readings.error)
     return <ErrorScreen error={readings.error as Error} />;
 
   return readings.data.map(reading => (

@@ -16,6 +16,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import MainLayout from "./pages/layouts/MainLayout";
+import { NotFoundPage } from "@pages/NotFoundPage";
 
 const router = createBrowserRouter([
   {
@@ -61,8 +62,16 @@ const router = createBrowserRouter([
       {
         path: "/workspace/readings/:readingId/quiz",
         element: <ReadingQuizPage />
-      }
+      },
+      {
+        path: "/workspace/readings/:readingId/quiz",
+        element: <NotFoundPage />,
+      },
     ]
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />
   }
 ]);
 

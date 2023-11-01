@@ -13,7 +13,7 @@ export function IndividualReading() {
         <Spinner />
       </div>
     );
-  if (readings.error || !readings.data)
+  if (readings.error)
     return <ErrorScreen error={readings.error as Error} />;
 
   const reading = readings.data.find(reading => reading.id == +readingId);

@@ -1,5 +1,5 @@
 import { useAuth } from "@features/auth/hooks/useAuth";
-import { ResourceResult, usePromise } from "@hooks/usePromise";
+import { UsePromiseResult, usePromise } from "@hooks/usePromise";
 import { IQuestion } from "@interfaces/question";
 import { IReading } from "@interfaces/reading";
 import { UnauthorizedError } from "@interfaces/unauthorized.error";
@@ -9,7 +9,7 @@ import React, { createContext, useCallback } from "react";
 import toast from "react-hot-toast";
 
 export type ReadingContextValue = {
-  readings: ResourceResult<IReading[]>;
+  readings: UsePromiseResult<IReading[], ValidationError>;
   getQuestionsForReading: (readingId: string) => Promise<IQuestion[]>;
 };
 
@@ -23,21 +23,21 @@ export function ReadingContextProvider({
   const { token } = useAuth()!;
 
   const getReadings = useCallback(async () => {
-    if (!token) return;
+    if (!token) return [];
     try {
       const { readings } = await getAllReadings({ token });
-      console.log("Readings: ", readings);
       return readings;
     } catch (err) {
       if (err instanceof ValidationError) {
         toast.error(err.message);
+        return [];
       } else {
         throw err;
       }
     }
   }, [token]);
 
-  const readings = usePromise(getReadings);
+  const readings = usePromise<IReading[], ValidationError>(getReadings);
 
   const getQuestionsForReading = async (readingId: string) => {
     if (!token) throw new UnauthorizedError('Token no encontrado.');
