@@ -48,7 +48,7 @@ export function EventContextProvider({ children }: PropsWithChildren<unknown>) {
             }
             
         }
-    }, [token]);
+    }, [token, params]);
 
     const { data: events, error, loading, revalidate } = usePromise(getEvents);
 
