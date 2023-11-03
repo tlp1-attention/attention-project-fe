@@ -1,35 +1,30 @@
 import { useSearchParams } from "react-router-dom";
 import qs from "qs";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
+import { QUERY_ACTIONS, filterReducer, init } from "./reducers/filterReducer";
 
 export function EventFilters() {
   const [params, setSearchParams] = useSearchParams();
-  const parsed = qs.parse(params.toString());
-  console.log("Parsed: ", parsed);
-  const initialFilter = qs.stringify(
-    { filter: parsed.filter },
-    { encodeValuesOnly: true }
-  );
-  const initialOrder = qs.stringify(
-    { orderField: parsed.orderField, orderType: parsed.orderType },
-    { encodeValuesOnly: true }
-  );
-  console.log("Initial order:", initialOrder);
-  const [formValues, setFormValues] = useState({
-    filter: initialFilter,
-    order: initialOrder
-  });
+  const [criteria, dispatch] = useReducer(filterReducer, params, init);
 
   useEffect(() => {
-    const { filter, order } = formValues;
+    const { filter, order, currentFilter } = criteria;
+    console.log("Filter: ", filter, currentFilter);
     if (!filter && !order) return setSearchParams(new URLSearchParams(""));
     const urlSearchParams = new URLSearchParams(`${filter}&${order}`);
     console.log(urlSearchParams);
 
     setSearchParams(urlSearchParams);
-  }, [formValues, setSearchParams]);
+  }, [criteria, setSearchParams]);
 
-  console.log(formValues.filter);
+  console.log(criteria.filter);
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log("Dispatching action: ", e.target.value);
+    dispatch({
+      type: e.target.value as typeof QUERY_ACTIONS[keyof typeof QUERY_ACTIONS]
+    });
+  }
 
   return (
     <form
@@ -40,39 +35,29 @@ export function EventFilters() {
         className="btn btn-primary-brand-outline fs-2 form-control"
         name="filter"
         id="filter"
-        value={formValues.filter}
-        onChange={e =>
-          setFormValues({
-            ...formValues,
-            [e.target.name]: e.target.value
-          })
-        }
+        value={criteria.currentFilter}
+        onChange={handleSelectChange}
       >
         <option value="" selected>
           Filtrar
         </option>
-        <option value="filter[startDate]=%2Bnow">Fechas futuras</option>
-        <option value="filter[typeId]=1">Importantes</option>
-        <option value="filter[typeId]=2">No importantes</option>
+        <option value={QUERY_ACTIONS.FILTER_FUTURE}>Fechas futuras</option>
+        <option value={QUERY_ACTIONS.FILTER_IMPORTANT}>Importantes</option>
+        <option value={QUERY_ACTIONS.FILTER_UNIMPORTANT}>No importantes</option>
       </select>
       <select
         className="btn btn-primary-brand-outline fs-2 form-control"
         id="sort-criteria"
         name="order"
-        value={formValues.order}
-        onChange={e =>
-          setFormValues({
-            ...formValues,
-            [e.target.name]: e.target.value
-          })
-        }
+        value={criteria.currentOrder}
+        onChange={handleSelectChange}
       >
         <option value="">Ordenar por</option>
-        <option value="orderField=startDate&orderType=desc">Por fecha</option>
-        <option value="orderField=typeId&orderType=asc">
+        <option value={QUERY_ACTIONS.SORT_DATE}>Por fecha</option>
+        <option value={QUERY_ACTIONS.SORT_IMP_FIRST}>
           Importantes primero
         </option>
-        <option value="orderField=typeId&orderType=desc">
+        <option value={QUERY_ACTIONS.SORT_UNIMP_FIRST}>
           No importantes primero
         </option>
       </select>
