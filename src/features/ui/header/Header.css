@@ -80,7 +80,11 @@
   .check {
     display: block;
   }
-  
+
+  .custom-navbar:has(:checked) {
+    position: fixed;
+  } 
+
   .custom-navbar ul {
     position: fixed;
     width: 100%;

@@ -11,6 +11,11 @@ export function UserItem({ userInfo:{ name, description, image }, showUser }: { 
             </div>
             <div className=" w-100 text-center">
                 <p className='fw-bolder'>{name}</p>
+                <div className='d-flex justify-content-around flex-wrap container '>
+                    <p className='descripciones'>Distraido</p>
+                    <p className='descripciones'>Le gusta el pan</p>
+                    <p className='descripciones'>Le encanta el chocolate</p>
+                </div>
             </div>
         </button>
     )

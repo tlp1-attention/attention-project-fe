@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
+
 export function BrandLogo() {
     return (
         <>
-            <a href="#" className="custom-link me-auto">
+            <Link to="/" className="custom-link me-auto">
                 <img
                     src="/assets/attention-logo.png"
                     alt="imagen logo"
@@ -12,7 +14,7 @@ export function BrandLogo() {
                     alt="logo pequeño"
                     className="brand-logo small"
                 />
-            </a>
+            </Link>
         </>
     )
 }

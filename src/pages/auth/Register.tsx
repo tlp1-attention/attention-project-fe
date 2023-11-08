@@ -1,3 +1,4 @@
+import { RegisterForm } from "@features/auth/RegisterForm";
 import { Link } from "react-router-dom";
 
 export function Register() {
@@ -12,37 +13,7 @@ export function Register() {
                     />
                     <section className="py-3 px-3 px-md-5 w-100 d-flex flex-column">
                         <h1 className="login-text display-1 fw-bold pe-auto align-self-baseline">Registro de usuario</h1>
-                        <form className="m-2">
-                            <label htmlFor="username">Usuario: </label>
-                            <input
-                                type="text"
-                                name="username"
-                                className="form-control"
-                                required={true}
-                            />
-                            <label htmlFor="email">Correo electrónico </label>
-                            <input
-                                type="email"
-                                name="email"
-                                className="form-control"
-                                required={true}
-                            />
-                            <label htmlFor="password">Contraseña: </label>
-                            <input
-                                type="password"
-                                name="password"
-                                className="form-control"
-                                required={true}
-                            />
-                            <div className="form-small-text my-3 d-flex flex-wrap gap-1">
-                                <Link to="/login">
-                                    ¿Ya tiene una cuenta? Inicie sesión.
-                                </Link>
-                            </div>
-                            <button type="submit" className="form-button w-100">
-                                Enviar
-                            </button>
-                        </form>
+                        <RegisterForm />
                         <Link
                             to="/index.html"
                             className="logo-with-text w-100 border-3 border-top mt-4 d-flex justify-content-center gap-3 align-items-center"

@@ -6,6 +6,7 @@
     background-color: white;
     display: grid;
     width: 100%;
+    overflow-x: hidden;
     grid-template-columns: 1fr 9fr;
     grid-template-areas:
         'nav main'
@@ -27,10 +28,12 @@
 
     @media (max-width: 578px) {
         & {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto 1fr auto;
             grid-template-areas:
-                'nav nav'
-                'main main'
-                'footer footer';
+                'nav'
+                'main'
+                'footer';
             gap: 6rem;
         }
     }
@@ -48,6 +51,7 @@
         box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
         border-right: solid rgb(241, 237, 237);
     }
+
     & .logo {
         text-align: center;
         display: flex;
@@ -131,13 +135,15 @@
     .lateral-bar {
         position: relative;
     }
+}
 
-
+.lateral-bar {
+    max-width: 1.2rem;
 }
 
 @media (max-width: 768px) {
   .workspace-layout footer {
-      margin-top: 18rem !important;
+    margin-top: 18rem !important;
   }
 }
 
@@ -159,6 +165,7 @@
 
 @media (max-width: 578px) {
   .lateral-bar {
-      position: absolute;
+    position: absolute;
+    max-height: 0;
   }
 }
