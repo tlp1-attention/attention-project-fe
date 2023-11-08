@@ -35,6 +35,11 @@ const ROUTES = [
     icon: "columns",
     url: "/colaboration",
   },
+  {
+    text: 'Reportes',
+    icon: "columns",
+    url: "./report"
+  }
 ];
 
 export function LateralNav() {

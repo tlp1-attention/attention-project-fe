@@ -25,7 +25,11 @@ type QueryAction = {
   type: typeof QUERY_ACTIONS[keyof typeof QUERY_ACTIONS];
 };
 
-const actionToUrl = {
+/**
+ * Maps an URL query to the action that
+ * generates it.
+ */
+const urlToActions = {
     "filter[startDate]=%2Bnow": QUERY_ACTIONS.FILTER_FUTURE,
     "filter[typeId]=1": QUERY_ACTIONS.FILTER_IMPORTANT,
     "filter[typeId]=2": QUERY_ACTIONS.FILTER_UNIMPORTANT,
@@ -41,7 +45,7 @@ type QueryParams = {
   filter: string;
   order: string;
   /**
-   * Tipo de filtro y ordenamiento aplicado actualmente
+   * Filtering and ordering criteria currently applied
    */
   currentFilter: FilterActions,
   currentOrder: OrderActions
@@ -63,8 +67,8 @@ export const init = (params: URLSearchParams): QueryParams => {
   return {
     filter: initialFilter,
     order: initialOrder,
-    currentFilter: actionToUrl[initialFilter as keyof typeof actionToUrl] as FilterActions,
-    currentOrder: actionToUrl[initialOrder as keyof typeof actionToUrl] as OrderActions
+    currentFilter: urlToActions[initialFilter as keyof typeof urlToActions] as FilterActions,
+    currentOrder: urlToActions[initialOrder as keyof typeof urlToActions] as OrderActions
   };
 };
 

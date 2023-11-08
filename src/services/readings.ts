@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { request } from "./setup";
 import { ValidationError } from "@interfaces/validation.error";
-import { IReading } from "@interfaces/reading";
+import { IReading, IReadingByWeek } from "@interfaces/reading";
 import { IQuestion } from "@interfaces/question";
 
 type GetAllReadingsParams = {
@@ -99,7 +99,6 @@ export async function getQuestionsByReading({
     );
 
     return response.data;
-
   } catch (err) {
     if (err instanceof AxiosError) {
       const { response } = err;
@@ -117,5 +116,81 @@ export async function getQuestionsByReading({
     }
     console.error(err);
     return { questions: [] };
+  }
+}
+
+type UpdateCompletedExerciseParams = {
+  readingId: number;
+  won: boolean;
+  token: string;
+};
+
+export async function updateCompletedExercise({
+  readingId,
+  won,
+  token
+}: UpdateCompletedExerciseParams): Promise<void> {
+  try {
+    const response = await request.post(
+      "/api/exercises/completed",
+      {
+        exerciseId: readingId,
+        typeExerciseId: 1,
+        complete: won
+      },
+      {
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    if (err instanceof AxiosError) {
+      const { response } = err;
+      if (response?.status == 400) {
+        const { errors } = response.data;
+        throw errors.map(
+          ({ msg }: { msg: string }) => new ValidationError(msg)
+        )[0];
+      }
+      console.error(err);
+    }
+  }
+}
+
+type CompletedReadingsParams = {
+  token: string;
+}
+
+export async function getCompletedExercisesByWeek({
+  token
+}: CompletedReadingsParams): Promise<IReadingByWeek[]> {
+  try {
+    const response = await request.get('/api/exercises/completed/by-week', {
+      headers: {
+        'Authorization': token
+      }
+    });
+    const { completedExercises } = response.data;
+
+    return completedExercises;
+    
+  } catch(err) {
+    console.error(err);
+    if (err instanceof AxiosError) {
+      const { response } = err;
+      if (response?.status == 400) {
+        const { errors } = response.data;
+        throw errors.map(
+          ({ msg }: { msg: string }) => new ValidationError(msg)
+        )[0];
+      }
+      console.error(err);
+    }
+    return [];
   }
 }

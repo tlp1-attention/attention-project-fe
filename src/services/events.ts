@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { request } from "./setup";
 import { ValidationError } from "@interfaces/validation.error";
-import { IEvent } from "@interfaces/event";
+import { IEvent, IEventByWeek } from "@interfaces/event";
 
 // const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -225,5 +225,38 @@ export async function unsubscribeToNotifications({
       }
       throw new ValidationError(err.response?.data.message);
     }
+  }
+}
+
+type GetEventsByWeekParams = {
+  token: string;
+};
+
+export async function getEventsByWeek({
+  token
+}: GetEventsByWeekParams): Promise<IEventByWeek[]> {
+   
+  try {
+    const response = await request.get(`/api/events/by-week`, {
+      headers: {
+        Authorization: token
+      }
+    });
+    const { events } = response.data
+
+    return events;
+
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const { response } = err;
+      if (response?.status == 400) {
+        const { errors } = response.data;
+        throw errors.map(
+          ({ msg }: { msg: string }) => new ValidationError(msg)
+        )[0];
+      }
+      throw new ValidationError(err.response?.data.message);
+    }
+    return [];
   }
 }

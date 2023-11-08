@@ -10,7 +10,7 @@ import { reportResultTable } from "@features/readings/utils/reportResults";
 
 export function ReadingQuiz() {
   const { readingId = "" } = useParams();
-  const { getQuestionsForReading } = useReadings()!;
+  const { getQuestionsForReading, updateExerciseCompleted } = useReadings()!;
   const getQuestions = useCallback(() => getQuestionsForReading(readingId), [
     getQuestionsForReading,
     readingId
@@ -20,7 +20,17 @@ export function ReadingQuiz() {
   const [questionIdx, setQuestionIdx] = useState(0);
   const [optionSelected, setOptionSelected] = useState(false);
   const navigate = useNavigate();
-  const [seconds] = useTimer(300);
+  const [seconds] = useTimer(300, async () => {
+      if (!questions) return;
+      await updateExerciseCompleted(readingId, (right > questions.length ?? 0 / 2));
+
+      reportResultTable({
+        right: right,
+        total: questions.length,
+        onRetry: handleRetry,
+        onBack: handleBack
+      });
+  });
 
   if (loading) {
     return (
@@ -40,9 +50,11 @@ export function ReadingQuiz() {
   const handleRetry = () =>
     window.location.assign(`/workspace/readings/${readingId}/quiz`);
 
-  const handleOptionSelect = (optionId: number) => {
+  const handleOptionSelect = async (optionId: number) => {
     setOptionSelected(true);
     if (questionIdx >= questions.length - 1) {
+      await updateExerciseCompleted(readingId, right > questions.length / 2);
+
       reportResultTable({
         right: right,
         total: questions.length,
@@ -53,11 +65,13 @@ export function ReadingQuiz() {
     }
     const option = questions[questionIdx].response.find(r => r.id == optionId);
     if (!option) return;
-    if (option.correct) addRight();
+    if (option.correct) { 
+      addRight();
+    }
     setTimeout(() => {
       setOptionSelected(false);
       setQuestionIdx(idx => idx + 1);
-    }, 5000);
+    }, 500);
   };
 
   const score = right * step;

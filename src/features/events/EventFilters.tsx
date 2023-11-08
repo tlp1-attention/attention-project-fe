@@ -1,23 +1,21 @@
 import { useSearchParams } from "react-router-dom";
-import qs from "qs";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, } from "react";
 import { QUERY_ACTIONS, filterReducer, init } from "./reducers/filterReducer";
 
 export function EventFilters() {
   const [params, setSearchParams] = useSearchParams();
   const [criteria, dispatch] = useReducer(filterReducer, params, init);
 
+  // Modifies the URL to match the current
+  // select inputs
   useEffect(() => {
-    const { filter, order, currentFilter } = criteria;
-    console.log("Filter: ", filter, currentFilter);
+    const { filter, order } = criteria;
     if (!filter && !order) return setSearchParams(new URLSearchParams(""));
     const urlSearchParams = new URLSearchParams(`${filter}&${order}`);
-    console.log(urlSearchParams);
 
     setSearchParams(urlSearchParams);
   }, [criteria, setSearchParams]);
 
-  console.log(criteria.filter);
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     console.log("Dispatching action: ", e.target.value);

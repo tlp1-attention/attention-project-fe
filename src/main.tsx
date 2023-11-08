@@ -17,6 +17,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import MainLayout from "./pages/layouts/MainLayout";
 import { NotFoundPage } from "@pages/NotFoundPage";
+import { ReportPage } from "@pages/workspace/ReportPage";
 
 const router = createBrowserRouter([
   {
@@ -64,9 +65,9 @@ const router = createBrowserRouter([
         element: <ReadingQuizPage />
       },
       {
-        path: "/workspace/readings/:readingId/quiz",
-        element: <NotFoundPage />,
-      },
+        path: "/workspace/report",
+        element: <ReportPage />
+      }
     ]
   },
   {
