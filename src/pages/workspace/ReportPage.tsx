@@ -22,11 +22,10 @@ export function ReportPage() {
   );
 
   const loader = (
-    <div className="w-100">
+    <div className="h-100 d-flex justify-content-center align-items-center">
       <Spinner />
     </div>
   );
-  console.log(eventsResource);
 
   return (
     <>

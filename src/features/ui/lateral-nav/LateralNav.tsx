@@ -16,14 +16,9 @@ const ROUTES = [
     url: "./readings",
   },
   {
-    text: "Aprender Jugando",
-    icon: "calendar",
-    url: "/calendar",
-  },
-  {
     text: "Temporizador",
     icon: "clock",
-    url: "/timer",
+    url: "./timer",
   },
   {
     text: 'Eventos',
@@ -100,7 +95,7 @@ function SlideButton({ text, icon, to, ...rest }: SlideButtonProps) {
 
 function LogOut({ logout }: { logout: () => void }) {
   return (
-    <a id="a-1"  onClick={logout} className="logout text-decoration-none cursor-pointer">
+    <a id="a-1" onClick={logout} className="logout text-decoration-none cursor-pointer">
       <i className="fas fa-user" />
       <span className="nav-item">CERRAR SESIÓN</span>
     </a>

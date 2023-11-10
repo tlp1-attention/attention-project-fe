@@ -10,7 +10,7 @@ export function Footer() {
                             aria-label="Bootstrap"
                         >
                             <img
-                                src="./assets/logo-1.png"
+                                src="/assets/logo-1.png"
                                 alt="logo pequeño"
                                 className="logo-f"
                             />

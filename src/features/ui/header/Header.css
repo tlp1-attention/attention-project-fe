@@ -83,7 +83,7 @@
 
   .custom-navbar:has(:checked) {
     position: fixed;
-  } 
+  }
 
   .custom-navbar ul {
     position: fixed;

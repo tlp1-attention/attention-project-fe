@@ -27,7 +27,9 @@ export function usePromise<R, E = Error>(func: () => Promise<R>) {
 
   useEffect(() => {
     func()
-      .then(r => setData(r))
+      .then(async r => { 
+        setData(r) 
+      })
       .catch(err => setError(err))
       .finally(() => setLoading(false));
   }, [func]);
