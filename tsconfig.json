@@ -13,7 +13,8 @@
       "@features/*": ["src/features/*"],
       "@services/*": ["src/services/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@common/*": ["src/common/*"]
     },
 
     /* Bundler mode */

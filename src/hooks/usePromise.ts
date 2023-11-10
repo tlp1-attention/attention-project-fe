@@ -28,6 +28,7 @@ export function usePromise<R, E = Error>(func: () => Promise<R>) {
   useEffect(() => {
     func()
       .then(async r => { 
+        await new Promise(resolve => setTimeout(resolve, 5000));
         setData(r) 
       })
       .catch(err => setError(err))
