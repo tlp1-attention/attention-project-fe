@@ -1,6 +1,6 @@
+import { UsePromiseResult } from "@common/hooks/usePromise";
 import { ErrorScreen } from "@features/ui/error-screen/ErrorScreen";
 import { FullSizeSpinner } from "@features/ui/spinner/Spinner";
-import { UsePromiseResult } from "@hooks/usePromise";
 
 export function Await<T>(props: {
   value: UsePromiseResult<T>;
@@ -8,7 +8,7 @@ export function Await<T>(props: {
   loading?: JSX.Element;
   error?: (err: Error) => JSX.Element;
 }): JSX.Element;
-export function Await<T, R>(props: {
+export function Await<R>(props: {
   value: R extends UsePromiseResult<unknown>[] ? R : never;
   children: (value: R) => JSX.Element;
   loading?: JSX.Element;
@@ -36,8 +36,12 @@ export function Await<T, R>({
     return children(value.filter(v => !!v).map(v => v.data) as T[]);
   }
 
+  /** @ts-expect-error WIP: Type this correctly */
   if (value.loading) return loading;
+
+  /** @ts-expect-error WIP: Type this correctly */
   if (value.error) return error(value.error);
 
+  /** @ts-expect-error WIP: Type this correctly */
   return children(value.data);
 }

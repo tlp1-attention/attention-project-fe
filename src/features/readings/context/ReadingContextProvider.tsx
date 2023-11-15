@@ -1,10 +1,14 @@
+import { UsePromiseResult, usePromise } from "@common/hooks/usePromise";
 import { useAuth } from "@features/auth/hooks/useAuth";
-import { UsePromiseResult, usePromise } from "@hooks/usePromise";
 import { IQuestion } from "@interfaces/question";
 import { IReading } from "@interfaces/reading";
 import { UnauthorizedError } from "@interfaces/unauthorized.error";
 import { ValidationError } from "@interfaces/validation.error";
-import { getAllReadings, getQuestionsByReading, updateCompletedExercise } from "@services/readings";
+import {
+  getAllReadings,
+  getQuestionsByReading,
+  updateCompletedExercise
+} from "@services/readings";
 import React, { createContext, useCallback } from "react";
 import toast from "react-hot-toast";
 
@@ -41,7 +45,7 @@ export function ReadingContextProvider({
   const readings = usePromise<IReading[], ValidationError>(getReadings);
 
   const getQuestionsForReading = async (readingId: string) => {
-    if (!token) throw new UnauthorizedError('Token no encontrado.');
+    if (!token) throw new UnauthorizedError("Token no encontrado.");
     try {
       const { questions } = await getQuestionsByReading({
         token,
@@ -59,19 +63,18 @@ export function ReadingContextProvider({
   };
 
   const updateExerciseCompleted = async (readingId: string, won: boolean) => {
-    if (!token) throw new UnauthorizedError()
+    if (!token) throw new UnauthorizedError();
     try {
       await updateCompletedExercise({
         readingId: +readingId,
         token,
         won
       });
-    } catch(err) {
+    } catch (err) {
       console.error(err);
-      toast.error('Algo salió mal. Contacte a los desarrolladores del sitio');
+      toast.error("Algo salió mal. Contacte a los desarrolladores del sitio");
     }
-
-  }
+  };
 
   return (
     <ReadingContext.Provider

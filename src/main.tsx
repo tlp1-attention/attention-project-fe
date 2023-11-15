@@ -18,6 +18,7 @@ import "./index.css";
 import MainLayout from "./pages/layouts/MainLayout";
 import { NotFoundPage } from "@pages/NotFoundPage";
 import { ReportPage } from "@pages/workspace/ReportPage";
+import { SocketProvider } from "@features/real-time/context/SocketProvider";
 
 const router = createBrowserRouter([
   {
@@ -79,10 +80,10 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthContextProvider>
-      <>
+      <SocketProvider>
         <Toaster />
         <RouterProvider router={router} />
-      </>
+      </SocketProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );

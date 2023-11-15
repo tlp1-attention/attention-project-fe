@@ -3,17 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import toast from "react-hot-toast";
 import { ValidationError } from "@interfaces/validation.error";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { SocketContext } from "@features/real-time/context/SocketProvider";
 
 export function LoginForm() {
+  const { connect } = useContext(SocketContext)!;
   const { login, isAuthenticated } = useAuth()!;
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!isAuthenticated) return;
     navigate('/workspace/timer');
-  })
-
+  });
 
   return (
     <Formik
@@ -21,7 +22,9 @@ export function LoginForm() {
       onSubmit={async values => {
         try {
           await login(values.username, values.password);
-          toast.success('¡Sesión iniciada correctamente!')
+          toast.success('¡Sesión iniciada correctamente!');
+          connect();
+          toast.success('Socket conectado correctamente.');
           navigate('/workspace/timer');
         } catch (err) {
           if (
