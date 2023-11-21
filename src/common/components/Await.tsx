@@ -20,7 +20,7 @@ export function Await<T, R>({
   error = (err: Error) => <ErrorScreen error={err} />,
   children
 }: {
-  value: UsePromiseResult<T> | R extends UsePromiseResult<T>[] ? R : never;
+  value: UsePromiseResult<T> | (R extends UsePromiseResult<T>[] ? R : never);
   loading?: JSX.Element;
   error?: (err: Error) => JSX.Element;
   children: (value: T | T[]) => JSX.Element;
@@ -33,15 +33,12 @@ export function Await<T, R>({
       const errorResource = value.find(v => v.error);
       if (errorResource?.error) return error(errorResource.error);
     }
-    return children(value.filter(v => !!v).map(v => v.data) as T[]);
+    return children(value.map(v => v.data) as T[]);
   }
 
-  /** @ts-expect-error WIP: Type this correctly */
   if (value.loading) return loading;
 
-  /** @ts-expect-error WIP: Type this correctly */
   if (value.error) return error(value.error);
 
-  /** @ts-expect-error WIP: Type this correctly */
   return children(value.data);
 }

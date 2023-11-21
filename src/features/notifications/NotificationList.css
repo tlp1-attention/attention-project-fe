@@ -20,16 +20,18 @@
 
 .notification-panel {
     grid-area: list;
-    clip-path: inset(420px 0px 4px 0px);
+    clip-path: inset(100% 0px 0% 0px);
 
     transition: all 300ms;
-    overflow: hidden;
+
+    --item-size: 10rem;
 }
 
 .notification-panel-toggle {
     width: 5rem;
     height: 5rem;
     font-size: 4rem;
+    position: relative;
 
     grid-area: button;
 
@@ -67,4 +69,47 @@
    100% {
     opacity: 1;
    }
+}
+
+.notification-item {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    justify-content: stretch;
+    gap: 2rem;
+    width: var(--item-size);
+    height: calc(var(--item-size) / 1.5);
+}
+
+.notification-item h6 {
+    font-size: 2rem;
+}
+
+.notification-item img {
+    max-width: 3rem;
+    max-height: 3rem;
+    object-fit: contain;
+}
+
+.read-circle {
+    margin: 0.25rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background-color: var(--clr-accent-400);
+}
+
+.new-notifications {
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: -0.8rem;
+    right: 0.1rem;
+    font-size: 1.5rem;
+    background-color: var(--clr-accent-800);
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -23,13 +23,12 @@ export type UsePromiseResult<R, E = Error> = {
 export function usePromise<R, E = Error>(func: () => Promise<R>) {
   const [data, setData] = useState<R | undefined>(undefined);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<E | null>(null);
 
   useEffect(() => {
     func()
       .then(async r => { 
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        setData(r) 
+        setData(r);
       })
       .catch(err => setError(err))
       .finally(() => setLoading(false));
