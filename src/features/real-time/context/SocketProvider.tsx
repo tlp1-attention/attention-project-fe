@@ -1,4 +1,4 @@
-import { useSocket } from "@features/real-time/context/useSocket";
+import { useSocket } from "@features/real-time/hooks/useSocket";
 import { ReactNode, createContext } from "react";
 import { Socket } from "socket.io-client";
 
