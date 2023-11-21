@@ -21,6 +21,7 @@ import { ReportPage } from "@pages/workspace/ReportPage";
 import UserProfile from "@pages/profile/UserProfile";
 import PreferencesForm from "@pages/preferences/PreferencesForm";
 import UserDataForm from "@pages/userData/UserDataForm";
+import UserProfileLayout from "@pages/layouts/UserProfileLayout";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/user",
+    element: <UserProfileLayout />,
     children: [
       {
         index: true,
