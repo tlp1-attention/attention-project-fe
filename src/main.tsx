@@ -18,6 +18,9 @@ import "./index.css";
 import MainLayout from "./pages/layouts/MainLayout";
 import { NotFoundPage } from "@pages/NotFoundPage";
 import { ReportPage } from "@pages/workspace/ReportPage";
+import UserProfile from "@pages/profile/UserProfile";
+import PreferencesForm from "@pages/preferences/PreferencesForm";
+import UserDataForm from "@pages/userData/UserDataForm";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +70,24 @@ const router = createBrowserRouter([
       {
         path: "/workspace/report",
         element: <ReportPage />
+      }
+    ]
+  },
+  {
+    path: "/user",
+    children: [
+      {
+        index: true,
+        path: "/user/profile",
+        element: <UserProfile />
+      },
+      {
+        path: "/user/preferences",
+        element: <PreferencesForm />
+      },
+      {
+        path: "/user/userData",
+        element: <UserDataForm />
       }
     ]
   },
