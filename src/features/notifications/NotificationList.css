@@ -1,0 +1,70 @@
+.notification-container {
+    position: fixed;
+
+    display: grid;
+    grid-template-columns: 1fr 5rem;
+    grid-template-rows: minmax(7rem, auto) 5rem;
+    grid-template-areas: 
+        'list list'
+        'void button';
+
+    bottom: 2rem;
+    right: 2rem;
+    background-color: transparent;
+    min-width: 20vw;
+    min-height: 40vh;
+    gap: 1rem;
+
+    z-index: 999;
+}
+
+.notification-panel {
+    grid-area: list;
+    clip-path: inset(420px 0px 4px 0px);
+
+    transition: all 300ms;
+    overflow: hidden;
+}
+
+.notification-panel-toggle {
+    width: 5rem;
+    height: 5rem;
+    font-size: 4rem;
+
+    grid-area: button;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--clr-secondary-200);
+    outline: none;
+    border: none;
+
+    border-radius: 0.7rem;
+    border: 1px solid var(--clr-secondary-400);
+}
+
+.notification-panel-toggle:hover {
+    background-color: var(--clr-secondary-400);
+}
+
+.notification-panel-toggle i {
+    font-size: 1.7rem;
+}
+
+.show {
+    clip-path: inset(0);
+}
+
+.fading {
+    animation: fade 500ms ease-out;
+}
+
+@keyframes fade-in {
+   0% {
+    opacity: 0;
+   } 
+   100% {
+    opacity: 1;
+   }
+}

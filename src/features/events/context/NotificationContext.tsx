@@ -4,19 +4,19 @@ import {
   subscribeToNotifications,
   unsubscribeToNotifications
 } from "@services/events";
-import { createContext, useState, useEffect, useCallback } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 
-type NotificationContextValue = {
+type EventNotificationContextValue = {
   notificationsAllowed: boolean;
   subscribe: () => Promise<void>;
   unsubscribe: () => Promise<void>;
 };
 
-export const NotificationContext = createContext<NotificationContextValue | null>(
+export const EventNotificationContext = createContext<EventNotificationContextValue | null>(
   null
 );
 
-export function NotificationContextProvider({
+export function EventNotificationProvider({
   children
 }: {
   children: React.ReactNode;
@@ -82,7 +82,7 @@ export function NotificationContextProvider({
   };
 
   return (
-    <NotificationContext.Provider
+    <EventNotificationContext.Provider
       value={{
         notificationsAllowed,
         subscribe,
@@ -90,6 +90,6 @@ export function NotificationContextProvider({
       }}
     >
       {children}
-    </NotificationContext.Provider>
+    </EventNotificationContext.Provider>
   );
 }
