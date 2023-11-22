@@ -42,12 +42,6 @@ function TimerClock({
   percentagePassed
 }: TimerClockProps) {
   const formatted = formatTime(currentTime);
-  console.log(
-    "Percentage passed: ",
-    percentagePassed,
-    "Current Time: ",
-    currentTime
-  );
 
   return (
     <div className="position-relative timer d-flex justify-content-center align-items-center m-auto">

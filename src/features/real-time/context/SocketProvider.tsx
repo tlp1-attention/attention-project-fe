@@ -1,3 +1,4 @@
+import { useAuth } from "@features/auth/hooks/useAuth";
 import { useSocket } from "@features/real-time/hooks/useSocket";
 import { ReactNode, createContext, useEffect } from "react";
 import toast from "react-hot-toast";
@@ -13,6 +14,7 @@ type SocketContextValue = {
 export const SocketContext = createContext<SocketContextValue | null>(null);
 
 export function SocketProvider({ children }: { children: ReactNode }) {
+  const { token } = useAuth()!;
   const fullUrl = new URL('/', import.meta.env.VITE_BACKEND_URL);
   const {
     socket,
@@ -28,6 +30,13 @@ export function SocketProvider({ children }: { children: ReactNode }) {
       toast.success('Socket de vuelta en línea');
     }
   }, [socket, online]);
+
+  // Automatically connect if user is authenticated
+  useEffect(() => {
+    if (token) {
+      connect({ authorization: `${token}` });
+    }
+  }, [token, connect]);
 
   return <SocketContext.Provider value={{
     socket,

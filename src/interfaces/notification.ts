@@ -1,4 +1,4 @@
-import { TypeNotification } from "./type-notification";
+import { ITypeNotification } from "./type-notification";
 
 export interface INotification {
     id: number;
@@ -10,5 +10,5 @@ export interface INotification {
     createdAt: Date;
     updatedAt: Date;
 
-    type: TypeNotification;
+    type: ITypeNotification;
 }

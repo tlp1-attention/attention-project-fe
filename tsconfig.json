@@ -14,7 +14,8 @@
       "@services/*": ["src/services/*"],
       "@hooks/*": ["src/common/hooks/*"],
       "@utils/*": ["src/utils/*"],
-      "@common/*": ["src/common/*"]
+      "@common/*": ["src/common/*"],
+      "@public/*": ["./*"]
     },
 
     /* Bundler mode */

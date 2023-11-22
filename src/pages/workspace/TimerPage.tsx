@@ -1,13 +1,16 @@
+import { useSocketContext } from "@features/real-time/context/useSocketContext";
 import { StartTimerButton } from "@features/timer/StartTimerButton";
 import { StopTimerButton } from "@features/timer/StopTimerButton";
 import { Timer } from "@features/timer/Timer";
 import { TimerForm } from "@features/timer/TimerForm";
 import { useTimer } from "@features/timer/hooks/useTimer";
 import "@pages/auth/Register.css";
+import timerDoneSound from "@public/assets/timer-done-sound.mp3";
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export function TimerPage() {
+  const { socket } = useSocketContext()!;
   const [params, setParams] = useSearchParams();
   /** The index of time interval currently running */
   const [intervalIndex, setIntervalIndex] = useState(0);
@@ -17,8 +20,17 @@ export function TimerPage() {
 
   const [seconds, { setSeconds }] = useTimer(totalTimeMin, () => {
     if (intervalIndex > intervals.length - 1) {
+      setIntervalIndex(0);
+      setTotalTimeMin(0);
       return;
     }
+    if (mode == MODES.WORK) {
+      socket?.emit("timer-work-done");
+    } else if (mode == MODES.FREE) {
+      socket?.emit("timer-free-done");
+    }
+    const audio = new Audio(timerDoneSound);
+    audio.play();
     setIntervalIndex(idx => idx + 1);
   });
 
