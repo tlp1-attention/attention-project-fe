@@ -34,6 +34,11 @@ const ROUTES = [
     text: 'Reportes',
     icon: "columns",
     url: "./report"
+  },
+  {
+    text: 'Perfil',
+    icon: "user",
+    url: "/user/profile"
   }
 ];
 
@@ -48,9 +53,8 @@ export function LateralNav() {
           <BrandLogoSmall className="m-4 d-block" onClick={toggle} />
         </button>
         <nav
-          className={`position-fixed left-0 min-vh-100 z-3 ${
-            isOpen ? "open" : ""
-          }`}
+          className={`position-fixed left-0 min-vh-100 z-3 ${isOpen ? "open" : ""
+            }`}
           onClick={toggle}
         >
           <ul className="list-unstyled slide-button">
@@ -65,7 +69,7 @@ export function LateralNav() {
               </button>
             </li>
             {ROUTES.map(({ text, icon, url }) => {
-              return <SlideButton text={text} icon={icon} to={url} key={url}/>;
+              return <SlideButton text={text} icon={icon} to={url} key={url} />;
             })}
             <li>
               <LogOut logout={logout} />
