@@ -32,9 +32,10 @@ const PreferencesForm = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        if (!errorsActive) setErrorsActive(true)
+        
+        if (!errorsActive) setErrorsActive(true)        
 
-        if (!validateErrors()) {
+        if (!validateErrors) {
             const token = localStorage.getItem("token")
 
             fetch("http://localhost:4000/api/users/preferences", {
@@ -67,7 +68,7 @@ const PreferencesForm = () => {
             contact_type: "",
             contact: ""
         }
-        if (!errorsActive) return formErrors;
+        // if (!errorsActive) return formErrors;
         if (!preferences.subject.length) formErrors.subject = "Debes elegír una materia!"
         if (!preferences.time_day.length) formErrors.time_day = "Debes elegír un momento del día!"
         if (!preferences.people.length) formErrors.people = "Debes elegír que estas buscando!"
@@ -84,26 +85,11 @@ const PreferencesForm = () => {
         }
 
         return formErrors;
-    }, [preferences, errorsActive])
+    }, [errorsActive, preferences])
 
-    const validateErrors = () => {
-        if (errors.subject.length > 0) {
-            return true
-        }
-        if (errors.time_day.length > 0) {
-            return true
-        }
-        if (errors.people.length > 0) {
-            return true
-        }
-        if (errors.contact_type.length > 0) {
-            return true
-        }
-        if (errors.contact.length > 0) {
-            return true
-        }
-        return false
-    }
+    const validateErrors = useMemo(() => {
+        return Object.values(errors).some(error => error.length > 0); 
+    }, [errors])
 
     const materias = [
         "Matemáticas",
@@ -143,15 +129,14 @@ const PreferencesForm = () => {
                             )
                         })
                     }
-                </div>
-                <div>
-
                     <div>
                         {
-                            errors.hasOwnProperty("subject") && errors.subject.length ?
-                                (<p className='bg-danger text-white ms-2 me-2 rounded p-1'>{errors.subject}</p>) : null
+                            errorsActive && errors.subject.length ?
+                                (<p className='bg-danger text-white mt-4 ms-2 me-2 rounded p-1'>{errors.subject}</p>) : null
                         }
                     </div>
+                </div>
+                <div>
                     <div className="m-3">
                         <label className="form-label">
                             ¿En qué momento del día puede estudiar?
@@ -165,7 +150,7 @@ const PreferencesForm = () => {
                     </div>
                     <div>
                         {
-                            errors.hasOwnProperty("time_day") && errors.time_day.length ?
+                            errorsActive && errors.time_day.length ?
                                 (<p className='bg-danger text-white ms-2 me-2 rounded p-1'>{errors.time_day}</p>) : null
                         }
                     </div>
@@ -180,7 +165,7 @@ const PreferencesForm = () => {
                     </div>
                     <div>
                         {
-                            errors.hasOwnProperty("people") && errors.people.length ?
+                            errorsActive && errors.people.length ?
                                 (<p className='bg-danger text-white ms-2 me-2 rounded p-1'>{errors.people}</p>) : null
                         }
                     </div>
@@ -210,7 +195,7 @@ const PreferencesForm = () => {
                             <input
                                 type="radio"
                                 className="form-check-input"
-                                name="contact"
+                                name="contact_type"
                                 id="slack"
                                 value="Slack"
                             />
@@ -218,7 +203,7 @@ const PreferencesForm = () => {
                         </div>
                         <div id="contact-input">
                             {
-                                preferences.contact === "Numero Telefónico" ? (
+                                preferences.contact_type === "Numero Telefónico" ? (
                                     <input
                                         type="number"
                                         placeholder='000-0000-0000'
@@ -238,7 +223,7 @@ const PreferencesForm = () => {
                     </div>
                     <div>
                         {
-                            errors.hasOwnProperty("contact") && errors.contact.length ?
+                            errorsActive && errors.contact.length ?
                                 (<p className='bg-danger text-white ms-2 me-2 rounded p-1'>{errors.contact}</p>) : null
                         }
                     </div>

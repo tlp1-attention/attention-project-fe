@@ -43,13 +43,10 @@ const UserDataForm = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
+
         if (!errorsActive) setErrorsActive(true)
 
-        const ok = validateErrors()
-        console.log(ok);
-
-
-        if (!validateErrors()) {
+        if (!validateErrors) {
             const token = localStorage.getItem("token")
 
             fetch("http://localhost:4000/user/info", {
@@ -85,7 +82,6 @@ const UserDataForm = () => {
             email: "",
             description: "",
         }
-        if (!errorsActive) return formErrors;
         if (!userData.name.length) formErrors.name = "El nombre de usuario no debe estár vacío!"
         else if (userData.name.length < 8) formErrors.name = "El nombre de usuario es demasiado corto!"
         else if (userData.name.length > 40) formErrors.name = "El nombre de usuario es demasiado largo!"
@@ -96,21 +92,9 @@ const UserDataForm = () => {
         return formErrors;
     }, [userData, errorsActive])
 
-    const validateErrors = () => {
-        if (errors.name.length > 0) {
-            return true
-        }
-        if (errors.ocupation.length > 0) {
-            return true
-        }
-        if (errors.email.length > 0) {
-            return true
-        }
-        if (errors.description.length > 0) {
-            return true
-        }
-        return false
-    }
+    const validateErrors = useMemo(() => {
+        return Object.values(errors).some(error => error.length > 0); 
+    }, [errors])
 
     return (
         <form
@@ -130,7 +114,7 @@ const UserDataForm = () => {
                 </div>
                 <div>
                     {
-                        errors.hasOwnProperty("name") && errors.name.length ?
+                        errorsActive && errors.name.length ?
                             (<p className="bg-danger text-white ms-2 me-2 rounded p-1">{errors.name}</p>) : null
                     }
                 </div>
@@ -140,7 +124,7 @@ const UserDataForm = () => {
                 </div>
                 <div>
                     {
-                        errors.hasOwnProperty("ocupation") && errors.ocupation.length ?
+                        errorsActive && errors.ocupation.length ?
                             (<p className="bg-danger text-white ms-2 me-2 rounded p-1">{errors.ocupation}</p>) : null
                     }
                 </div>
@@ -150,7 +134,7 @@ const UserDataForm = () => {
                 </div>
                 <div>
                     {
-                        errors.hasOwnProperty("description") && errors.description.length ?
+                        errorsActive && errors.description.length ?
                             (<p className="bg-danger text-white ms-2 me-2 rounded p-1">{errors.description}</p>) : null
                     }
                 </div>
@@ -160,7 +144,7 @@ const UserDataForm = () => {
                 </div>
                 <div>
                     {
-                        errors.hasOwnProperty("email") && errors.email.length ?
+                        errorsActive && errors.email.length ?
                             (<p className="bg-danger text-white ms-2 me-2 rounded p-1">{errors.email}</p>) : null
                     }
                 </div>
