@@ -30,10 +30,10 @@ const UserProfile = () => {
             })
     }, [])
 
-    const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-        const element = e.target as HTMLButtonElement
-        navigate("/user" + element.value)
-    }
+    // const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    //     const element = e.target as HTMLButtonElement
+    //     navigate("/user" + element.value)
+    // }
 
     return (
         <div className="container">
@@ -47,7 +47,7 @@ const UserProfile = () => {
                                 <h4 id="description">{userData.ocupation}</h4>
                                 <h4 className="lead lead-size" id="email">{userData.email}</h4>
                             </div>
-                            <button
+                            {/* <button
                                 className="btn btn-size bg-purple text-white align-self-end ms-auto btn-text-size"
                                 value="/userData"
                                 onClick={handleClick}
@@ -60,7 +60,10 @@ const UserProfile = () => {
                                 onClick={handleClick}
                             >
                                 Preferencias
-                            </button>
+                            </button> */}
+                            <a>
+                                <i className="bi bi-pencil btn-size ms-5 edit"></i>
+                            </a>
                         </div>
                         <div className="text-color border p-4 border-3 rounded-2 bg-grey z-position">
                             <legend>Se le dificulta: </legend>

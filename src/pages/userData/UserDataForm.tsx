@@ -58,7 +58,7 @@ const UserDataForm = () => {
                 body: JSON.stringify(userData),
             })
                 .then(res => res.json())
-                .then((res) => {
+                .then((_res) => {
                     Swt.fire({
                         icon: "success",
                         title: "Datos actualizado correctamente!"

@@ -52,3 +52,7 @@
 .text-size {
     font-size: 10px
 }
+
+.edit:hover {
+    cursor: pointer
+}
