@@ -1,33 +1,34 @@
-import { useReducer, useState } from "react";
 import { INotification } from "@interfaces/notification";
-import "./NotificationList.css";
 import { ITypeNotification } from "@interfaces/type-notification";
+import { useReducer, useRef, useState } from "react";
+import { NotificationItem } from "./NotificationItem";
+import "./NotificationList.css";
 
 const types: ITypeNotification[] = [
   {
     id: 1,
     description: "Type 1 Description",
-    iconUrl: "https://example.com/icon1.png"
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/5360/5360938.png"
   },
   {
     id: 2,
     description: "Type 2 Description",
-    iconUrl: "https://example.com/icon2.png"
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/5360/5360938.png"
   },
   {
     id: 3,
     description: "Type 3 Description",
-    iconUrl: "https://example.com/icon3.png"
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/5360/5360938.png"
   },
   {
     id: 4,
     description: "Type 4 Description",
-    iconUrl: "https://example.com/icon4.png"
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/5360/5360938.png"
   },
   {
     id: 5,
     description: "Type 5 Description",
-    iconUrl: "https://example.com/icon5.png"
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/5360/5360938.png"
   }
 ];
 
@@ -90,38 +91,42 @@ const MOCK_NOTIFICATIONS: INotification[] = [
 ];
 
 export function NotificationPanel() {
-  const [notifications] = useState(MOCK_NOTIFICATIONS);
+  const [notifications, setNotifications] = useState(MOCK_NOTIFICATIONS);
+  const isFirstOpen = useRef(true);
   const [show, toggle] = useReducer(show => !show, false);
+
+  const newNotifications = notifications.filter(n => !n.read).length;
+
+  const handleOpen = () => {
+    if (!isFirstOpen.current) {
+      setNotifications(notifications.map(n => ({ ...n, read: true })));
+    }
+    toggle();
+    isFirstOpen.current = false;
+  };
 
   return (
     <div className="notification-container">
-        <ul className={`list-group notification-panel ${show ? 'show' : ''}`}>
-          {notifications.map(note => (
-            <NotificationItem key={note.id} notification={note} />
-          ))}
-        </ul>
+      <ul
+        className={`list-group notification-panel shadow-sm ${
+          show ? "show" : ""
+        }`}
+      >
+        {notifications.map(note => (
+          <NotificationItem key={note.id} notification={note} />
+        ))}
+      </ul>
 
-      <button onClick={toggle} className="notification-panel-toggle shadow-sm">
+      <button
+        onClick={handleOpen}
+        className="notification-panel-toggle shadow-sm"
+      >
         <i className="bi bi-chat-square"></i>
         <span className="visually-hidden">Expandir notificaciones</span>
+        {newNotifications > 0 && (
+          <span className="new-notifications">{newNotifications}</span>
+        )}
       </button>
     </div>
-  );
-}
-
-type NotificationItemProps = {
-  notification: INotification;
-};
-
-function NotificationItem({ notification }: NotificationItemProps) {
-  return (
-    <li className="notification-item list-group-item-action list-group-item">
-      <img
-        src={notification.type.iconUrl}
-        alt={`Notificación ${notification.type.description}`}
-      />
-      <h6>{notification.title}</h6>
-      <p>{notification.content}</p>
-    </li>
   );
 }
