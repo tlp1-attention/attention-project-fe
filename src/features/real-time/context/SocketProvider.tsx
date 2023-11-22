@@ -1,10 +1,11 @@
 import { useSocket } from "@features/real-time/context/useSocket";
-import { ReactNode, createContext } from "react";
+import { ReactNode, createContext, useEffect } from "react";
+import toast from "react-hot-toast";
 import { Socket } from "socket.io-client";
 
 type SocketContextValue = {
   socket: Socket | null;
-  connect: () => void;
+  connect: (extraHeaders: Record<string, string>) => void;
   disconnect: () => void;
   online: boolean;
 };
@@ -19,6 +20,14 @@ export function SocketProvider({ children }: { children: ReactNode }) {
     connect,
     online
   } = useSocket(fullUrl.toString());
+
+  useEffect(() => {
+    if (socket && !online) {
+      toast.error('El socket se ha desconectado');
+    } else if (socket && online) {
+      toast.success('Socket de vuelta en línea');
+    }
+  }, [socket, online]);
 
   return <SocketContext.Provider value={{
     socket,

@@ -5,11 +5,12 @@ import { Socket } from 'socket.io-client';
 export const useSocket = (serverPath: string) => {
     const [socket, setSocket] = useState<Socket | null>(null)
     const [online, setOnline] = useState<boolean>(false);
-    const connectSocket = useCallback(() => {
+    const connectSocket = useCallback((extraHeaders: Record<string, string>) => {
         const socketTemp = io(serverPath, {
             transports: ['websocket'],
             autoConnect: true,
-            forceNew: true
+            forceNew: true,
+            ...extraHeaders
         });
         setSocket(socketTemp);
     }, [serverPath]);

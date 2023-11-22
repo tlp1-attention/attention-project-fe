@@ -1,20 +1,28 @@
 import { Field, Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
 import { useAuth } from "./hooks/useAuth";
 import toast from "react-hot-toast";
 import { ValidationError } from "@interfaces/validation.error";
-import { useContext, useEffect } from "react";
-import { SocketContext } from "@features/real-time/context/SocketProvider";
+import { useSocketContext } from "@features/real-time/context/useSocketContext";
 
 export function LoginForm() {
-  const { connect } = useContext(SocketContext)!;
+  const { connect } = useSocketContext()!;
+  const { token } = useAuth()!;
   const { login, isAuthenticated } = useAuth()!;
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!isAuthenticated) return;
     navigate('/workspace/timer');
-  });
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (!token) return;
+    connect({
+      'Authorization': token
+    });
+  }, [token, connect]);
 
   return (
     <Formik
@@ -23,8 +31,6 @@ export function LoginForm() {
         try {
           await login(values.username, values.password);
           toast.success('¡Sesión iniciada correctamente!');
-          connect();
-          toast.success('Socket conectado correctamente.');
           navigate('/workspace/timer');
         } catch (err) {
           if (
@@ -48,7 +54,6 @@ export function LoginForm() {
           </label>
           <Field type="password" name="password" className="form-control" />
           <div className="form-small-text d-flex flex-wrap gap-1">
-            <a href="/reset-password.html">¿Olvidó su contraseña?</a>
             <Link to="/register">¿Aún no tiene una cuenta? Regístrese.</Link>
           </div>
           <button
