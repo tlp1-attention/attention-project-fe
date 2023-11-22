@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { IUser } from '../../interfaces/user'
 import Swt from "sweetalert2"
 import logo from "../../../public/assets/logo-2.png"
+import "./UserDataForm.css"
 
 const UserDataForm = () => {
 
@@ -93,13 +94,13 @@ const UserDataForm = () => {
     }, [userData, errorsActive])
 
     const validateErrors = useMemo(() => {
-        return Object.values(errors).some(error => error.length > 0); 
+        return Object.values(errors).some(error => error.length > 0);
     }, [errors])
 
     return (
         <form
             action=""
-            className="d-flex flex-column border border-3 rounded-3 w-50 mt-5 mb-4 text-color bg-grey"
+            className="d-flex flex-column border border-3 rounded-3 width-form mt-5 mb-4 text-color bg-grey"
             id="formulario"
             onChange={handleChange}
             onSubmit={handleSubmit}

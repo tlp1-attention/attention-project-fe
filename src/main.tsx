@@ -19,9 +19,9 @@ import MainLayout from "./pages/layouts/MainLayout";
 import { NotFoundPage } from "@pages/NotFoundPage";
 import { ReportPage } from "@pages/workspace/ReportPage";
 import UserProfile from "@pages/profile/UserProfile";
-import PreferencesForm from "@pages/preferences/PreferencesForm";
-import UserDataForm from "@pages/userData/UserDataForm";
+import UserDataFormPage from "@pages/userData/UserDataForm";
 import UserProfileLayout from "@pages/layouts/UserProfileLayout";
+import PreferencesFormPage from "@pages/PreferenceFormPage/PreferencesFormPage";
 
 const router = createBrowserRouter([
   {
@@ -85,11 +85,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/user/preferences",
-        element: <PreferencesForm />
+        element: <PreferencesFormPage />
       },
       {
         path: "/user/userData",
-        element: <UserDataForm />
+        element: <UserDataFormPage />
       }
     ]
   },

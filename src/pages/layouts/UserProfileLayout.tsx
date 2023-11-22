@@ -6,11 +6,11 @@ import { LateralNav } from '@features/ui/lateral-nav/LateralNav'
 const UserProfileLayout = () => {
   return (
     <PrivateRoute>
-        <div className='workspace-layout'>
-            <LateralNav />
-            <Outlet />
-            <Footer />
-        </div>
+      <div className='user-layout'>
+        <LateralNav />
+        <Outlet />
+        <Footer />
+      </div>
     </PrivateRoute>
   )
 }

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import profile from "../../../public/assets/profileDefault.jpg"
 import "./UserProfile.css"
 import { IUser } from '@interfaces/user'
 
@@ -13,6 +14,8 @@ const UserProfile = () => {
         email: '',
         preferences: [],
     })
+
+    // const [edit, setEdit] = useState(false)
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -30,10 +33,10 @@ const UserProfile = () => {
             })
     }, [])
 
-    // const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    //     const element = e.target as HTMLButtonElement
-    //     navigate("/user" + element.value)
-    // }
+
+    const handleClick = (route: string) => {
+        navigate("/user" + route)
+    }
 
     return (
         <div className="container">
@@ -41,29 +44,45 @@ const UserProfile = () => {
                 userData.hasOwnProperty("name") ? (
                     <div className="d-flex flex-column">
                         <div className="d-flex align-items-center w-100">
-                            <img src={'#'} className="profile rounded-circle mt-4 mb-4 ms-5" alt="foto" />
+                            <img src={profile} className="profile rounded-circle mt-4 mb-4 ms-5" alt="foto" />
                             <div className="ms-5 mt-5 text-color">
                                 <h2 className="fw-bold purple mb-3" id="name">{userData.name}</h2>
                                 <h4 id="description">{userData.ocupation}</h4>
                                 <h4 className="lead lead-size" id="email">{userData.email}</h4>
                             </div>
-                            {/* <button
-                                className="btn btn-size bg-purple text-white align-self-end ms-auto btn-text-size"
-                                value="/userData"
-                                onClick={handleClick}
-                            >
-                                Datos Personales
-                            </button>
-                            <button
-                                className="btn btn-size bg-purple text-white align-self-end ms-auto"
-                                value="/preferences"
-                                onClick={handleClick}
-                            >
-                                Preferencias
-                            </button> */}
-                            <a>
-                                <i className="bi bi-pencil btn-size ms-5 edit"></i>
-                            </a>
+                            <div className='ms-5'>
+                                {/* <a onClick={() => { setEdit(!edit) }}>
+                                    <i className="bi bi-pencil btn-size edit"></i>
+                                </a> */}
+                                <div className='dropdown btn-size ms-5'>
+                                    <i
+                                        className="bi bi-pencil edit"
+                                        id='dropdownMenuButton1'
+                                        data-bs-toggle='dropdown'
+                                        aria-expanded='false'
+                                    ></i>
+
+                                    <ul className='dropdown-menu w-75 overflow-hidden' aria-labelledby='dropdownMenuButton1'>
+                                        <li>
+                                            <a
+                                                className='dropdown-item'
+                                                onClick={() => handleClick("/userData")}
+                                            >Datos de usuario</a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                className='dropdown-item'
+                                                onClick={() => handleClick("/preferences")}
+                                            >Preferencias</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                {/* {
+                                    edit ? ( */}
+                                {/* 
+                                    ) : null
+                                } */}
+                            </div>
                         </div>
                         <div className="text-color border p-4 border-3 rounded-2 bg-grey z-position">
                             <legend>Se le dificulta: </legend>
