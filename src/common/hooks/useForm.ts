@@ -21,9 +21,9 @@ export function useForm<T extends Record<string, FormDataEntryValue>>(initialVal
   };
 
   const resetInputs = () => setInputData(previousValues => {
-    const newValue: T = {};
+    const newValue: T = {} as T;
     for (const key of Object.keys(previousValues)) {
-      newValue[key] = "";
+      (newValue[key as keyof typeof newValue] as FormDataEntryValue) = '';
     }
     return newValue;
   });
