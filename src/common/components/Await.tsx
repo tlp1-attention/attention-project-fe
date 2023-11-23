@@ -2,15 +2,37 @@ import { UsePromiseResult } from "@common/hooks/usePromise";
 import { ErrorScreen } from "@features/ui/error-screen/ErrorScreen";
 import { FullSizeSpinner } from "@features/ui/spinner/Spinner";
 
+/**
+ * Extracts the resolved type from a UsePromiseResult tuple, e.g. 
+ * 
+ * @example
+ * ```ts
+ *  type Result = ExtractResultFrom<[UsePromiseResult<string>, UsePromiseResult<number>]>;  
+ *     //^? Result is [string, number]
+ * ```
+ * Allow to pass an array of UsePromiseResult to Await
+ * and infer the type of the children function
+ */
+type ExtractResultFrom<T> = {
+  [P in keyof T]: T[P] extends UsePromiseResult<infer U> ? U : never;
+};
+
+/**
+ * Component that allows you to wait for one or 
+ * multiple {@link UsePromiseResult} to resolve, allowing to provide a loading
+ * state and an error 
+ */
 export function Await<T>(props: {
   value: UsePromiseResult<T>;
-  children: (value: T) => JSX.Element;
+  children: (value: T) => JSX.Element | JSX.Element[];
   loading?: JSX.Element;
   error?: (err: Error) => JSX.Element;
 }): JSX.Element;
-export function Await<R>(props: {
-  value: R extends UsePromiseResult<unknown>[] ? R : never;
-  children: (value: R) => JSX.Element;
+export function Await<T, R>(props: {
+  value: R extends [...UsePromiseResult<infer T>[]] ? R : never;
+  // Infer the param type of the children function
+  // to be the resolved version of all types on R
+  children: (value: ExtractResultFrom<R extends [...UsePromiseResult<T>[]] ? R : never>) => JSX.Element | JSX.Element[];
   loading?: JSX.Element;
   error?: (err: Error) => JSX.Element;
 }): JSX.Element;
@@ -23,8 +45,8 @@ export function Await<T, R>({
   value: UsePromiseResult<T> | (R extends UsePromiseResult<T>[] ? R : never);
   loading?: JSX.Element;
   error?: (err: Error) => JSX.Element;
-  children: (value: T | T[]) => JSX.Element;
-}): JSX.Element {
+  children: (value: T | T[]) => JSX.Element | JSX.Element[];
+}): JSX.Element | JSX.Element[] {
   if (Array.isArray(value)) {
     if (value.some(v => v.loading)) {
       return loading;

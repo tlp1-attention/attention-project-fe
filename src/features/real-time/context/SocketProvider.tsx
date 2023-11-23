@@ -13,9 +13,10 @@ type SocketContextValue = {
 
 export const SocketContext = createContext<SocketContextValue | null>(null);
 
+const fullUrl = new URL('/', import.meta.env.VITE_BACKEND_URL);
+
 export function SocketProvider({ children }: { children: ReactNode }) {
   const { token } = useAuth()!;
-  const fullUrl = new URL('/', import.meta.env.VITE_BACKEND_URL);
   const {
     socket,
     disconnect,

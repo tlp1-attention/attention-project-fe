@@ -1,21 +1,17 @@
+import { Await } from "@common/components/Await";
 import { ReadingListItem } from "@features/readings/ReadingListItem";
 import { useReadings } from "@features/readings/hooks/useReadings";
-import { ErrorScreen } from "@features/ui/error-screen/ErrorScreen";
-import { Spinner } from "@features/ui/spinner/Spinner";
 
 export function ReadingList() {
   const { readings } = useReadings()!;
 
-  if (readings.loading)
-    return (
-      <div className="h-100">
-        <Spinner />
-      </div>
-    );
-  if (readings.error)
-    return <ErrorScreen error={readings.error as Error} />;
-
-  return readings.data.map(reading => (
-    <ReadingListItem reading={reading} key={reading.id} />
-  ));
+  return (
+    <Await value={readings}>
+      {data =>
+        data.map(reading => (
+          <ReadingListItem key={reading.id} reading={reading} />
+        ))
+      }
+    </Await>
+  );
 }

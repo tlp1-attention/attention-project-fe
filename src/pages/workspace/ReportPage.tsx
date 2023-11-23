@@ -4,8 +4,6 @@ import { useAuth } from "@features/auth/hooks/useAuth";
 import "@features/reports/Report.css";
 import { ReportChart } from "@features/reports/ReportChart";
 import { ReportTable } from "@features/reports/ReportTable";
-import { IEventByWeek } from "@interfaces/event";
-import { IReadingByWeek } from "@interfaces/reading";
 import { getEventsByWeek } from "@services/events";
 import { getCompletedExercisesByWeek } from "@services/readings";
 import dayjs from "dayjs";
@@ -59,12 +57,9 @@ export function ReportPage() {
           </Await>
         </div>
         <div className="general-report">
-          <Await value={[readingResource, eventsResource]}>
+          <Await value={[readingResource, eventsResource] as const}>
             {([readingData, eventData]) => (
-              <ReportTable
-                events={eventData as unknown as IEventByWeek[]}
-                readings={readingData as unknown as IReadingByWeek[]}
-              />
+              <ReportTable events={eventData} readings={readingData} />
             )}
           </Await>
         </div>
