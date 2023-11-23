@@ -29,7 +29,7 @@ export function Await<T>(props: {
   error?: (err: Error) => JSX.Element;
 }): JSX.Element;
 export function Await<T, R>(props: {
-  value: R extends [...UsePromiseResult<infer T>[]] ? R : never;
+  value: R extends [...UsePromiseResult<T>[]] ? R : never;
   // Infer the param type of the children function
   // to be the resolved version of all types on R
   children: (value: ExtractResultFrom<R extends [...UsePromiseResult<T>[]] ? R : never>) => JSX.Element | JSX.Element[];
