@@ -15,8 +15,6 @@ const UserProfile = () => {
         preferences: [],
     })
 
-    // const [edit, setEdit] = useState(false)
-
     useEffect(() => {
         const token = localStorage.getItem("token")
 
@@ -51,12 +49,9 @@ const UserProfile = () => {
                                 <h4 className="lead lead-size" id="email">{userData.email}</h4>
                             </div>
                             <div className='ms-5'>
-                                {/* <a onClick={() => { setEdit(!edit) }}>
-                                    <i className="bi bi-pencil btn-size edit"></i>
-                                </a> */}
                                 <div className='dropdown btn-size ms-5'>
                                     <i
-                                        className="bi bi-pencil edit"
+                                        className="bi bi-pencil w-75 edit"
                                         id='dropdownMenuButton1'
                                         data-bs-toggle='dropdown'
                                         aria-expanded='false'

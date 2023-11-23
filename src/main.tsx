@@ -22,6 +22,8 @@ import UserProfile from "@pages/profile/UserProfile";
 import UserDataFormPage from "@pages/userData/UserDataForm";
 import UserProfileLayout from "@pages/layouts/UserProfileLayout";
 import PreferencesFormPage from "@pages/PreferenceFormPage/PreferencesFormPage";
+import { UsersPage } from "@pages/users/UsersPage";
+
 
 const router = createBrowserRouter([
   {
@@ -32,13 +34,14 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />
-      }
+      },
     ]
   },
   {
     path: "/login",
     element: <LoginForm />
   },
+
   {
     path: "/register",
     element: <Register />
@@ -51,6 +54,10 @@ const router = createBrowserRouter([
         index: true,
         path: "/workspace/timer",
         element: <TimerPage />
+      },
+      {
+        path: "/workspace/colaboration",
+        element: <UsersPage />
       },
       {
         path: "/workspace/events",

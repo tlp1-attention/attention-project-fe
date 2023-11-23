@@ -1,0 +1,23 @@
+.user-item{
+    width: 100%;
+    height: 7rem;
+    
+}
+
+.descripciones{
+    font-size: 0.8rem;
+}
+
+.image-icon{
+    width: 5rem;
+    
+}
+
+.userbtn{
+    border: none;
+    border-radius: 1px;
+    padding: 10px;
+}
+.userbtn:hover{
+    background-color: rgba(46, 9, 133, 0.63);
+}

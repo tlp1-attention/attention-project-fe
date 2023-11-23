@@ -13,27 +13,27 @@ const ROUTES = [
   {
     text: "Lectura",
     icon: "book",
-    url: "./readings",
+    url: "/workspace/readings",
   },
   {
     text: "Temporizador",
     icon: "clock",
-    url: "./timer",
+    url: "/workspace/timer",
   },
   {
     text: 'Eventos',
     icon: 'calendar',
-    url: './events'
+    url: '/workspace/events'
   },
   {
     text: "Espacio colaborativo",
     icon: "columns",
-    url: "/colaboration",
+    url: "/workspace/colaboration",
   },
   {
     text: 'Reportes',
     icon: "columns",
-    url: "./report"
+    url: "/workspace/report"
   },
   {
     text: 'Perfil',
