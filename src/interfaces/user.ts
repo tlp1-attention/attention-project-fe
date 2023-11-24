@@ -7,4 +7,5 @@ export interface IUser {
     preferences?: PreferencesAttributes[];
     description?: string;
     problem?: string;
+    image?: string;
 }

@@ -72,14 +72,9 @@ const UserProfile = () => {
                                         </li>
                                     </ul>
                                 </div>
-                                {/* {
-                                    edit ? ( */}
-                                {/* 
-                                    ) : null
-                                } */}
                             </div>
                         </div>
-                        <div className="text-color border p-4 border-3 rounded-2 bg-grey z-position">
+                        <div className="text-color border p-4 border-3 rounded-2 bg-grey">
                             <legend>Se le dificulta: </legend>
                             <p id="subject">{userData.preferences?.length ? userData.preferences[0].subject : "No especificado!"}</p>
                             <hr />
