@@ -32,8 +32,8 @@ const PreferencesForm = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        
-        if (!errorsActive) setErrorsActive(true)        
+
+        if (!errorsActive) setErrorsActive(true)
 
         if (!validateErrors) {
             const token = localStorage.getItem("token")
@@ -88,7 +88,7 @@ const PreferencesForm = () => {
     }, [errorsActive, preferences])
 
     const validateErrors = useMemo(() => {
-        return Object.values(errors).some(error => error.length > 0); 
+        return Object.values(errors).some(error => error.length > 0);
     }, [errors])
 
     const materias = [
@@ -178,6 +178,7 @@ const PreferencesForm = () => {
                                 name="contact_type"
                                 id="cel"
                                 value="Numero Telefónico"
+                                autoComplete='off'
                             />
                             <span> Numero Telefónico</span>
                         </div>
@@ -188,6 +189,7 @@ const PreferencesForm = () => {
                                 name="contact_type"
                                 id="discord"
                                 value="Discord"
+                                autoComplete='off'
                             />
                             <span> Discord</span>
                         </div>
@@ -198,6 +200,7 @@ const PreferencesForm = () => {
                                 name="contact_type"
                                 id="slack"
                                 value="Slack"
+                                autoComplete='off'
                             />
                             <span> Slack</span>
                         </div>
@@ -209,6 +212,7 @@ const PreferencesForm = () => {
                                         placeholder='000-0000-0000'
                                         className='w-100 form-control'
                                         name='contact_type'
+                                        autoComplete='off'
                                     />
                                 ) :
                                     preferences.contact_type === "Discord" || preferences.contact_type === "Slack" ? (
@@ -216,6 +220,7 @@ const PreferencesForm = () => {
                                             placeholder={`@usuario de ${preferences.contact_type}`}
                                             className='w-100 form-control'
                                             name='contact'
+                                            autoComplete='off'
                                         />
                                     ) : null
                             }

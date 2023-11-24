@@ -29,7 +29,14 @@ const UserDataForm = () => {
             }
         })
             .then(res => res.json())
-            .then(res => setUserData(res))
+            .then(res => {
+                setUserData({
+                    name: res.name ?? "",
+                    ocupation: res.ocupation ?? "",
+                    email: res.email ?? "",
+                    description: res.description ?? "",
+                })
+            })
             .catch(err => console.error(err))
     }, [])
 
@@ -111,7 +118,7 @@ const UserDataForm = () => {
                     <label className="form-label">
                         Nombre de Usuario
                     </label>
-                    <input name="name" className="form-control" value={userData.hasOwnProperty("name") ? userData.name : ""} />
+                    <input autoComplete="off" name="name" className="form-control" value={userData.hasOwnProperty("name") ? userData.name : ""} />
                 </div>
                 <div>
                     {
@@ -121,7 +128,7 @@ const UserDataForm = () => {
                 </div>
                 <div className="m-3">
                     <label className="form-label">Ocupación</label>
-                    <input name="ocupation" className="form-control" value={userData.hasOwnProperty("ocupation") ? userData.ocupation : ""} />
+                    <input autoComplete="off" name="ocupation" className="form-control" value={userData.hasOwnProperty("ocupation") ? userData.ocupation : ""} />
                 </div>
                 <div>
                     {
@@ -131,7 +138,7 @@ const UserDataForm = () => {
                 </div>
                 <div className="m-3">
                     <label className="form-label">Breve descripción de su problema</label>
-                    <input type="text" name="problem" className='form-control' value={userData.hasOwnProperty("problem") ? userData.problem : ""} />
+                    <input autoComplete="off" type="text" name="problem" className='form-control' value={userData.hasOwnProperty("problem") ? userData.problem : ""} />
                 </div>
                 <div>
                     {
@@ -141,7 +148,7 @@ const UserDataForm = () => {
                 </div>
                 <div className="m-3">
                     <label className="form-label">Email</label>
-                    <input type="text" name="email" className='form-control' value={userData.hasOwnProperty("email") ? userData.email : ""} />
+                    <input autoComplete="off" type="text" name="email" className='form-control' value={userData.hasOwnProperty("email") ? userData.email : ""} />
                 </div>
                 <div>
                     {
@@ -150,7 +157,7 @@ const UserDataForm = () => {
                     }
                 </div>
             </div>
-            <input
+            <input autoComplete="off"
                 type="submit"
                 className="btn bg-purple text-white m-3"
                 value="Submit"

@@ -9,20 +9,12 @@ export function UsersPage() {
 
     let img = "https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png";
 
-    /* const usersExample = [
-        { name: 'User 1', description: 'desc1', ocupation: "Ingeniero de Software", problem: "Me duermo en clase", image: img },
-        { name: 'User 2', description: 'desc2', ocupation: "Ingeniero de Software", problem: "Me duermo en clase", image: img },
-        { name: 'User 3', description: 'desc3', ocupation: "Ingeniero de Software", problem: "Me duermo en clase", image: img },
-        { name: 'User 4', description: 'desc4', ocupation: "Ingeniero de Software", problem: "Me duermo en clase", image: img },
-        { name: 'User 5', description: 'desc5', ocupation: "Ingeniero de Software", problem: "Me duermo en clase", image: img }
-    ]; */
-
     useEffect(() => {
         fetch('http://localhost:4000/api/users/list')
             .then(res => res.json())
             .then(res => {
                 console.log(res);
-                
+
                 setUsersList(res)
             })
             .catch(err => console.error(err))
@@ -38,9 +30,9 @@ export function UsersPage() {
         <div className="users-container border flex-column flex-sm-row flex-lg-row">
             <div className='user-list shadow px-3' data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" tabIndex={0}>
                 {
-                    usersList.map((userExample, i) => {
-                        const user: IUser = Object.assign({}, userExample);
-                        return <UserItem userInfo={{...user, image: img}} showUser={showUser} key={i} />
+                    usersList.map((userItem, i) => {
+                        const user: IUser = Object.assign({}, userItem);
+                        return <UserItem userInfo={{ ...user, image: img }} showUser={showUser} key={i} />
                     })
                 }
             </div>
