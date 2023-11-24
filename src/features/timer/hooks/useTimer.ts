@@ -20,7 +20,7 @@ export function useTimer(initialSeconds: number | (() => number), onTimeout?: ()
         }
         if (paused) return;
         setSeconds(seconds -  1);
-    }, 10);
+    }, 10_000);
 
     return () => clearInterval(interval);
   });
