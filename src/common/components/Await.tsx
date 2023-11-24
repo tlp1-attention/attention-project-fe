@@ -28,11 +28,12 @@ export function Await<T>(props: {
   loading?: JSX.Element;
   error?: (err: Error) => JSX.Element;
 }): JSX.Element;
-export function Await<T, R>(props: {
-  value: R extends [...UsePromiseResult<T>[]] ? R : never;
+export function Await<R extends readonly [...UsePromiseResult<unknown>[]]>(props: {
+  value: R;
   // Infer the param type of the children function
   // to be the resolved version of all types on R
-  children: (value: ExtractResultFrom<R extends [...UsePromiseResult<T>[]] ? R : never>) => JSX.Element | JSX.Element[];
+  // as a tuple type
+  children: (value: ExtractResultFrom<R extends readonly [...UsePromiseResult<unknown>[]] ? R : never>) => JSX.Element | JSX.Element[];
   loading?: JSX.Element;
   error?: (err: Error) => JSX.Element;
 }): JSX.Element;
@@ -42,11 +43,12 @@ export function Await<T, R>({
   error = (err: Error) => <ErrorScreen error={err} />,
   children
 }: {
-  value: UsePromiseResult<T> | (R extends UsePromiseResult<T>[] ? R : never);
+  value: UsePromiseResult<T> | (R extends [...UsePromiseResult<unknown>[]] ? R : never);
   loading?: JSX.Element;
   error?: (err: Error) => JSX.Element;
   children: (value: T | T[]) => JSX.Element | JSX.Element[];
 }): JSX.Element | JSX.Element[] {
+
   if (Array.isArray(value)) {
     if (value.some(v => v.loading)) {
       return loading;

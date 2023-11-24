@@ -61,7 +61,7 @@ export function ReportPage() {
             {([readingData, eventData]) => (
               <ReportTable events={eventData} readings={readingData} />
             )}
-          </Await>
+          </Await> 
         </div>
       </div>
     </>
