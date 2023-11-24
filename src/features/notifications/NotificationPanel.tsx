@@ -2,7 +2,6 @@ import { INotification } from "@interfaces/notification";
 import { useEffect, useRef, useState } from "react";
 import { NotificationItem } from "./NotificationItem";
 import "./NotificationList.css";
-import letterIcon from "../../../public/assets/icons8-notifications-100.png";
 import { useSocketContext } from "@features/real-time/context/useSocketContext";
 
 
@@ -76,7 +75,7 @@ export function NotificationPanel() {
             <div className="py-2 px-1 d-flex justify-content-center align-items-center flex-column gap-2">
               <div className="empty-notifications">
                 <img
-                  src={letterIcon}
+                  src="/assets/icons8-notifications-100.png"
                   alt="Una carta cerrada con un signo de llamada de atención"
                   className="empty-notifications-img"
                 />

@@ -3,64 +3,57 @@ import { StartTimerButton } from "@features/timer/StartTimerButton";
 import { StopTimerButton } from "@features/timer/StopTimerButton";
 import { Timer } from "@features/timer/Timer";
 import { TimerForm } from "@features/timer/TimerForm";
-import { useTimer } from "@features/timer/hooks/useTimer";
+import {
+  DEFAULT_STATE,
+  MODES,
+  TIMER_ACTIONS,
+  timerReducer
+} from "@features/timer/reducer/timerReducer";
 import "@pages/auth/Register.css";
-import timerDoneSound from "@public/assets/timer-done-sound.mp3";
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useReducer } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export function TimerPage() {
   const { socket } = useSocketContext()!;
   const [params, setParams] = useSearchParams();
-  /** The index of time interval currently running */
-  const [intervalIndex, setIntervalIndex] = useState(0);
+  const [timerState, dispatch] = useReducer(timerReducer, DEFAULT_STATE);
   const show = params.get("show");
-  /** The time to divide between the two clocks */
-  const [totalTimeMin, setTotalTimeMin] = useState(0);
-
-  const [seconds, { setSeconds }] = useTimer(totalTimeMin, () => {
-    if (intervalIndex > intervals.length - 1) {
-      setIntervalIndex(0);
-      setTotalTimeMin(0);
-      return;
-    }
-    if (mode == MODES.WORK) {
-      socket?.emit("timer-work-done");
-    } else if (mode == MODES.FREE) {
-      socket?.emit("timer-free-done");
-    }
-    const audio = new Audio(timerDoneSound);
-    audio.play();
-    setIntervalIndex(idx => idx + 1);
-  });
-
-  const intervals = useMemo(() => divideTime(totalTimeMin), [totalTimeMin]);
-
-  const mode = useMemo(() => {
-    const currentInterval = intervals[intervalIndex];
-    return currentInterval?.mode;
-  }, [intervalIndex, intervals]);
-
-  const freeTime = useMemo(() => {
-    const currentInterval = intervals[intervalIndex];
-    if (!currentInterval || currentInterval.mode != MODES.FREE) return 0;
-    return currentInterval.time;
-  }, [intervals, intervalIndex]);
-
-  const workTime = useMemo(() => {
-    const currentInterval = intervals[intervalIndex];
-    if (!currentInterval || currentInterval.mode != MODES.WORK) return 0;
-    return currentInterval.time;
-  }, [intervals, intervalIndex]);
 
   useEffect(() => {
-    const time = mode == MODES.WORK ? workTime : freeTime;
-    setSeconds(time * 60);
-  }, [mode, workTime, freeTime, setSeconds]);
+    const interval = setInterval(() => {
+      if (timerState.seconds == 0 && timerState.intervals.length !== 0) {
+        if (timerState.mode == MODES.WORK) {
+          socket?.emit("timer-work-done");
+        } else if (timerState.mode == MODES.FREE) {
+          socket?.emit("timer-free-done");
+        }
+
+        const audio = new Audio("assets/timer-done-sound.mp3");
+        audio.play();
+
+        dispatch({
+          type: TIMER_ACTIONS.INTERVALS.NEXT
+        });
+
+      } else if (timerState.intervals.length !== 0) {
+        dispatch({
+          type: TIMER_ACTIONS.SECONDS.SET,
+          payload: timerState.seconds - 1
+        });
+      }
+    }, 1_000);
+
+    return () => clearInterval(interval);
+  }, [timerState.intervals.length, timerState.seconds, socket, timerState.mode]);
 
   const handleSubmit = (minutes: number) => {
-    setTotalTimeMin(minutes);
+    dispatch({
+      type: TIMER_ACTIONS.TOTAL_MINUTES.SET,
+      payload: +minutes
+    });
   };
+
+  console.log(timerState);
 
   const showTimerForm = () => setParams({ ...params, show: "open" });
 
@@ -70,14 +63,16 @@ export function TimerPage() {
       show: "closed"
     });
 
-  const stopTimer = () => setTotalTimeMin(0);
+  const stopTimer = () => dispatch({
+    type: TIMER_ACTIONS.INTERVALS.RESET,
+  });
 
   return (
     <>
       <main className="color-brand">
         <div className="m-5 d-flex justify-content-center gap-3 align-items-center">
-          <StartTimerButton onClick={showTimerForm} disabled={seconds != 0} />
-          <StopTimerButton onClick={stopTimer} disabled={seconds == 0} />
+          <StartTimerButton onClick={showTimerForm} disabled={timerState.seconds != 0} />
+          <StopTimerButton onClick={stopTimer} disabled={timerState.seconds == 0} />
         </div>
         <article className="m-5 timer-container d-flex flex-wrap-reverse justify-content-center align-items-center align-content-center">
           <TimerForm
@@ -86,83 +81,19 @@ export function TimerPage() {
             close={hideTimerForm}
           />
           <Timer
-            currentTime={mode == MODES.FREE ? seconds : 0}
+            currentTime={timerState.mode == MODES.FREE ? timerState.seconds : 0}
             title={"Tiempo libre"}
             strokeColor="green"
-            totalTime={+freeTime * 60}
+            totalTime={timerState.freeTime * 60}
           />
           <Timer
-            currentTime={mode == MODES.WORK ? seconds : 0}
+            currentTime={timerState.mode == MODES.WORK ? timerState.seconds : 0}
             title={"Trabajo"}
             strokeColor="blue"
-            totalTime={+workTime * 60}
+            totalTime={timerState.workTime * 60}
           />
         </article>
       </main>
     </>
   );
-}
-
-/**
- * Available modes for a Timer: 'Free' and 'Work'
- */
-const MODES = {
-  WORK: "Work",
-  FREE: "Free"
-};
-
-/**
- * Takes a total time in minutes and automatically divides them in
- * a bunch of intervals of work time and free time
- */
-function divideTime(minutes: number) {
-  const intervals = [];
-
-  const { timeOfWork, timeFree } = getTimerConfig(minutes);
-  let timeTaken = 0;
-  let i = 0;
-
-  while (timeTaken < minutes) {
-    if (i % 2 == 0) {
-      intervals.push({
-        time: timeOfWork,
-        mode: MODES.WORK
-      });
-      timeTaken += timeOfWork;
-    } else {
-      intervals.push({
-        time: timeFree,
-        mode: MODES.FREE
-      });
-      timeTaken += timeFree;
-    }
-    i++;
-  }
-  console.log(intervals);
-  return intervals;
-}
-
-/**
- * Gets the configuration of free and work time
- * using the minutes it receives
- */
-function getTimerConfig(minutes: number) {
-  console.log("Minutes: ", minutes);
-  switch (minutes) {
-    case 60:
-      return {
-        timeOfWork: 25,
-        timeFree: 5
-      };
-    case 45:
-      return {
-        timeOfWork: 15,
-        timeFree: 5
-      };
-    default:
-      return {
-        timeOfWork: 20,
-        timeFree: 10
-      };
-  }
 }

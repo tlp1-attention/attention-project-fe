@@ -29,7 +29,8 @@ export const useSocket = (serverPath: string) => {
 
     useEffect(() => {
         socket?.on('disconnect', () => setOnline( false ));
-    }, [socket])
+    }, [socket]);
+
 
     return {
         socket,

@@ -16,7 +16,7 @@ export const SocketContext = createContext<SocketContextValue | null>(null);
 const fullUrl = new URL('/', import.meta.env.VITE_BACKEND_URL);
 
 export function SocketProvider({ children }: { children: ReactNode }) {
-  const { token } = useAuth()!;
+  const { token, logout } = useAuth()!;
   const {
     socket,
     disconnect,
@@ -38,6 +38,22 @@ export function SocketProvider({ children }: { children: ReactNode }) {
       connect({ authorization: `${token}` });
     }
   }, [token, connect]);
+
+  // Automatically disconnect if user is not authenticated
+  useEffect(() => {
+    if (!token) {
+      disconnect();
+    }
+  }, [token, disconnect]);
+
+  // If the server disconnects with an error, log the user out
+  useEffect(() => {
+    socket?.on('disconnect', (reason: string) => {
+      if (reason == 'io server disconnect') {
+        logout();
+      }
+    });
+  }, [socket, logout]);
 
   return <SocketContext.Provider value={{
     socket,
