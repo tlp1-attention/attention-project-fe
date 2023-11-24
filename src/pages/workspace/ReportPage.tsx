@@ -21,7 +21,7 @@ export function ReportPage() {
   );
 
   return (
-    <>
+    <div>
       <h1>Reporte de {user?.name}</h1>
       <div className="chart-container fs-4">
         <div className="event-report shadow">
@@ -64,6 +64,6 @@ export function ReportPage() {
           </Await> 
         </div>
       </div>
-    </>
+    </div>
   );
 }
