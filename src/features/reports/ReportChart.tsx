@@ -13,7 +13,7 @@ type ChartData<T> = {
 };
 
 type ReportChartProps<T> = ChartData<T> & {
-    type: ChartProps["type"];
+  type: ChartProps["type"];
 }
 
 export function ReportChart<T>({

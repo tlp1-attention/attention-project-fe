@@ -10,7 +10,7 @@ import { FullSizeSpinner } from "@features/ui/spinner/Spinner";
  *  type Result = ExtractResultFrom<[UsePromiseResult<string>, UsePromiseResult<number>]>;  
  *     //^? Result is [string, number]
  * ```
- * Allow to pass an array of UsePromiseResult to Await
+ * Allows to pass an array of UsePromiseResult to Await
  * and infer the type of the children function
  */
 type ExtractResultFrom<T> = {
