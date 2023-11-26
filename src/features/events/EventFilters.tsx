@@ -18,7 +18,6 @@ export function EventFilters() {
 
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("Dispatching action: ", e.target.value);
     dispatch({
       type: e.target.value as typeof QUERY_ACTIONS[keyof typeof QUERY_ACTIONS]
     });

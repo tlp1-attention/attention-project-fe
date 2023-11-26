@@ -1,15 +1,15 @@
 import logo from "../../../public/assets/logo-2.png"
-import { useForm } from "@hooks/useForm"
+import { useForm } from "./hook/useForm"
 import "./UserDataForm.css"
 
 const UserDataForm = () => {
 
     const {
+        userData,
         handleChange,
         handleSubmit,
-        userData,
-        errors,
-        errorsActive
+        errorsActive,
+        errors
     } = useForm()
 
     return (

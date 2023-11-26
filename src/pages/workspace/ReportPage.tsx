@@ -1,15 +1,13 @@
+import { Await } from "@common/components/Await";
+import { usePromise } from "@common/hooks/usePromise";
 import { useAuth } from "@features/auth/hooks/useAuth";
+import "@features/reports/Report.css";
 import { ReportChart } from "@features/reports/ReportChart";
-import { ErrorScreen } from "@features/ui/error-screen/ErrorScreen";
-import { Spinner } from "@features/ui/spinner/Spinner";
-import { usePromise } from "@hooks/usePromise";
+import { ReportTable } from "@features/reports/ReportTable";
 import { getEventsByWeek } from "@services/events";
 import { getCompletedExercisesByWeek } from "@services/readings";
 import dayjs from "dayjs";
 import { useCallback } from "react";
-import "@features/reports/Report.css";
-import { ReportTable } from "@features/reports/ReportTable";
-import { Await } from "@common/components/Await";
 
 export function ReportPage() {
   const { token, user } = useAuth()!;
@@ -23,7 +21,7 @@ export function ReportPage() {
   );
 
   return (
-    <>
+    <div>
       <h1>Reporte de {user?.name}</h1>
       <div className="chart-container fs-4">
         <div className="event-report shadow">
@@ -59,25 +57,13 @@ export function ReportPage() {
           </Await>
         </div>
         <div className="general-report">
-          {(eventsResource.loading || readingResource.loading) && loader}
-          {(eventsResource.error || readingResource.error) && (
-            <ErrorScreen
-              error={(eventsResource.error ?? readingResource.error) as Error}
-            />
-          )}
-          <Await value={[readingResource, eventsResource]}>
-            {([readingData, eventData]) =>
-              eventsResource.data &&
-              readingResource.data && (
-                <ReportTable
-                  events={eventsResource.data}
-                  readings={readingResource.data}
-                />
-              )
-            }
-          </Await>
+          <Await value={[readingResource, eventsResource] as const}>
+            {([readingData, eventData]) => (
+              <ReportTable events={eventData} readings={readingData} />
+            )}
+          </Await> 
         </div>
       </div>
-    </>
+    </div>
   );
 }

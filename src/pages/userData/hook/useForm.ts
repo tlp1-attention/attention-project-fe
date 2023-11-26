@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
-import { IUser } from '../interfaces/user.ts'
+import { IUser } from '@interfaces/user'
 import Swt from "sweetalert2"
 
 

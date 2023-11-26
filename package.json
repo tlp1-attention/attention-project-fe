@@ -29,6 +29,7 @@
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.15.0",
     "rollup-plugin-react-scoped-css": "^0.8.2",
+    "socket.io-client": "^4.7.2",
     "sweetalert2": "^11.7.32",
     "sweetalert2-react-content": "^5.0.7"
   },

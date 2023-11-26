@@ -14,7 +14,8 @@ export default defineConfig({
       "@services": path.resolve("src/services"),
       "@hooks": path.resolve("src/hooks"),
       "@utils": path.resolve("src/utils"),
-      "@common": path.resolve("src/common")
+      "@common": path.resolve("src/common"),
+      "@public": path.resolve("./")
     },
   },
   plugins: [

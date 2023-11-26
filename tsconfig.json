@@ -12,9 +12,10 @@
       "@pages/*": ["src/pages/*"],
       "@features/*": ["src/features/*"],
       "@services/*": ["src/services/*"],
-      "@hooks/*": ["src/hooks/*"],
+      "@hooks/*": ["src/common/hooks/*"],
       "@utils/*": ["src/utils/*"],
-      "@common/*": ["src/common/*"]
+      "@common/*": ["src/common/*"],
+      "@public/*": ["./*"]
     },
 
     /* Bundler mode */
