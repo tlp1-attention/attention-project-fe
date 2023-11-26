@@ -36,6 +36,8 @@
     border: 1px solid var(--clr-secondary-400); 
     border-radius: 0.7rem;
     z-index: -999;
+    scrollbar-width: thin;
+    scrollbar-color: var(--clr-secondary-400) transparent;
 
     --item-size: 10rem;
 }
