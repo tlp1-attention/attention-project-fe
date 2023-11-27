@@ -3,7 +3,7 @@ import { EventsHeader } from "@features/events/EventHeader";
 import { EventList } from "@features/events/EventList";
 import { EVENT_DEFAULT, FormDefaultValues } from "@features/events/constants";
 import { EventContextProvider } from "@features/events/context/EventContextProvider";
-import { NotificationContextProvider } from "@features/events/context/NotificationContext";
+import { EventNotificationProvider } from "@features/events/context/NotificationContext";
 import { useEvents } from "@features/events/hooks/useEvents";
 import { IEvent } from "@interfaces/event";
 import { useState } from "react";
@@ -40,9 +40,7 @@ export function Agenda() {
 
   return (
     <main className="color-brand-light px-3 me-3 py-0">
-      <EventsHeader 
-        onAddClick={handleOpen} 
-      />
+      <EventsHeader onAddClick={handleOpen} />
       <EventList onUpdate={handleUpdate} onDelete={id => deleteEvent(id)} />
       <EventForm
         show={formOpen}
@@ -76,10 +74,10 @@ export function Agenda() {
 
 export function EventPage() {
   return (
-    <NotificationContextProvider>
+    <EventNotificationProvider>
       <EventContextProvider>
         <Agenda />
       </EventContextProvider>
-    </NotificationContextProvider>
+    </EventNotificationProvider>
   );
 }

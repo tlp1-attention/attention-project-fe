@@ -1,12 +1,12 @@
-import { Question } from "@features/readings/quiz/Question";
+import { usePromise } from "@common/hooks/usePromise";
 import { useReadings } from "@features/readings/hooks/useReadings";
+import { Question } from "@features/readings/quiz/Question";
+import { reportResultTable } from "@features/readings/utils/reportResults";
 import { useTimer } from "@features/timer/hooks/useTimer";
 import { ErrorScreen } from "@features/ui/error-screen/ErrorScreen";
 import { Spinner } from "@features/ui/spinner/Spinner";
-import { usePromise } from "@hooks/usePromise";
 import { useCallback, useReducer, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { reportResultTable } from "@features/readings/utils/reportResults";
 
 export function ReadingQuiz() {
   const { readingId = "" } = useParams();
@@ -21,15 +21,15 @@ export function ReadingQuiz() {
   const [optionSelected, setOptionSelected] = useState(false);
   const navigate = useNavigate();
   const [seconds] = useTimer(300, async () => {
-      if (!questions) return;
-      await updateExerciseCompleted(readingId, (right > questions.length ?? 0 / 2));
+    if (!questions) return;
+    await updateExerciseCompleted(readingId, right > questions.length ?? 0 / 2);
 
-      reportResultTable({
-        right: right,
-        total: questions.length,
-        onRetry: handleRetry,
-        onBack: handleBack
-      });
+    reportResultTable({
+      right: right,
+      total: questions.length,
+      onRetry: handleRetry,
+      onBack: handleBack
+    });
   });
 
   if (loading) {
@@ -65,7 +65,7 @@ export function ReadingQuiz() {
     }
     const option = questions[questionIdx].response.find(r => r.id == optionId);
     if (!option) return;
-    if (option.correct) { 
+    if (option.correct) {
       addRight();
     }
     setTimeout(() => {

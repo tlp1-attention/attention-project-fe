@@ -7,7 +7,7 @@ export function UsersPage() {
 
     const [usersList, setUsersList] = useState([]);
 
-    let img = "https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png";
+    const defautltImg = "https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png";
 
     useEffect(() => {
         fetch('http://localhost:4000/api/users/list')
@@ -22,7 +22,7 @@ export function UsersPage() {
 
     const [user, setUser] = useState<IUser>();
 
-    const showUser = (user: IUser): any => {
+    const showUser = (user: IUser): void => {
         setUser(user);
     }
 
@@ -32,7 +32,7 @@ export function UsersPage() {
                 {
                     usersList.map((userItem, i) => {
                         const user: IUser = Object.assign({}, userItem);
-                        return <UserItem userInfo={{ ...user, image: img }} showUser={showUser} key={i} />
+                        return <UserItem userInfo={{ ...user, image: defautltImg }} showUser={showUser} key={i} />
                     })
                 }
             </div>

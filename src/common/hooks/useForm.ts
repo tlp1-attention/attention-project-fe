@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/hooks/useForm.ts
 import { useState, useEffect, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
 import { IUser } from '../interfaces/user.ts'
@@ -110,3 +111,43 @@ export const useForm = () => {
         userData,
     }
 }
+=======
+import { ChangeEventHandler, useState } from "react";
+
+type UseFormValue = [
+    inputData: Record<string, FormDataEntryValue>,
+    { 
+        handleChange: React.ChangeEventHandler,
+        resetInputs: () => void
+    }
+];
+
+export function useForm<T extends Record<string, FormDataEntryValue>>(initialValue: T): UseFormValue {
+  const [inputData, setInputData] = useState<
+    T
+  >(initialValue);
+
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (evt) => {
+    setInputData({
+      ...inputData,
+      [evt.target.name]: evt.target.value
+    })
+  };
+
+  const resetInputs = () => setInputData(previousValues => {
+    const newValue: T = {} as T;
+    for (const key of Object.keys(previousValues)) {
+      (newValue[key as keyof typeof newValue] as FormDataEntryValue) = '';
+    }
+    return newValue;
+  });
+
+  return [
+    inputData,
+    {
+      handleChange,
+      resetInputs
+    }
+  ];
+}
+>>>>>>> develop-dante-benitez-refactor:src/common/hooks/useForm.ts
