@@ -2,6 +2,7 @@ import { createContext, useState, useMemo, useEffect } from "react";
 import { getUserInfo, loginUser, registerUser } from "@services/auth/users";
 import { ValidationError } from "@interfaces/validation.error";
 import { IUser } from "@interfaces/user";
+import toast from "react-hot-toast";
 
 type AuthContextValue = {
     login: (username: string, password: string) => Promise<void>;
@@ -48,7 +49,16 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
     useEffect(() => {
         if (!token) return;
         getUserInfo(token)
-            .then(({ user }: { user: IUser }) => setUser(user));
+            .then(({ user }) => {
+                if (!user) throw user;
+                setUser({
+                    ...user,
+                    description: user.description ?? '',
+                    ocupation: user.ocupation ?? '',
+                    preferences: user.preferences ?? []
+                });
+            })
+            .catch(() => toast.error('No se pudo conseguir la información del usuario'));
     }, [token])
 
     const logout = () => {

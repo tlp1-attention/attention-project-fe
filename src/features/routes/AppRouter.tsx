@@ -74,24 +74,26 @@ const router = createBrowserRouter([
         path: "/workspace/report",
         element: <ReportPage />
       },
+      
+    ]
+  },
+  {
+    path: "/workspace/user",
+    element: <UserProfileLayout />,
+    
+    children: [
       {
-        path: "/user",
-        element: <UserProfileLayout />,
-        children: [
-          {
-            index: true,
-            path: "/user/profile",
-            element: <UserProfile />
-          },
-          {
-            path: "/user/preferences",
-            element: <PreferencesFormPage />
-          },
-          {
-            path: "/user/userData",
-            element: <UserDataFormPage />
-          }
-        ]
+        index: true,
+        path: "/workspace/user/profile",
+        element: <UserProfile />
+      },
+      {
+        path: "/workspace/user/preferences",
+        element: <PreferencesFormPage />
+      },
+      {
+        path: "/workspace/user/userData",
+        element: <UserDataFormPage />
       }
     ]
   },

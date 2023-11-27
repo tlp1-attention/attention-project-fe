@@ -38,7 +38,7 @@ const ROUTES = [
   {
     text: 'Perfil',
     icon: "user",
-    url: "/user/profile"
+    url: "/workspace/user/profile"
   }
 ];
 
