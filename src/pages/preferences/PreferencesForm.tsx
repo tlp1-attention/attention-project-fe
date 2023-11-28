@@ -1,12 +1,14 @@
 import React, { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Swt from "sweetalert2"
 import logo from "../../../public/assets/logo-2.png"
 import "./PreferencesForm.css"
 import { PreferencesAttributes } from '@interfaces/preferences'
+import { useAuth } from '@features/auth/hooks/useAuth'
+import { updateUserPreferences } from '@services/auth/users'
+import toast from 'react-hot-toast'
 
 const PreferencesForm = () => {
-
+    const { token, refetchUser } = useAuth()!;
     const navigate = useNavigate()
 
     const [preferences, setPreferences] = useState<PreferencesAttributes>({
@@ -20,55 +22,44 @@ const PreferencesForm = () => {
     const [errorsActive, setErrorsActive] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
-
-        console.log("changed")
         setPreferences((pref) => ({
             ...pref,
             [e.target.name]: e.target.value
         }))
-
-        console.log(preferences);
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-
+        if (!token) return;
         if (!errorsActive) setErrorsActive(true)
 
         if (!validateErrors) {
-            const token = localStorage.getItem("token")
-
-            fetch("http://localhost:4000/api/users/preferences", {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json",
-                    "authorization": token ?? ''
-                },
-                body: JSON.stringify(preferences),
-            })
-                .then(res => res.json())
-                .then((_res) => {
-                    Swt.fire({
-                        icon: "success",
-                        title: "Datos actualizado correctamente!"
-                    }),
-                        setTimeout(() => {
-                            navigate("/user/profile")
-                        }, 2000);
-                })
+            try {
+                await updateUserPreferences({
+                    token,
+                    preferences
+                });
+                await refetchUser();
+                toast.success('Datos actualizados correctamente');
+                setTimeout(() => {
+                    navigate('/workspace/user/profile');
+                }, 2000);
+            } catch(err) {
+                toast.error('Ocurrió un error al actualizar las preferencias.');
+            }
         }
 
     }
 
     const errors = useMemo(() => {
-        let formErrors: PreferencesAttributes = {
+        const formErrors: PreferencesAttributes = {
             subject: "",
             time_day: "",
             people: "",
             contact_type: "",
             contact: ""
         }
-        // if (!errorsActive) return formErrors;
+        if (!errorsActive) return formErrors;
         if (!preferences.subject.length) formErrors.subject = "Debes elegír una materia!"
         if (!preferences.time_day.length) formErrors.time_day = "Debes elegír un momento del día!"
         if (!preferences.people.length) formErrors.people = "Debes elegír que estas buscando!"
@@ -211,7 +202,7 @@ const PreferencesForm = () => {
                                         type="number"
                                         placeholder='000-0000-0000'
                                         className='w-100 form-control'
-                                        name='contact_type'
+                                        name='contact'
                                         autoComplete='off'
                                     />
                                 ) :

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import profile from "../../../public/assets/profileDefault.jpg"
 import "./UserProfile.css"
 import { useAuth } from '@features/auth/hooks/useAuth'
+import { FullSizeSpinner } from '@features/ui/spinner/Spinner'
 
 const UserProfile = () => {
     const { user } = useAuth()!;
@@ -12,7 +13,7 @@ const UserProfile = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container ps-5">
             {
                 user ? (
                     <div className="d-flex flex-column">
@@ -63,7 +64,7 @@ const UserProfile = () => {
                             <p id="contact">{user.preferences?.length ? `${user.preferences[0].contact_type}: ${user.preferences[0].contact}` : "No especificado!"}</p>
                         </div>
                     </div>
-                ) : <div>Cargando...</div>
+                ) : <FullSizeSpinner />
             }
 
         </div>

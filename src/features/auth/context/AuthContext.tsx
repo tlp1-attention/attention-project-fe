@@ -1,4 +1,4 @@
-import { createContext, useState, useMemo, useEffect } from "react";
+import { createContext, useState, useMemo, useEffect, useCallback } from "react";
 import { getUserInfo, loginUser, registerUser } from "@services/auth/users";
 import { ValidationError } from "@interfaces/validation.error";
 import { IUser } from "@interfaces/user";
@@ -8,6 +8,7 @@ type AuthContextValue = {
     login: (username: string, password: string) => Promise<void>;
     register: (username: string, password: string, email: string) => Promise<void>;
     logout: () => void;
+    refetchUser: () => Promise<void>;
     isAuthenticated: boolean,
     user?: IUser;
     token: string | null;
@@ -46,7 +47,9 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
         setToken(token);
     }
 
-    useEffect(() => {
+    // A function to refetch the user info
+    // after it has been updated
+    const refetchUser = useCallback(async () => {
         if (!token) return;
         getUserInfo(token)
             .then(({ user }) => {
@@ -59,13 +62,18 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
                 });
             })
             .catch(() => toast.error('No se pudo conseguir la información del usuario'));
-    }, [token])
+    }, [token]);
+
+    useEffect(() => {
+        refetchUser();
+    }, [token, refetchUser])
 
     const logout = () => {
         localStorage.removeItem('token');
         setToken(null);
         setUser(undefined);
     }
+    
 
     const isAuthenticated = useMemo(() => {
         return token != null;
@@ -78,7 +86,8 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
             isAuthenticated,
             logout,
             user,
-            token
+            token,
+            refetchUser
         }}>
             {children}
         </AuthContext.Provider>

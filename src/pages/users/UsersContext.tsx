@@ -1,24 +1,28 @@
-import { useState, useContext, createContext } from "react"
+import { useAuth } from "@features/auth/hooks/useAuth";
+import { UsePromiseResult, usePromise } from "@common/hooks/usePromise";
+import { UnauthorizedError } from "@interfaces/unauthorized.error";
+import { IUser } from "@interfaces/user";
+import { getUserList } from "@services/auth/users";
+import { useContext, createContext, ReactNode, useCallback } from "react"
 
-export const UserContext = createContext(null)
+type UserContextValue = {
+    userResource: UsePromiseResult<IUser[]>;
+}
 
-export const useUsers = () => useContext(UserContext)
+export const UserContext = createContext<UserContextValue | null>(null)
+/* eslint-disable */
+export const useUsers = () => useContext(UserContext);
 
-export const UserContextProvider = ({ children }: any) => {
-
-    const [users, setUsers] = useState([])
-
-    const loadUsers = async () => {
-        const allUsers = await fetch("", {
-
-        })
-            .then(res => res.json())
-            .catch(err => console.error(err))
-    }
+export const UserContextProvider = ({ children }: { children: ReactNode }) => {
+    const { token } = useAuth()!;
+    const userResource = usePromise(useCallback(() => {
+        if (!token) throw new UnauthorizedError('Sesión expirada');
+        return getUserList({ token });
+    }, [token]));
 
     return (
         <UserContext.Provider value={{
-            loadUsers
+            userResource
         }}>
             {children}
         </UserContext.Provider>

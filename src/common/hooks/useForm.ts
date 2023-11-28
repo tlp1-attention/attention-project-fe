@@ -7,7 +7,7 @@ import { updateUserInfo } from "@services/auth/users";
 import { ValidationError } from "@interfaces/validation.error";
 
 export const useForm = () => {
-  const { token, user } = useAuth()!;
+  const { token, user, refetchUser } = useAuth()!;
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState<IUser | undefined>(user);
@@ -38,25 +38,11 @@ export const useForm = () => {
     if (!errorsActive) setErrorsActive(true);
 
     if (!validateErrors) {
-      /*
-      fetch("http://localhost:4000/user/info", {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-          authorization: token ?? ""
-        },
-        body: JSON.stringify(userData)
-      })
-        .then(res => res.json())
-        .then(() => {
-          toast.success("Datos actualizado correctamente!");
-          setTimeout(() => {
-            navigate("/user/profile");
-          }, 2000);
-        }); */
       try {
         if (!token || !userData) return;
         await updateUserInfo({ token, userData });
+        await refetchUser();
+        toast.success("¡Datos actualizados correctamente!");
         navigate('/workspace/user/profile');
       } catch(err) {
         if (err instanceof ValidationError) {
