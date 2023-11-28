@@ -20,7 +20,7 @@ export function UserLateralList({ users, showUser }: UserLateralListProps) {
         const user: IUser = Object.assign({}, userItem);
         return (
           <UserItem
-            userInfo={{ ...user, image: defautltImg }}
+            userInfo={{ ...user, profileImage: user.profileImage ?? defautltImg }}
             showUser={showUser}
             key={i}
           />

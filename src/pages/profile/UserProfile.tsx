@@ -3,13 +3,26 @@ import profile from "../../../public/assets/profileDefault.jpg"
 import "./UserProfile.css"
 import { useAuth } from '@features/auth/hooks/useAuth'
 import { FullSizeSpinner } from '@features/ui/spinner/Spinner'
+import { FormEvent } from 'react'
+import { updateUserProfilePicture } from '@services/auth/users'
 
 const UserProfile = () => {
-    const { user } = useAuth()!;
+    const { user, token, refetchUser } = useAuth()!;
     const navigate = useNavigate()
 
     const handleClick = (route: string) => {
         navigate("/workspace/user" + route)
+    }
+
+    const handlePictureSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!e.currentTarget || !token) return;
+        const formData = new FormData(e.currentTarget as HTMLFormElement);
+        await updateUserProfilePicture({
+            picture: formData,
+            token
+        });
+        refetchUser();
     }
 
     return (
@@ -18,7 +31,13 @@ const UserProfile = () => {
                 user ? (
                     <div className="d-flex flex-column">
                         <div className="d-flex align-items-center w-100">
-                            <img src={profile} className="profile rounded-circle mt-4 mb-4 ms-5" alt="foto" />
+                            <div>
+                                <img src={user.profileImage || profile} className="profile rounded-circle mt-4 mb-4 ms-5" alt="foto" />
+                                <form className="mb-3" onChange={handlePictureSubmit}>
+                                    <label htmlFor="formFile" className="form-label visually-hidden">Modificar foto de perfil: </label>
+                                    <input className="form-control" type="file" id="formFile" name="profileImage" accept="image/png, image/jpeg" />
+                                </form>
+                            </div>
                             <div className="ms-5 mt-5 text-color">
                                 <h2 className="fw-bold purple mb-3" id="name">{user.name}</h2>
                                 <h4 id="description">{user.ocupation}</h4>

@@ -122,6 +122,40 @@ export async function updateUserInfo({
   }
 }
 
+type UpdateUserProfilePictureParams = {
+  token: string;
+  picture: FormData;
+};
+
+export async function updateUserProfilePicture({
+  token,
+  picture
+}: UpdateUserProfilePictureParams): Promise<{ user: IUser | null }> {
+  try {
+    const response = await request.put("/api/users", picture, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: token
+      }
+    });
+
+    return response.data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const { response } = err;
+      if (response?.status == 400) {
+        const { errors } = response.data;
+        throw errors.map(
+          ({ msg }: { msg: string }) => new ValidationError(msg)
+        )[0];
+      }
+      throw new ValidationError(err.response?.data.message);
+    }
+    return { user: null };
+  }
+}
+
+
 type UpdateUserPreferences = {
   token: string;
   preferences: PreferencesAttributes;

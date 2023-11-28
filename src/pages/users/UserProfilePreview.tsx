@@ -4,9 +4,9 @@ import { ContactItem } from "./ContactItem";
 export function UserProfilePreview({ user }: { user?: IUser }) {
   return (
     <div className="user w-100 d-flex align-items-center justify-content-center p-3">
-      {user !== undefined && user.image !== undefined ? (
+      {user !== undefined && user.profileImage !== undefined ? (
         <div className="col-3 col-sm-3 col-lg-3 align-self-start">
-          <img src={user.image} className="img-fluid w-75 m-3" />
+          <img src={user.profileImage} className="img-fluid w-75 m-3" />
         </div>
       ) : null}
       {user !== undefined && user.name !== undefined ? (

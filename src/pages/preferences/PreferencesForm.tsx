@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react';
 import logo from "../../../public/assets/logo-2.png"
 import "./PreferencesForm.css"
 import { PreferencesAttributes } from '@interfaces/preferences'
@@ -8,7 +9,7 @@ import { updateUserPreferences } from '@services/auth/users'
 import toast from 'react-hot-toast'
 
 const PreferencesForm = () => {
-    const { token, refetchUser } = useAuth()!;
+    const { token, refetchUser, user } = useAuth()!;
     const navigate = useNavigate()
 
     const [preferences, setPreferences] = useState<PreferencesAttributes>({
@@ -18,6 +19,11 @@ const PreferencesForm = () => {
         contact_type: "",
         contact: ""
     })
+
+    useEffect(() => {
+        if (!user?.preferences?.length) return;
+        setPreferences(user?.preferences[0]);
+    }, [user?.preferences]);
 
     const [errorsActive, setErrorsActive] = useState(false)
 
