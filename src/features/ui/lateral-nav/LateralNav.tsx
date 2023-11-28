@@ -13,27 +13,32 @@ const ROUTES = [
   {
     text: "Lectura",
     icon: "book",
-    url: "./readings",
+    url: "/workspace/readings",
   },
   {
     text: "Temporizador",
     icon: "clock",
-    url: "./timer",
+    url: "/workspace/timer",
   },
   {
     text: 'Eventos',
     icon: 'calendar',
-    url: './events'
+    url: '/workspace/events'
   },
   {
     text: "Espacio colaborativo",
     icon: "columns",
-    url: "/colaboration",
+    url: "/workspace/colaboration",
   },
   {
     text: 'Reportes',
     icon: "columns",
-    url: "./report"
+    url: "/workspace/report"
+  },
+  {
+    text: 'Perfil',
+    icon: "user",
+    url: "/workspace/user/profile"
   }
 ];
 
@@ -48,9 +53,8 @@ export function LateralNav() {
           <BrandLogoSmall className="m-4 d-block" onClick={toggle} />
         </button>
         <nav
-          className={`position-fixed left-0 min-vh-100 z-3 ${
-            isOpen ? "open" : ""
-          }`}
+          className={`position-fixed left-0 min-vh-100 z-3 ${isOpen ? "open" : ""
+            }`}
           onClick={toggle}
         >
           <ul className="list-unstyled slide-button">
@@ -65,7 +69,7 @@ export function LateralNav() {
               </button>
             </li>
             {ROUTES.map(({ text, icon, url }) => {
-              return <SlideButton text={text} icon={icon} to={url} key={url}/>;
+              return <SlideButton text={text} icon={icon} to={url} key={url} />;
             })}
             <li>
               <LogOut logout={logout} />

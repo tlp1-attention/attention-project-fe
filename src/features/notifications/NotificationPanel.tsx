@@ -38,7 +38,7 @@ export function NotificationPanel() {
 
   useEffect(() => {
     socket?.on("new-notification", (notification: INotification) => {
-      setNotifications(notifications => [...notifications, notification]);
+      setNotifications(notifications => [notification, ...notifications]);
     });
     return () => {
       socket?.off("new-notification");

@@ -9,7 +9,7 @@ export default function WorkspaceLayout() {
         <PrivateRoute>
             <div className="workspace-layout">
                 <LateralNav />
-                <Outlet />
+                    <Outlet />
                 <Footer />
             </div>
             <NotificationPanel />

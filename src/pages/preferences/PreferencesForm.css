@@ -1,0 +1,25 @@
+.fs-1 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+    font-size: calc(1.375rem + 2.5vh) !important;
+    font-weight: 500 !important;
+}
+
+.text-color {
+    color: #36498C
+}
+
+label {
+    font-size: 1.2rem;
+}
+
+.logo-with-text img {
+    max-width: 25rem;
+}
+
+.logo-with-text span {
+    font-size: 5rem;
+}
+
+.logo-with-text img {
+    max-width: 25rem;
+}

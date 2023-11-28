@@ -1,0 +1,24 @@
+.users-container {
+  min-height: 85vh;
+  display: flex;
+}
+
+.user {
+  min-height: 100%;
+  
+}
+
+.user-list {
+  min-height: 100%;
+  width: 30vw;
+}
+
+@media (max-width: 768px) {
+  .user {
+    width: 100vw;
+  }
+  .user-list {
+    width: 100%;
+    
+  }
+}

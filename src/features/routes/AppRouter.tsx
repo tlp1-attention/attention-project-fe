@@ -13,8 +13,13 @@ import { ReadingQuizPage } from "@pages/workspace/ReadingQuizPage";
 import { ReportPage } from "@pages/workspace/ReportPage";
 import { TimerPage } from "@pages/workspace/TimerPage";
 import { Toaster } from "@features/ui/toaster/Toaster";
-import { StrictMode } from 'react';
+import { StrictMode } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import UserProfile from "@pages/profile/UserProfile";
+import UserDataFormPage from "@pages/userData/UserDataForm";
+import UserProfileLayout from "@pages/layouts/UserProfileLayout";
+import PreferencesFormPage from "@pages/PreferenceFormPage/PreferencesFormPage";
+import { UsersPage } from "@pages/users/UsersPage";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +59,10 @@ const router = createBrowserRouter([
         element: <ReadingListPage />
       },
       {
+        path: "/workspace/colaboration/:userId?",
+        element: <UsersPage />
+      },
+      {
         path: "/workspace/readings/:readingId",
         element: <ReadingPage />
       },
@@ -64,6 +73,27 @@ const router = createBrowserRouter([
       {
         path: "/workspace/report",
         element: <ReportPage />
+      },
+      
+    ]
+  },
+  {
+    path: "/workspace/user",
+    element: <UserProfileLayout />,
+    
+    children: [
+      {
+        index: true,
+        path: "/workspace/user/profile",
+        element: <UserProfile />
+      },
+      {
+        path: "/workspace/user/preferences",
+        element: <PreferencesFormPage />
+      },
+      {
+        path: "/workspace/user/userData",
+        element: <UserDataFormPage />
       }
     ]
   },
