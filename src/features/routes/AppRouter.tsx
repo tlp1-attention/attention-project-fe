@@ -59,7 +59,7 @@ const router = createBrowserRouter([
         element: <ReadingListPage />
       },
       {
-        path: "/workspace/colaboration",
+        path: "/workspace/colaboration/:userId?",
         element: <UsersPage />
       },
       {

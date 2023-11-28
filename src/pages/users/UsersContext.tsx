@@ -15,9 +15,11 @@ export const useUsers = () => useContext(UserContext);
 
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     const { token } = useAuth()!;
-    const userResource = usePromise(useCallback(() => {
+    const userResource = usePromise(useCallback(async () => {
         if (!token) throw new UnauthorizedError('Sesión expirada');
-        return getUserList({ token });
+        const users = await getUserList({ token });
+        console.log(users);
+        return users;
     }, [token]));
 
     return (
