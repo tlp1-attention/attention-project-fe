@@ -2,9 +2,10 @@ import { Await } from "@common/components/Await";
 import { IUser } from "@interfaces/user";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserLateralList } from "./UserLateralList";
-import { UserProfilePreview } from "./UserProfilePreview";
 import { UserContextProvider, useUsers } from "./UsersContext";
 import "./users.css";
+import { UserProfilePreview } from "./UserProfilePreview";
+import { FullSizeSpinner } from "@features/ui/spinner/Spinner";
 
 export function UsersList() {
   const { userResource } = useUsers()!;
@@ -16,7 +17,11 @@ export function UsersList() {
   };
 
   return (
-    <Await value={userResource}>
+    <Await value={userResource} loading={
+      <div className="vh-100">
+        <FullSizeSpinner />
+      </div>
+    }>
       {usersList => {
         const currentId = userId ?? null;
         const currentUser = usersList.find(
