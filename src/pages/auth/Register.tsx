@@ -1,5 +1,6 @@
 import { RegisterForm } from "@features/auth/RegisterForm";
 import { GoogleSignIn } from "@features/federated/GoogleSignIn";
+import { BackLink } from "@features/ui/links/BackLink";
 
 export function Register() {
   return (
@@ -12,9 +13,12 @@ export function Register() {
             className="form-img"
           />
           <section className="py-3 px-3 px-md-5 w-100 d-flex flex-column">
-            <h1 className="login-text display-1 fw-bold pe-auto align-self-baseline">
-              Registro de usuario
-            </h1>
+            <div className="d-flex align-items-center justify-content-between">
+                <h1 className="login-text display-1 fw-bold pe-auto align-self-baseline">
+                    Registro de usuario
+                </h1>
+                <BackLink />
+            </div>
             <RegisterForm />
             <hr />
             <GoogleSignIn />
