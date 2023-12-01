@@ -20,6 +20,7 @@ import UserDataFormPage from "@pages/userData/UserDataForm";
 import UserProfileLayout from "@pages/layouts/UserProfileLayout";
 import PreferencesFormPage from "@pages/PreferenceFormPage/PreferencesFormPage";
 import { UsersPage } from "@pages/users/UsersPage";
+import { FederatedAuthProvider } from "@features/federated/FederatedAuthProvider";
 
 const router = createBrowserRouter([
   {
@@ -29,17 +30,17 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />
-      }
-    ]
+        element: <HomePage />,
+      },
+    ],
   },
   {
     path: "/login",
-    element: <LoginPage />
+    element: <LoginPage />,
   },
   {
     path: "/register",
-    element: <Register />
+    element: <Register />,
   },
   {
     path: "/workspace",
@@ -48,69 +49,70 @@ const router = createBrowserRouter([
       {
         index: true,
         path: "/workspace/timer",
-        element: <TimerPage />
+        element: <TimerPage />,
       },
       {
         path: "/workspace/events",
-        element: <EventPage />
+        element: <EventPage />,
       },
       {
         path: "/workspace/readings",
-        element: <ReadingListPage />
+        element: <ReadingListPage />,
       },
       {
         path: "/workspace/colaboration/:userId?",
-        element: <UsersPage />
+        element: <UsersPage />,
       },
       {
         path: "/workspace/readings/:readingId",
-        element: <ReadingPage />
+        element: <ReadingPage />,
       },
       {
         path: "/workspace/readings/:readingId/quiz",
-        element: <ReadingQuizPage />
+        element: <ReadingQuizPage />,
       },
       {
         path: "/workspace/report",
-        element: <ReportPage />
+        element: <ReportPage />,
       },
-      
-    ]
+    ],
   },
   {
     path: "/workspace/user",
     element: <UserProfileLayout />,
-    
+
     children: [
       {
         index: true,
         path: "/workspace/user/profile",
-        element: <UserProfile />
+        element: <UserProfile />,
       },
       {
         path: "/workspace/user/preferences",
-        element: <PreferencesFormPage />
+        element: <PreferencesFormPage />,
       },
       {
         path: "/workspace/user/userData",
-        element: <UserDataFormPage />
-      }
-    ]
+        element: <UserDataFormPage />,
+      },
+    ],
   },
   {
     path: "*",
-    element: <NotFoundPage />
-  }
+    element: <NotFoundPage />,
+  },
 ]);
 
 export function AppRouter() {
   return (
     <StrictMode>
       <AuthContextProvider>
-        <SocketProvider>
-          <Toaster />
-          <RouterProvider router={router} />;
-        </SocketProvider>
+        <FederatedAuthProvider>
+          <SocketProvider>
+            <Toaster />
+            <RouterProvider router={router} />;
+          </SocketProvider>
+        </FederatedAuthProvider>
       </AuthContextProvider>
     </StrictMode>
   );

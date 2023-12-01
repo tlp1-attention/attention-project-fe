@@ -1,0 +1,20 @@
+.sign-in-button {
+    background-color: var(--clr-secondary-200);
+    border: none;
+    border-radius: 0;
+    outline: none !important;
+}
+
+.sign-in-button:hover {
+    outline: none;
+    background-color: var(--clr-accent-400);
+    color: var(--clr-secondary-200);
+}
+
+.sign-in-button:hover i {
+    color: var(--clr-secondary-200);
+}
+
+.sign-in-button:hover span {
+    color: var(--clr-secondary-200);
+}

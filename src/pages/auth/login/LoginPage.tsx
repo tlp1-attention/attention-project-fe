@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
 import { LoginForm } from "@features/auth/LoginForm";
 import "./Login.css";
 import "../Register.css";
+import { GoogleSignIn } from "@features/federated/GoogleSignIn";
 
 export default function LoginPage() {
 
@@ -13,21 +13,13 @@ export default function LoginPage() {
           alt=""
           className="img-fluid form-img"
         />
-        <section className="mx-3 my-3 max-w-50 d-flex justify-content-center align-items-center flex-column ">
+        <section className="mx-3 my-3 w-100 d-flex justify-content-center align-items-center flex-column">
           <h1 className="login-text display-1 fw-bold align-self-baseline">
             Inicio de sesión
           </h1>
           <LoginForm />
-          <Link
-            to="/"
-            className="border-3 border-top mt-4 d-flex justify-content-center gap-3 align-items-center"
-          >
-            <img
-              src="/assets/logo-2.png"
-              className="max-w-50 my-auto"
-              alt="Logo Attention"
-            />
-          </Link>
+          <hr className="p-1 border border-1" />
+          <GoogleSignIn />
         </section>
       </article>
     </main>
