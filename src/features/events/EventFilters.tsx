@@ -10,11 +10,21 @@ export function EventFilters() {
   // select inputs
   useEffect(() => {
     const { filter, order } = criteria;
-    if (!filter && !order) return setSearchParams(new URLSearchParams(""));
+    if (!filter && !order) { 
+      const newParams = new URLSearchParams(params);
+      newParams.delete("filter");
+      newParams.delete("order");
+      return setSearchParams(newParams);
+    }
     const urlSearchParams = new URLSearchParams(`${filter}&${order}`);
-
+    // Append all the other params
+    for (const [key, value] of params) {
+      if (key !== "filter" && key !== "order") {
+        urlSearchParams.set(key, value);
+      }
+    }
     setSearchParams(urlSearchParams);
-  }, [criteria, setSearchParams]);
+  }, [criteria, setSearchParams, params]);
 
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

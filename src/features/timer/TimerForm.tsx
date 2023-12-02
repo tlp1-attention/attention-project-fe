@@ -36,6 +36,7 @@ export function TimerForm({ show, close, onSubmit }: TimerFormProps) {
             <Modal.Body
               as="form"
               className="bg-white shadow modal-body p-3 fs-2"
+              // @ts-expect-error The element is a form because of the "as" attribute.
               onSubmit={handleSubmit}
             >
               <label htmlFor="total-time" className="form-label">
