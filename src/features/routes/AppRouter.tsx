@@ -20,6 +20,8 @@ import UserProfile from "@pages/profile/UserProfile";
 import PreferencesFormPage from "@pages/PreferenceFormPage/PreferencesFormPage";
 import UserDataFormPage from "@pages/formPage/UserDataFormPage";
 import { UsersPage } from "@pages/users/UsersPage";
+import MemoTest from "@pages/memoTest/MemoTest";
+import { MemoTestProvider } from "@pages/memoTest/context/MemoTestContext";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +71,10 @@ const router = createBrowserRouter([
       {
         path: "/workspace/readings/:readingId/quiz",
         element: <ReadingQuizPage />
+      },
+      {
+        path: "/workspace/memoTest",
+        element: <MemoTestProvider><MemoTest /></MemoTestProvider>
       },
       {
         path: "/workspace/report",
