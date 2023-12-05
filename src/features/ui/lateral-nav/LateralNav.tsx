@@ -16,6 +16,11 @@ const ROUTES = [
     url: "/workspace/readings",
   },
   {
+    text: "Memorama",
+    icon: "lightbulb",
+    url: "/workspace/memoTest",
+  },
+  {
     text: "Temporizador",
     icon: "clock",
     url: "/workspace/timer",

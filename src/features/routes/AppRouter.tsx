@@ -21,6 +21,8 @@ import UserProfileLayout from "@pages/layouts/UserProfileLayout";
 import PreferencesFormPage from "@pages/PreferenceFormPage/PreferencesFormPage";
 import { UsersPage } from "@pages/users/UsersPage";
 import { FederatedAuthProvider } from "@features/federated/FederatedAuthProvider";
+import { MemoTestProvider } from "@pages/memoTest/context/MemoTestContext";
+import MemoTest from "@pages/memoTest/MemoTest";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +58,10 @@ const router = createBrowserRouter([
         element: <EventPage />,
       },
       {
+        path: "/workspace/colaboration",
+        element: <UsersPage />,
+      },
+      {
         path: "/workspace/readings",
         element: <ReadingListPage />,
       },
@@ -70,6 +76,14 @@ const router = createBrowserRouter([
       {
         path: "/workspace/readings/:readingId/quiz",
         element: <ReadingQuizPage />,
+      },
+      {
+        path: "/workspace/memoTest",
+        element: (
+          <MemoTestProvider>
+            <MemoTest />
+          </MemoTestProvider>
+        ),
       },
       {
         path: "/workspace/report",
@@ -93,6 +107,25 @@ const router = createBrowserRouter([
       },
       {
         path: "/workspace/user/userData",
+        element: <UserDataFormPage />,
+      },
+    ],
+  },
+  {
+    path: "/user",
+    element: <UserProfileLayout />,
+    children: [
+      {
+        index: true,
+        path: "/user/profile",
+        element: <UserProfile />,
+      },
+      {
+        path: "/user/preferences",
+        element: <PreferencesFormPage />,
+      },
+      {
+        path: "/user/userData",
         element: <UserDataFormPage />,
       },
     ],
