@@ -36,6 +36,9 @@ export function TimerForm({ show, close, onSubmit }: TimerFormProps) {
             <Modal.Body
               as="form"
               className="bg-white shadow modal-body p-3 fs-2"
+              // @ts-expect-error Modal.Body is a form element by the 'as' prop
+              // so the correct type for onSubmit is React.FormEventHandler<HTMLFormElement>
+              // which matches handleSubmit's type
               onSubmit={handleSubmit}
             >
               <label htmlFor="total-time" className="form-label">
