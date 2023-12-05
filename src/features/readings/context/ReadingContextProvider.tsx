@@ -11,6 +11,7 @@ import {
 } from "@services/readings";
 import React, { createContext, useCallback } from "react";
 import toast from "react-hot-toast";
+import { useSearchParams } from "react-router-dom";
 
 export type ReadingContextValue = {
   readings: UsePromiseResult<IReading[], ValidationError>;
@@ -26,11 +27,14 @@ export function ReadingContextProvider({
   children: React.ReactNode;
 }) {
   const { token } = useAuth()!;
+  const [params] = useSearchParams();
 
   const getReadings = useCallback(async () => {
     if (!token) return [];
     try {
-      const { readings } = await getAllReadings({ token });
+      // Get the query string from the search params
+      const query = params.get('q') ?? '';
+      const { readings } = await getAllReadings({ token, query });
       return readings;
     } catch (err) {
       if (err instanceof ValidationError) {
@@ -40,7 +44,7 @@ export function ReadingContextProvider({
         throw err;
       }
     }
-  }, [token]);
+  }, [token, params]);
 
   const readings = usePromise<IReading[], ValidationError>(getReadings);
 

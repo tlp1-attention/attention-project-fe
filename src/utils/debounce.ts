@@ -1,4 +1,4 @@
-export function debounce<A, T extends (...args: A[]) => void>(func: T, secs: number) {
+export function debounce<A>(func: (...args: A[]) => void, secs: number) {
     let stop = false;
     return (...args: A[]) => {
         if (!stop) func(...args);

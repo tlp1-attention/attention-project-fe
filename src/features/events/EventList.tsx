@@ -3,10 +3,11 @@ import "./EventList.css";
 import { useEvents } from "./hooks/useEvents";
 import { Spinner } from "@features/ui/spinner/Spinner";
 import { ErrorScreen } from "@features/ui/error-screen/ErrorScreen";
+import { PageSelect } from "./PageSelect";
 
 export function EventList({
   onUpdate,
-  onDelete
+  onDelete,
 }: {
   onUpdate: (id: number) => void;
   onDelete: (id: number) => void;
@@ -22,22 +23,26 @@ export function EventList({
   if (!events || error) return <ErrorScreen error={error as Error} />;
 
   return (
-    <article className="px-3 py-0 w-100">
-      {events.length == 0 ? (
-        <p className="display-5 text-center mt-5">
-          No se han encontrado eventos para el usuario
-        </p>
-      ) : (
-        events.map(evt => (
-          <EventElement
-            event={evt}
-            key={evt.id}
-            onUpdate={onUpdate}
-            onDelete={onDelete}
-          />
-        ))
-      )}
-    </article>
+    <>
+      <PageSelect />
+      <article className="px-3 py-0 w-100 min-vh-100">
+        {events.length == 0 ? (
+          <p className="display-5 text-center mt-5">
+            No se han encontrado eventos para el usuario
+          </p>
+        ) : (
+          events.map((evt) => (
+            <EventElement
+              event={evt}
+              key={evt.id}
+              onUpdate={onUpdate}
+              onDelete={onDelete}
+            />
+          ))
+        )}
+      </article>
+      <PageSelect />
+    </>
   );
 }
 
@@ -53,13 +58,13 @@ const MONTHS = [
   "Septiembre",
   "Octubre",
   "Noviembre",
-  "Diciembre"
+  "Diciembre",
 ];
 
 function EventElement({
   event,
   onUpdate,
-  onDelete
+  onDelete,
 }: {
   event: IEvent;
   onUpdate: (id: number) => void;
@@ -110,7 +115,7 @@ function ActionIcon({ icon, text, className, onClick }: ActionIconProps) {
 
 const EVENT_COLORS = {
   1: "var(--clr-green-400)",
-  2: "var(--clr-red-600)"
+  2: "var(--clr-red-600)",
 };
 
 type EventDateProps = {
@@ -124,7 +129,7 @@ function EventDate({ startDate, typeId }: EventDateProps) {
     <div
       className="event-date flex-shrink-0"
       style={{
-        backgroundColor: EVENT_COLORS[typeId]
+        backgroundColor: EVENT_COLORS[typeId],
       }}
     >
       <span className="event-month">

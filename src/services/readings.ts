@@ -6,13 +6,17 @@ import { IQuestion } from "@interfaces/question";
 
 type GetAllReadingsParams = {
   token: string;
+  query?: string;
 };
 
 export async function getAllReadings({
-  token
+  token,
+  query = ""
 }: GetAllReadingsParams): Promise<{ readings: IReading[] }> {
   try {
-    const response = await request.get("/api/exercises/readings", {
+    const searchParams = new URLSearchParams();
+    searchParams.append("q", query);
+    const response = await request.get(`/api/exercises/readings?${searchParams.toString()}`, {
       headers: {
         Authorization: token
       }

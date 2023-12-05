@@ -3,9 +3,11 @@ import { getUserInfo, loginUser, registerUser } from "@services/auth/users";
 import { ValidationError } from "@interfaces/validation.error";
 import { IUser } from "@interfaces/user";
 import toast from "react-hot-toast";
+import { loginWithGoogle } from "@services/auth/federated";
 
 type AuthContextValue = {
     login: (username: string, password: string) => Promise<void>;
+    googleLogin: (code: string) => Promise<void>;
     register: (username: string, password: string, email: string) => Promise<void>;
     logout: () => void;
     refetchUser: () => Promise<void>;
@@ -30,6 +32,16 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
         if (!token) {
             throw new ValidationError("¡Token no encontrado!");
         }
+        setToken(token);
+    }
+
+    const googleLogin = async (code: string) => {
+        const loginData = await loginWithGoogle({ code });
+        const { token, message } = loginData;
+        if (!token) {
+            throw new ValidationError("¡Token no encontrado!");
+        }
+        toast.success(message);
         setToken(token);
     }
 
@@ -86,6 +98,7 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
             isAuthenticated,
             logout,
             user,
+            googleLogin,
             token,
             refetchUser
         }}>

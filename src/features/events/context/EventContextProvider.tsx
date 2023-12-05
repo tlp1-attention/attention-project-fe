@@ -6,16 +6,22 @@ import {
   createEventForUser,
   deleteEventForUser,
   getEventsForUser,
-  updateEventForUser
+  updateEventForUser,
 } from "@services/events";
 import { PropsWithChildren, createContext, useCallback } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 
+type EventResult = {
+  events: IEvent[];
+  count: number;
+};
+
 type EventContextValue = {
-  events?: UsePromiseResult<IEvent[], Error>["data"];
-  error: UsePromiseResult<IEvent[], Error>["error"];
-  loading: UsePromiseResult<IEvent[], Error>["loading"];
+  events: EventResult["events"] | undefined;
+  count: EventResult["count"] | undefined;
+  error: UsePromiseResult<EventResult, Error>["error"];
+  loading: UsePromiseResult<EventResult, Error>["loading"];
   addEvent: (event: IEvent) => Promise<void>;
   deleteEvent: (eventId: number) => Promise<void>;
   updateEvent: (eventId: number, event: IEvent) => Promise<void>;
@@ -33,18 +39,21 @@ export function EventContextProvider({ children }: PropsWithChildren<unknown>) {
     try {
       const result = await getEventsForUser({
         token,
-        params
+        params,
       });
 
-      const { events } = result;
+      const { events, count } = result;
 
-      return events.map((event: IEvent) => {
-        return {
-          ...event,
-          startDate: new Date(event.startDate),
-          endDate: new Date(event.endDate)
-        };
-      });
+      return {
+        events: events.map((event: IEvent) => {
+          return {
+            ...event,
+            startDate: new Date(event.startDate),
+            endDate: new Date(event.endDate),
+          };
+        }),
+        count,
+      };
     } catch (err) {
       console.error(err);
       if (err instanceof ValidationError) {
@@ -60,7 +69,7 @@ export function EventContextProvider({ children }: PropsWithChildren<unknown>) {
     try {
       const result = await createEventForUser({
         token,
-        event
+        event,
       });
 
       if (result.message) {
@@ -81,7 +90,7 @@ export function EventContextProvider({ children }: PropsWithChildren<unknown>) {
     try {
       const result = await deleteEventForUser({
         token,
-        eventId
+        eventId,
       });
 
       if (result.message) {
@@ -103,7 +112,7 @@ export function EventContextProvider({ children }: PropsWithChildren<unknown>) {
       const result = await updateEventForUser({
         token,
         eventId,
-        event
+        event,
       });
 
       if (result.message) {
@@ -122,13 +131,14 @@ export function EventContextProvider({ children }: PropsWithChildren<unknown>) {
   return (
     <EventContext.Provider
       value={{
-        events,
+        events: events?.events,
+        count: events?.count,
         error,
         loading,
         getEvents,
         addEvent,
         updateEvent,
-        deleteEvent
+        deleteEvent,
       }}
     >
       {children}

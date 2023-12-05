@@ -3,8 +3,6 @@ import { request } from "./setup";
 import { ValidationError } from "@interfaces/validation.error";
 import { IEvent, IEventByWeek } from "@interfaces/event";
 
-// const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
 type GetEventParams = {
   token: string;
   params: URLSearchParams;
@@ -13,7 +11,7 @@ type GetEventParams = {
 export async function getEventsForUser({
   token,
   params
-}: GetEventParams): Promise<{ events: IEvent[] }> {
+}: GetEventParams): Promise<{ events: IEvent[], count: number }> {
   try {
     const response = await request.get(`/api/events?${params.toString()}`, {
       headers: {
@@ -33,13 +31,14 @@ export async function getEventsForUser({
         )[0];
       } else if (response?.status == 404) {
         return {
-          events: []
+          events: [],
+          count: 0
         };
       }
       throw new ValidationError(err.response?.data.message);
     }
     console.error(err);
-    return { events: [] };
+    return { events: [], count: 0 };
   }
 }
 
