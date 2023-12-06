@@ -8,7 +8,7 @@ export const useForm = () => {
 
     const navigate = useNavigate()
 
-    const [userData, setUserData] = useState<IUser>({
+    const [userData, setUserData] = useState<Omit<IUser, "id">>({
         name: "",
         ocupation: "",
         email: "",
@@ -68,7 +68,7 @@ export const useForm = () => {
                 body: JSON.stringify(userData),
             })
                 .then(res => res.json())
-                .then((_res) => {
+                .then(() => {
                     Swt.fire({
                         icon: "success",
                         title: "Datos actualizado correctamente!"
@@ -82,7 +82,7 @@ export const useForm = () => {
     }
 
     const errors = useMemo(() => {
-        let formErrors = {
+        const formErrors = {
             name: "",
             ocupation: "",
             email: "",
@@ -96,7 +96,7 @@ export const useForm = () => {
         else if (!regExp.email.test(userData.email)) formErrors.email = "Debe ser un email valido!"
 
         return formErrors;
-    }, [userData, errorsActive])
+    }, [userData, regExp.email])
 
     const validateErrors = useMemo(() => {
         return Object.values(errors).some(error => error.length > 0);

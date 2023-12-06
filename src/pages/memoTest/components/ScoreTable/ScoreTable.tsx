@@ -6,10 +6,9 @@ const ScoreTable = () => {
 
     const {
         timer,
-        handleClick
     } = useTimer(45)
 
-    const memoTestContext = useMemoTestContext()
+    const memoTestContext = useMemoTestContext();
 
     if (!memoTestContext) {
         throw new Error("El contexto es nulo. Asegúrate de estar utilizando useMemoTestContext dentro de un MemoTestContextProvider")
@@ -27,7 +26,6 @@ const ScoreTable = () => {
                 <div className={`d-flex flex-column align-items-center mt-3 ${style.scoreTableContent}`}>
                     <p>Tiempo: </p>
                     <p>{timer}</p>
-                    <button className='btn btn-primary' onClick={handleClick}>Empezar</button>
                 </div>
                 <div className={`vr ${style.verticalLine}`}/>
                 <div className={`d-flex flex-column align-items-center mt-3 ${style.scoreTableContent}`}>

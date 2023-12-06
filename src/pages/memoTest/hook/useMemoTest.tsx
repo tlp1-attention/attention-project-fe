@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useMemoTestContext } from "../context/MemoTestContext";
 import { MemoBlockType } from "../Types";
+import { Alert } from "@features/ui/alert/Alert";
 
 export const useMemoTest = (emojis: string) => {
   const [shuffledMemoBlocks, setShuffledMemoBlocks] = useState<MemoBlockType[]>(
@@ -85,7 +86,7 @@ export const useMemoTest = (emojis: string) => {
           setMemoComplete(currentMemoComplete);
           setRunTime(false);
           setTimeout(() => {
-            alert("Fin del juego");
+            Alert.fire("Fin del juego");
           }, 600);
         }
       }, 500);

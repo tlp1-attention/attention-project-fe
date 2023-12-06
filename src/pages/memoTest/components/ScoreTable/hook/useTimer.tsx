@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useMemoTestContext } from '../../../context/MemoTestContext'
+import { Alert } from '@features/ui/alert/Alert'
 
 export const useTimer = (initialTime: number) => {
 
@@ -21,8 +22,10 @@ export const useTimer = (initialTime: number) => {
 
         if (runTime === false && timer === 0) {
             setTimeout(() => {
-                alert("Se ha terminado el tiempo!")
-                window.location.reload()
+                Alert.fire("Se ha terminado el tiempo!");
+                setTimeout(() => 
+                    window.location.reload()
+                , 1000);
             }, 1000)
         }
         
@@ -34,7 +37,7 @@ export const useTimer = (initialTime: number) => {
                     }
                     return prevSeconds - 1
                 })
-            }, 1000)
+            }, 1000);
         }
         if (timer === 0) {
             setRunTime(false)
