@@ -12,14 +12,17 @@ export function EventFilters() {
     const { filter, order } = criteria;
     if (!filter && !order) { 
       const newParams = new URLSearchParams(params);
-      newParams.delete("filter");
-      newParams.delete("order");
+      for (const [key] of params) {
+        if (key.startsWith("filter") || key.startsWith("order")) {
+          newParams.delete(key);
+        }
+      }
       return setSearchParams(newParams);
     }
     const urlSearchParams = new URLSearchParams(`${filter}&${order}`);
     // Append all the other params
     for (const [key, value] of params) {
-      if (key !== "filter" && key !== "order") {
+      if (!key.startsWith("filter") && !key.startsWith("order")) {
         urlSearchParams.set(key, value);
       }
     }
@@ -45,7 +48,7 @@ export function EventFilters() {
         value={criteria.currentFilter}
         onChange={handleSelectChange}
       >
-        <option value="" selected>
+        <option value={QUERY_ACTIONS.RESET_FILTER} selected>
           Filtrar
         </option>
         <option value={QUERY_ACTIONS.FILTER_FUTURE}>Fechas futuras</option>

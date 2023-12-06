@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 import { MemoTestContextProps } from "../Types";
 
 export const MemoTestContext = createContext<MemoTestContextProps | null>(null)
-
+// eslint-disable-next-line react-refresh/only-export-components
 export const useMemoTestContext = (): MemoTestContextProps | null => useContext(MemoTestContext)
 
 interface MemoTestProviderProps {

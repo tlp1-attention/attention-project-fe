@@ -1,6 +1,7 @@
 import qs from "qs";
 
 export const QUERY_ACTIONS = {
+  RESET_FILTER: "query:reset-filter",
   FILTER_FUTURE: "query:filter-future",
   FILTER_IMPORTANT: "query:filter-important",
   FILTER_UNIMPORTANT: "query:filter-unimportant",
@@ -111,6 +112,14 @@ export function filterReducer(state: QueryParams, action: QueryAction): QueryPar
         order: "orderField=typeId&orderType=asc",
         currentOrder: action.type
       };
+    case QUERY_ACTIONS.RESET_FILTER:
+      return {
+        ...state,
+        filter: "",
+        order: "",
+        currentFilter: "",
+        currentOrder: ""
+      }
     default:
       return state;
   }

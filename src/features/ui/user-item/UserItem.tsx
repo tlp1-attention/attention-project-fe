@@ -1,4 +1,3 @@
-import defaultProfile from "../../../../public/assets/profileDefault.jpg"
 import { IUser } from "@interfaces/user";
 import './user-item.css';
 
@@ -13,7 +12,7 @@ export function UserItem(
     return (
         <button className="user-item d-flex align-items-center my-2 userbtn" onClick={() => showUser({ id, name, email: "", description, preferences, ocupation, problem, profileImage })}>
             <div className="icon-container">
-                <img className="image-icon" src={defaultProfile} />
+                <img className="image-icon" src={profileImage} />
             </div>
             <div className=" w-100 text-center">
                 <p className='fw-bolder'>{name}</p>
