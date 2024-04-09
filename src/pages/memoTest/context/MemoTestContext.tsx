@@ -14,6 +14,7 @@ export const MemoTestProvider: React.FC<MemoTestProviderProps> = ({ children }) 
     const [ score, setScore ] = useState<number>(0)
     const [ memoComplete, setMemoComplete ] = useState<boolean>(false);
     const [ runTime, setRunTime ] = useState<boolean>(true)
+    const [ level, setLevel ] = useState(1)
 
     return (
         <MemoTestContext.Provider value={{
@@ -22,7 +23,9 @@ export const MemoTestProvider: React.FC<MemoTestProviderProps> = ({ children }) 
             runTime,
             setRunTime,
             memoComplete,
-            setMemoComplete
+            setMemoComplete,
+            level,
+            setLevel
         }}>
             {children}
         </MemoTestContext.Provider>

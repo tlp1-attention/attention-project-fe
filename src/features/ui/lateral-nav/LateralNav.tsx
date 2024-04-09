@@ -18,7 +18,7 @@ const ROUTES = [
   {
     text: "Memorama",
     icon: "lightbulb",
-    url: "/workspace/memoTest",
+    url: "/workspace/memoTest/1",
   },
   {
     text: "Temporizador",

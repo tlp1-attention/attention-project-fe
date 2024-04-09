@@ -5,6 +5,8 @@ export interface MemoTestContextProps {
     setRunTime: React.Dispatch<React.SetStateAction<boolean>>,
     memoComplete: boolean,
     setMemoComplete: React.Dispatch<React.SetStateAction<boolean>>,
+    level: number,
+    setLevel: React.Dispatch<React.SetStateAction<number>>,
 }
 
 export interface MemoBlockType {
@@ -17,7 +19,8 @@ export interface MemoBlockType {
 export interface BoardProps {
     handleMemoClick: (arg0: MemoBlockType) => void,
     animating: boolean, 
-    memoBlocks: MemoBlockType[]
+    memoBlocks: MemoBlockType[],
+    level: number
 }
 
 export interface MemoBlockProps {

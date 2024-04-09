@@ -2,7 +2,7 @@ import MemoBlock from '../MemoBlock/MemoBlock'
 import { BoardProps, MemoBlockType } from '@pages/memoTest/Types'
 import style from "./Board.module.css"
 
-const Board = ({ handleMemoClick, animating, memoBlocks }: BoardProps) => {
+const Board = ({ handleMemoClick, animating, memoBlocks, level }: BoardProps) => {
     return (
         <main className={style.board}>
             {

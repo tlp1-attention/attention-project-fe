@@ -2,7 +2,7 @@ import style from "./ScoreTable.module.css"
 import { useTimer } from './hook/useTimer'
 import { useMemoTestContext } from '../../context/MemoTestContext'
 
-const ScoreTable = () => {
+const ScoreTable = ({ level }: { level: number }) => {
 
     const {
         timer,

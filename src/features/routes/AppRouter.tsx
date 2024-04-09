@@ -78,7 +78,7 @@ const router = createBrowserRouter([
         element: <ReadingQuizPage />,
       },
       {
-        path: "/workspace/memoTest",
+        path: "/workspace/memoTest/:level",
         element: (
           <MemoTestProvider>
             <MemoTest />
