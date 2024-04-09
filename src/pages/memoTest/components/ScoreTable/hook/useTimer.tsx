@@ -14,7 +14,8 @@ export const useTimer = (initialTime: number) => {
 
     const {
         runTime,
-        setRunTime
+        setRunTime,
+        level
     } = memoTestContext
 
     useEffect(() => {
@@ -37,7 +38,7 @@ export const useTimer = (initialTime: number) => {
                     }
                     return prevSeconds - 1
                 })
-            }, 1000);
+            }, 1000 - (level * 50));
         }
         if (timer === 0) {
             setRunTime(false)
