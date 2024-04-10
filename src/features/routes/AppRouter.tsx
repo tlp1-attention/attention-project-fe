@@ -1,28 +1,29 @@
 import { AuthContextProvider } from "@features/auth/context/AuthContext";
+import { FederatedAuthProvider } from "@features/federated/FederatedAuthProvider";
 import { SocketProvider } from "@features/real-time/context/SocketProvider";
+import { Toaster } from "@features/ui/toaster/Toaster";
 import { NotFoundPage } from "@pages/NotFoundPage";
+import PreferencesFormPage from "@pages/PreferenceFormPage/PreferencesFormPage";
+import { AdminPanelPage } from "@pages/admin-panel/AdminPanelPage";
 import { Register } from "@pages/auth/Register";
 import LoginPage from "@pages/auth/login/LoginPage";
 import HomePage from "@pages/home/Home";
 import MainLayout from "@pages/layouts/MainLayout";
+import UserProfileLayout from "@pages/layouts/UserProfileLayout";
 import WorkspaceLayout from "@pages/layouts/WorkspaceLayout";
+import MemoTest from "@pages/memoTest/MemoTest";
+import { MemoTestProvider } from "@pages/memoTest/context/MemoTestContext";
+import UserProfile from "@pages/profile/UserProfile";
+import UserDataFormPage from "@pages/userData/UserDataForm";
+import { UsersPage } from "@pages/users/UsersPage";
 import { EventPage } from "@pages/workspace/EventPage";
 import { ReadingPage } from "@pages/workspace/IndividualReadingPage";
 import { ReadingListPage } from "@pages/workspace/ReadingListPage";
 import { ReadingQuizPage } from "@pages/workspace/ReadingQuizPage";
 import { ReportPage } from "@pages/workspace/ReportPage";
 import { TimerPage } from "@pages/workspace/TimerPage";
-import { Toaster } from "@features/ui/toaster/Toaster";
 import { StrictMode } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import UserProfile from "@pages/profile/UserProfile";
-import UserDataFormPage from "@pages/userData/UserDataForm";
-import UserProfileLayout from "@pages/layouts/UserProfileLayout";
-import PreferencesFormPage from "@pages/PreferenceFormPage/PreferencesFormPage";
-import { UsersPage } from "@pages/users/UsersPage";
-import { FederatedAuthProvider } from "@features/federated/FederatedAuthProvider";
-import { MemoTestProvider } from "@pages/memoTest/context/MemoTestContext";
-import MemoTest from "@pages/memoTest/MemoTest";
 
 const router = createBrowserRouter([
   {
@@ -94,7 +95,6 @@ const router = createBrowserRouter([
   {
     path: "/workspace/user",
     element: <UserProfileLayout />,
-
     children: [
       {
         index: true,
@@ -110,6 +110,15 @@ const router = createBrowserRouter([
         element: <UserDataFormPage />,
       },
     ],
+  },
+  {
+    path: '/admin',
+    element: <WorkspaceLayout />,
+    children: [{
+      // FIXME: Modify app routes to match on user roles. 
+      path: '/admin/readings',
+      element: <AdminPanelPage />
+    }]
   },
   {
     path: "/user",
