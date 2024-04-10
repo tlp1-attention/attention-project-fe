@@ -86,7 +86,7 @@ export const useMemoTest = (emojis: string) => {
           setMemoComplete(currentMemoComplete);
           setRunTime(false);
           setTimeout(() => {
-            Alert.fire("Fin del juego");
+            Alert.fire("Nivel Completado!");
           }, 600);
         }
       }, 500);

@@ -7,7 +7,7 @@ const ScoreTable = ({ level }: { level: number }) => {
     const {
         timer,
         handleClick
-    } = useTimer(45)
+    } = useTimer(60)
 
     const memoTestContext = useMemoTestContext();
 

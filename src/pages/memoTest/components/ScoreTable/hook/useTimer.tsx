@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useMemoTestContext } from '../../../context/MemoTestContext'
 import { Alert } from '@features/ui/alert/Alert'
 
 export const useTimer = (initialTime: number) => {
 
     const [ timer, setTimer ] = useState<number>(initialTime)
+
+    const navigate = useNavigate()
 
     const memoTestContext = useMemoTestContext()
 
@@ -51,6 +54,7 @@ export const useTimer = (initialTime: number) => {
         e.preventDefault()
         setTimer(initialTime)
         setRunTime(true)
+        navigate(`/workspace/memoTest/${level + 1}`)
     }
 
     return {
