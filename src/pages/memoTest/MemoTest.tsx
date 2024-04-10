@@ -21,19 +21,23 @@ const MemoTest = () => {
     const { setLevel } = memoTestContext
     setLevel(parseInt(level))
 
+    const emojis: string = 
+        parseInt(level) < 3 ? '❤🌹🎶🎂🎈🕶💎🏈🍕🍔' : 
+        parseInt(level) < 5 ? '❤🌹🎶🎂🎈🕶💎🏈🍕🍔🍟🍒' : '❤🌹🎶🎂🎈🕶💎🏈🍕🍔🍟🍒🎃🚀🌎'
+
     const {
         shuffledMemoBlocks,
         animating,
         handleMemoClick,
-    } = useMemoTest('❤🌹🎶🎂🎈🕶💎🏈🍕🍔')
+    } = useMemoTest(emojis)
 
     return (
             <div 
                 className="container w-100"
             >
                 <div className='row'>
-                    <div className="col"></div>
-                    <div className="col-6">
+                    {/* <div className="col-2"></div> */}
+                    <div className="col-9">
                         <Board memoBlocks={shuffledMemoBlocks} animating={animating} handleMemoClick={handleMemoClick} level={parseInt(level)}/>
                     </div>
                     <div className="col-3">

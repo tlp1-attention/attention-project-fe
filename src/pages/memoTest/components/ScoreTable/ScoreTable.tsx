@@ -6,6 +6,7 @@ const ScoreTable = ({ level }: { level: number }) => {
 
     const {
         timer,
+        handleClick
     } = useTimer(45)
 
     const memoTestContext = useMemoTestContext();
@@ -31,7 +32,7 @@ const ScoreTable = ({ level }: { level: number }) => {
                 <div className={`d-flex flex-column align-items-center mt-3 ${style.scoreTableContent}`}>
                     <p>Puntaje: </p>
                     <p>{score}</p>
-                    <button className={`btn btn-${memoComplete ? "primary" : "secondary"} ${style.btnTransition}`}>Continuar</button>
+                    <button className={`btn btn-${memoComplete ? "primary" : "secondary"} ${style.btnTransition}`} onClick={handleClick}>Continuar</button>
                 </div>
             </div>
         </div>

@@ -1,7 +1,23 @@
 .board {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 2px;
+    grid-gap: 5px;
     max-width: 600px;
-    margin: 50px auto
+    margin: 25px auto
+}
+
+.boardLevel3 {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 7px;
+    max-width: 600px;
+    margin: 25px auto
+}
+
+.boardLevel5 {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 10px;
+    max-width: 600px;
+    margin: 25px auto
 }
