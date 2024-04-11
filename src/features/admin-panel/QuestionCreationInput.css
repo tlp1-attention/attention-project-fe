@@ -1,0 +1,17 @@
+.question-creation-form {
+    margin-top: 4rem;
+}
+
+.question-options-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(1fr, 4);
+    gap: 1.2rem;
+}
+
+@media (min-width: 768px) {
+    .question-options-container {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+}

@@ -1,5 +1,6 @@
 import { Field, Form, Formik } from "formik";
 import './ReadingCreationForm.css'
+import { QuestionCreationForm } from "./QuestionCreationInput";
 
 const CREATION_FORM_DEFAULT_VALUES = {
     title: '',
@@ -23,7 +24,7 @@ export function ReadingCreationForm() {
                         <Field type="text" name="title" className="form-control fs-4" placeholder="Una lectura maravillosa" />
                         <label htmlFor="contents" className="fs-4">
                             Text completo:{" "}
-                        </label>
+                    </label>
                         <Field type="text" name="contents" className="form-control fs-4 flex-fill" as="textarea" placeholder="Aquí va el texto completo" />
                     </div>
                     <div className="flex-grow-1 d-flex gap-2 flex-column image-input-container">
@@ -35,6 +36,13 @@ export function ReadingCreationForm() {
                         <Field type="file" name="cover" className="form-control fs-4" />
                     </div>
                 </fieldset>
+                <QuestionCreationForm />
+                <div className="mb-4 d-flex justify-content-center justify-content-md-start">
+                    <button className="btn add-question-btn shadow d-flex align-items-center gap-2">
+                        <i className="bi bi-plus-circle fs-4"></i>
+                        <span className="fs-4">Agregar pregunta</span>
+                    </button>
+                </div>
                 <button
                     type="submit"
                     disabled={isSubmitting}

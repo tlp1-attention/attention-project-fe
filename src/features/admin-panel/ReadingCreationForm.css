@@ -1,3 +1,4 @@
+
 .form-creation-grid {
    display: grid;
    grid-template-columns: 1fr;
@@ -52,5 +53,11 @@
 .form-creation-grid .image-input-container img {
     max-width: 100%;
     object-fit: cover;
+}
+
+.add-question-btn {
+    border: solid var(--clr-accent-800) 1px;
+    padding-block: 0.5rem;
+    padding-inline: 0.7rem;
 }
 

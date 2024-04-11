@@ -1,0 +1,19 @@
+.option-correct-checkbox {
+    min-width: 10%;
+    min-height: 100%;
+}
+
+.option-correct-checkbox i {
+    position: relative;
+}
+
+.option-correct-checkbox i::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: red;
+    border-radius: 50%;
+    width: 100%;
+    aspect-ratio: 1;
+    z-index: 1;
+}
