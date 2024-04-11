@@ -1,10 +1,17 @@
 import { Field } from "formik";
-import './QuestionCreationInput.css';
+import { useState } from "react";
 import { OptionInput } from "./OptionInput";
+import './QuestionCreationInput.css';
 
 const OPTION_QUANTITY_FOR_QUESTION = 4;
 
 export function QuestionCreationForm() {
+    const [markedIndex, setMarkedIndex] = useState<number>(0);
+
+    const handleCheck = (i: number) => {
+        setMarkedIndex(i);
+    }
+
     return (
         <div className="question-creation-form mt-5">
             <h4 className="display-6 ps-3 ps-md-0 py-2 fw-semibold text-brand text-start">
@@ -18,7 +25,7 @@ export function QuestionCreationForm() {
                 <div className="question-options-container">
                     {
                         Array.from({ length: OPTION_QUANTITY_FOR_QUESTION }).map((_, i) => {
-                            return <OptionInput checkboxIndex={i} />
+                            return <OptionInput checkboxIndex={i} onOptionCheck={handleCheck} marked={markedIndex == i} />
                         })
                     }
                 </div>
