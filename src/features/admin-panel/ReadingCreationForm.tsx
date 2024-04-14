@@ -1,9 +1,8 @@
-import { Field, Form, Formik } from "formik";
 import './ReadingCreationForm.css'
 import { QuestionCreationForm } from "./QuestionCreationInput";
 import { READING_CREATION_DEFAULT } from "./reducers/reading-creation.reducer";
 import { useReadingCreationContext } from "./context/ReadingCreationContext";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ReadingWithQuestion } from "./interfaces/reading-with-questions";
 import { createReading } from "@services/readings";
 import toast from "react-hot-toast";
@@ -18,6 +17,9 @@ const submitReadingCreation = async (token: string, reading: ReadingWithQuestion
         console.error(err);
         if (err instanceof ValidationError) {
             toast.error(`Error al crear la lectura :(. ${err.message}`);
+        }
+        if (err instanceof  Error) {
+            toast.error(`${err.message}`);
         }
     }
 }

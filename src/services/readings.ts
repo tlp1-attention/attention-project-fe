@@ -226,6 +226,7 @@ export async function createReading({
         )[0];
       }
       console.error(err);
+      throw err;
     }
     return [];
   }
