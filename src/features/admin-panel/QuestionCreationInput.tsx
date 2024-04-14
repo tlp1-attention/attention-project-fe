@@ -7,10 +7,10 @@ const OPTION_QUANTITY_FOR_QUESTION = 4;
 
 type QuestionCreationFormProps = {
     // The index of the question in the whole form. 
-    questionIndex?: number;
+    questionIndex: number;
 };
 
-export function QuestionCreationForm({ questionIndex = 0 }: QuestionCreationFormProps) {
+export function QuestionCreationForm({ questionIndex }: QuestionCreationFormProps) {
     const readingContext = useReadingCreationContext();
     const [markedIndex, setMarkedIndex] = useState<number>(0);
 

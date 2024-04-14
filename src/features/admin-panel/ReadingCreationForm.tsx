@@ -4,23 +4,13 @@ import { READING_CREATION_DEFAULT } from "./reducers/reading-creation.reducer";
 import { useReadingCreationContext } from "./context/ReadingCreationContext";
 import React, { useState } from "react";
 import { ReadingWithQuestion } from "./interfaces/reading-with-questions";
-import { createReading } from "@services/readings";
+import { createReading, updateReadingCover } from "@services/readings";
 import toast from "react-hot-toast";
 import { useAuth } from "@features/auth/hooks/useAuth";
+import { useNavigate } from 'react-router-dom';
 
 
 
-const submitReadingCreation = async (token: string, reading: ReadingWithQuestion) => {
-    try {
-        await createReading({ reading, token });
-        toast.success("Lectura creada exitosamente");
-    } catch(err) {
-        console.error(err);
-        if (err instanceof  Error) {
-            toast.error(`${err.message}`);
-        }
-    }
-}
 
 const DEFAULT_IMG = "/assets/cover-placeholder.jpg";
 
@@ -28,6 +18,7 @@ export function ReadingCreationForm() {
     const { token } = useAuth()!;
     const readingContext = useReadingCreationContext();
     const [fileUrl, setFileUrl] = useState(DEFAULT_IMG);
+    const navigate = useNavigate();
     const numberOfQuestions = readingContext?.questions.length || 0;
 
     const addDefaultQuestion = () => {
@@ -39,6 +30,25 @@ export function ReadingCreationForm() {
             }))
         })
     };
+
+    const submitReadingCreation = async (token: string, reading: ReadingWithQuestion) => {
+        try {
+            if (reading.cover.size == 0) {
+                toast.error("No se ha seleccionado una imagen de portada");
+                return;
+            }
+            const response = await createReading({ reading, token });
+            const exerciseId = response.data.exercise.id;
+            await updateReadingCover({ token, exerciseId, cover: reading.cover });
+            toast.success("Lectura creada exitosamente");
+            navigate("/admin/readings");
+        } catch (err) {
+            console.error(err);
+            if (err instanceof Error) {
+                toast.error(`${err.message}`);
+            }
+        }
+    }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (e.target.name == "title") {
@@ -98,14 +108,14 @@ export function ReadingCreationForm() {
                 </label>
 
                 <img src={fileUrl} />
-                <input type="file" name="cover" className="form-control fs-4" onChange={handleChange}/>
+                <input type="file" name="cover" className="form-control fs-4" onChange={handleChange} />
             </div>
         </fieldset>
         <div>
             <h4 className="display-6 ps-3 ps-md-0 py-2 fw-semibold text-brand text-start">
                 Añadir preguntas de comprensión
             </h4>
-            {Array.from({ length: numberOfQuestions }).map((_, i) => <QuestionCreationForm key={i} />)}
+            {Array.from({ length: numberOfQuestions }).map((_, i) => <QuestionCreationForm key={i} questionIndex={i} />)}
         </div>
         <div className="mb-4 d-flex justify-content-center justify-content-md-start gap-3">
             <button type="button" className="btn add-question-btn shadow d-flex align-items-center gap-2" onClick={() => addDefaultQuestion()}>

@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { request } from "./setup";
 import { ValidationError } from "@interfaces/validation.error";
 import { IReading, IReadingByWeek } from "@interfaces/reading";
@@ -183,8 +183,8 @@ export async function getCompletedExercisesByWeek({
     const { completedExercises } = response.data;
 
     return completedExercises;
-    
-  } catch(err) {
+
+  } catch (err) {
     console.error(err);
     if (err instanceof AxiosError) {
       const { response } = err;
@@ -205,17 +205,52 @@ type CreateReadingParams = { token: string; reading: ReadingWithQuestion };
 export async function createReading({
   token,
   reading
-}: CreateReadingParams): Promise<any> {
+}: CreateReadingParams): Promise<AxiosResponse> {
   try {
-    const response = await request.post('/api/exercises/readings', 
+    const response = await request.post('/api/exercises/readings',
       reading,
       {
         headers: {
           'Authorization': token
         }
-    });
-    return response; 
-  } catch(err) {
+      });
+    return response;
+  } catch (err) {
+    console.error(err);
+    if (err instanceof AxiosError) {
+      const { response } = err;
+      if (response?.status == 400) {
+        const { errors } = response.data;
+        throw errors.map(
+          ({ msg }: { msg: string }) => new ValidationError(msg)
+        )[0];
+      }
+      console.error(err);
+    }
+    throw err;
+  }
+}
+
+type UpdateReadignCoverParams = { token: string; exerciseId: number; cover: File };
+
+export async function updateReadingCover({
+  token,
+  exerciseId,
+  cover
+}: UpdateReadignCoverParams): Promise<any> {
+  try {
+    const formData = new FormData();
+    formData.append('cover', cover);
+    const response = await request.post(`/api/exercises/readings/${exerciseId}/cover`,
+      formData,
+      {
+        headers: {
+          'Authorization': token
+        }
+      }
+    );
+    return response;
+  } catch (err) {
     console.error(err);
     if (err instanceof AxiosError) {
       const { response } = err;
