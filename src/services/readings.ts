@@ -3,6 +3,7 @@ import { request } from "./setup";
 import { ValidationError } from "@interfaces/validation.error";
 import { IReading, IReadingByWeek } from "@interfaces/reading";
 import { IQuestion } from "@interfaces/question";
+import { ReadingWithQuestion } from "@features/admin-panel/interfaces/reading-with-questions";
 
 type GetAllReadingsParams = {
   token: string;
@@ -183,6 +184,37 @@ export async function getCompletedExercisesByWeek({
 
     return completedExercises;
     
+  } catch(err) {
+    console.error(err);
+    if (err instanceof AxiosError) {
+      const { response } = err;
+      if (response?.status == 400) {
+        const { errors } = response.data;
+        throw errors.map(
+          ({ msg }: { msg: string }) => new ValidationError(msg)
+        )[0];
+      }
+      console.error(err);
+    }
+    return [];
+  }
+}
+
+type CreateReadingParams = { token: string; reading: ReadingWithQuestion };
+
+export async function createReading({
+  token,
+  reading
+}: CreateReadingParams): Promise<any> {
+  try {
+    const response = await request.post('/api/exercises/readings', 
+      reading,
+      {
+        headers: {
+          'Authorization': token
+        }
+    });
+    return response; 
   } catch(err) {
     console.error(err);
     if (err instanceof AxiosError) {

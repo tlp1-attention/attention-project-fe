@@ -3,17 +3,40 @@ import './ReadingCreationForm.css'
 import { QuestionCreationForm } from "./QuestionCreationInput";
 import { READING_CREATION_DEFAULT } from "./reducers/reading-creation.reducer";
 import { useReadingCreationContext } from "./context/ReadingCreationContext";
-import React from "react";
-import { ReadingContextValue } from "@features/readings/context/ReadingContextProvider";
+import React, { useEffect, useState } from "react";
 import { ReadingWithQuestion } from "./interfaces/reading-with-questions";
+import { createReading } from "@services/readings";
+import toast from "react-hot-toast";
+import { ValidationError } from "@interfaces/validation.error";
+import { useAuth } from "@features/auth/hooks/useAuth";
 
-const submitReadingCreation = (reading: ReadingWithQuestion) => {
-    console.log(reading);
+const submitReadingCreation = async (token: string, reading: ReadingWithQuestion) => {
+    try {
+        await createReading({ reading, token });
+        toast.success("Lectura creada exitosamente");
+    } catch(err) {
+        console.error(err);
+        if (err instanceof ValidationError) {
+            toast.error(`Error al crear la lectura :(. ${err.message}`);
+        }
+    }
 }
 
-export function ReadingCreationForm() {
-    const readingContext = useReadingCreationContext();
+function getDataUrl(file?: File) {
+    if (!file) return "";
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    const url = reader.result;
+    console.log(url);
+    return url;
+}
 
+const DEFAULT_IMG = "https://placehold.co/600x400/EEE/31343C";
+
+export function ReadingCreationForm() {
+    const { token } = useAuth()!;
+    const readingContext = useReadingCreationContext();
+    const [fileUrl, setFileUrl] = useState(DEFAULT_IMG);
     const numberOfQuestions = readingContext?.questions.length || 0;
 
     const addDefaultQuestion = () => {
@@ -33,6 +56,15 @@ export function ReadingCreationForm() {
             readingContext?.setSummary(e.target.value);
         } else if (e.target.name == "contents") {
             readingContext?.setContents(e.target.value);
+        } else if (e.target.name == "cover") {
+            const target = e.target as { files: FileList };
+            const file = target.files![0];
+            const reader = new FileReader();
+            reader.addEventListener('load', () => {
+                setFileUrl(reader.result as string);
+            });
+            reader.readAsDataURL(file);
+            readingContext?.setCover(file);
         }
     }
 
@@ -42,13 +74,16 @@ export function ReadingCreationForm() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        submitReadingCreation({
+        if (!token) return;
+        submitReadingCreation(token, {
             title: readingContext?.title || READING_CREATION_DEFAULT.title,
+            cover: readingContext?.cover || READING_CREATION_DEFAULT.cover,
             summary: readingContext?.summary || READING_CREATION_DEFAULT.summary,
             contents: readingContext?.contents || READING_CREATION_DEFAULT.contents,
             questions: readingContext?.questions || READING_CREATION_DEFAULT.questions
         });
     }
+
 
     return <form className="form d-flex flex-column justify-content-start p-0 pe-md-5 m" onSubmit={handleSubmit}>
         <fieldset className="form-creation-grid">
@@ -71,8 +106,8 @@ export function ReadingCreationForm() {
                     Imagen de portada:{" "}
                 </label>
 
-                <img src="https://placehold.co/600x400/EEE/31343C" />
-                <input type="file" name="cover" className="form-control fs-4" />
+                <img src={fileUrl} />
+                <input type="file" name="cover" className="form-control fs-4" onChange={handleChange}/>
             </div>
         </fieldset>
         <div>

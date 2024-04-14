@@ -5,10 +5,12 @@ import { READING_ACTIONS, READING_CREATION_DEFAULT, readingCreationReducer } fro
 type ReadingCreationContext = {
     title: string;
     summary: string;
+    cover: File;
     contents: string;
     questions: QuestionWithOptions[];
     setTitle: (title: string) => void;
     setContents: (contents: string) => void;
+    setCover: (cover: File) => void;
     setSummary: (summary: string) => void;
     addQuestion: (questions: QuestionWithOptions) => void;
     editQuestion: (index: number, question: QuestionWithOptions) => void;
@@ -40,6 +42,10 @@ export function ReadingCreationContextProvider(
         dispatch({ type: READING_ACTIONS.SET_SUMMARY, payload: summary });
     }
 
+    const setCover = (cover: File) => {
+        dispatch({ type: READING_ACTIONS.SET_COVER, payload: cover });
+    }
+
     const addQuestion = (question: QuestionWithOptions) => {
         dispatch({ type: READING_ACTIONS.ADD_QUESTION, payload: question });
     }
@@ -57,6 +63,8 @@ export function ReadingCreationContextProvider(
         summary: state.summary,
         contents: state.contents,
         questions: state.questions,
+        cover: state.cover,
+        setCover,
         setTitle,
         setContents,
         setSummary,
