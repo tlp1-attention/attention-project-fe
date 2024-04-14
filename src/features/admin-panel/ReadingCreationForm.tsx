@@ -1,17 +1,28 @@
 import { Field, Form, Formik } from "formik";
 import './ReadingCreationForm.css'
 import { QuestionCreationForm } from "./QuestionCreationInput";
+import { READING_CREATION_DEFAULT } from "./reducers/reading-creation.reducer";
+import { useReadingCreationContext } from "./context/ReadingCreationContext";
 
-const CREATION_FORM_DEFAULT_VALUES = {
-    title: '',
-    contents: '',
-    questions: {}
-};
 
 export function ReadingCreationForm() {
+    const readingContext = useReadingCreationContext();
+
+    const numberOfQuestions = readingContext?.questions.length || 0;
+
+    const addDefaultQuestion = () => {
+        readingContext?.addQuestion({
+            questionText: '',
+            options: []
+        })
+    };
+
+    const deleteLastQuestion = () => {
+        readingContext?.deleteQuestion(numberOfQuestions - 1);
+    };
 
     return <Formik
-        initialValues={CREATION_FORM_DEFAULT_VALUES}
+        initialValues={READING_CREATION_DEFAULT}
         onSubmit={() => { }}
     >
         {({ isSubmitting }) => (
@@ -22,9 +33,13 @@ export function ReadingCreationForm() {
                             Título de la lectura:{" "}
                         </label>
                         <Field type="text" name="title" className="form-control fs-4" placeholder="Una lectura maravillosa" />
+                        <label htmlFor="summary" className="fs-4">
+                            Resumen de la lectura:{" "}
+                        </label>
+                        <Field type="text" name="summary" className="form-control fs-4" placeholder="Pequeño resumen de la lectura" />
                         <label htmlFor="contents" className="fs-4">
                             Text completo:{" "}
-                    </label>
+                        </label>
                         <Field type="text" name="contents" className="form-control fs-4 flex-fill" as="textarea" placeholder="Aquí va el texto completo" />
                     </div>
                     <div className="flex-grow-1 d-flex gap-2 flex-column image-input-container">
@@ -36,12 +51,18 @@ export function ReadingCreationForm() {
                         <Field type="file" name="cover" className="form-control fs-4" />
                     </div>
                 </fieldset>
-                <QuestionCreationForm />
-                <div className="mb-4 d-flex justify-content-center justify-content-md-start">
-                    <button className="btn add-question-btn shadow d-flex align-items-center gap-2">
+                {Array.from({ length: numberOfQuestions }).map(_ => <QuestionCreationForm />)}
+                <div className="mb-4 d-flex justify-content-center justify-content-md-start gap-3">
+                    <button type="button" className="btn add-question-btn shadow d-flex align-items-center gap-2" onClick={() => addDefaultQuestion()}>
                         <i className="bi bi-plus-circle fs-4"></i>
                         <span className="fs-4">Agregar pregunta</span>
                     </button>
+                    <div>
+                        <button type="button" className="btn add-question-btn shadow d-flex align-items-center gap-2" onClick={() => deleteLastQuestion()}> 
+                        <i className="bi bi-dash-circle fs-4"></i>
+                            <span className="fs-4">Quitar pregunta</span>
+                        </button>
+                    </div>
                 </div>
                 <button
                     type="submit"
