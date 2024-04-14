@@ -15,9 +15,6 @@ const submitReadingCreation = async (token: string, reading: ReadingWithQuestion
         toast.success("Lectura creada exitosamente");
     } catch(err) {
         console.error(err);
-        if (err instanceof ValidationError) {
-            toast.error(`Error al crear la lectura :(. ${err.message}`);
-        }
         if (err instanceof  Error) {
             toast.error(`${err.message}`);
         }
