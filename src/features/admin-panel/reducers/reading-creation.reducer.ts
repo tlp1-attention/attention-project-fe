@@ -2,11 +2,12 @@ import { QuestionWithOptions, ReadingWithQuestion } from "../interfaces/reading-
 
 type ReadingCreationState = ReadingWithQuestion;
 
-const READING_ACTIONS = {
+export const READING_ACTIONS = {
     SET_TITLE: 'SET_TITLE',
     SET_CONTENTS: 'SET_CONTENTS',
     SET_SUMMARY: 'SET_SUMMARY',
     ADD_QUESTION: 'ADD_QUESTION',
+    EDIT_QUESTION: 'EDIT_QUESTION',
     DELETE_QUESTION: 'DELETE_QUESTION',
 } as const;
 
@@ -16,7 +17,12 @@ export const READING_CREATION_DEFAULT = {
     contents: '',
     questions: [{
         questionText: '',
-        options: []
+        options: Array.from({ length: 4 }).map((_, i) => {
+            return {
+                optionText: '',
+                isCorrect: i === 0
+            }
+        })
     }]
 };
 
@@ -25,13 +31,13 @@ type ReadingCreationAction =
     | { type: typeof READING_ACTIONS.SET_CONTENTS, payload: string }
     | { type: typeof READING_ACTIONS.SET_SUMMARY, payload: string }
     | { type: typeof READING_ACTIONS.ADD_QUESTION, payload: QuestionWithOptions }
+    | { type: typeof READING_ACTIONS.EDIT_QUESTION, payload: { index: number, question: QuestionWithOptions } }
     | { type: typeof READING_ACTIONS.DELETE_QUESTION, payload: number };
 
 export function readingCreationReducer(
     state: ReadingCreationState,
     action: ReadingCreationAction
 ): ReadingCreationState { 
-
     switch (action.type) {
         case READING_ACTIONS.SET_TITLE:
             return {
@@ -43,6 +49,11 @@ export function readingCreationReducer(
                 ...state,
                 contents: action.payload
             }
+        case READING_ACTIONS.SET_SUMMARY:
+            return {
+                ...state,
+                summary: action.payload
+            }
         case READING_ACTIONS.ADD_QUESTION:
             return {
                 ...state,
@@ -50,6 +61,17 @@ export function readingCreationReducer(
                     ...state.questions,
                     action.payload
                 ]
+            }
+        case READING_ACTIONS.EDIT_QUESTION:
+            const questionsAfterEdit = state.questions.map((question, index) => {
+                if (index === action.payload.index) {
+                    return action.payload.question;
+                }
+                return question;
+            });
+            return {
+                ...state,
+                questions: questionsAfterEdit 
             }
         case READING_ACTIONS.DELETE_QUESTION:
             const newQuestions = state.questions.filter((_, index) => index !== action.payload);

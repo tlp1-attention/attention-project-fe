@@ -18,7 +18,6 @@ export async function getEventsForUser({
         Authorization: token
       }
     });
-    console.log("Response: ", response.status);
 
     return response.data;
   } catch (err) {
@@ -147,7 +146,6 @@ export async function getPublicKey({ token }: GetPublicKeyParams) {
     });
 
     const { publicKey: key } = response.data;
-    console.log("Llega: ", key);
     return key;
   } catch (err) {
     if (err instanceof AxiosError) {

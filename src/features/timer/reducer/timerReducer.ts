@@ -97,8 +97,6 @@ export function timerReducer(state: TimerState | null, action: TimerActions): Ti
       if (state.intervalIndex == state.intervals.length - 1) {
         return { ...DEFAULT_STATE }
       }
-      console.log('intervals: ', state.intervals);
-      console.log('index: ', state.intervalIndex);
       return {
         ...state,
         intervalIndex: state.intervalIndex + 1,

@@ -28,7 +28,6 @@ export function EventNotificationProvider({
   );
 
   const notificationsAllowed = publicKey != null;
-  console.log("Public key: ", publicKey, "Allowed?: ", notificationsAllowed);
   useEffect(() => {
     if (!publicKey) return;
     localStorage.setItem("vapidPublicKey", publicKey);

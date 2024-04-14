@@ -53,7 +53,6 @@ export function TimerPage() {
     });
   };
 
-  console.log(timerState);
 
   const showTimerForm = () => setParams({ ...params, show: "open" });
 

@@ -18,7 +18,6 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     const userResource = usePromise(useCallback(async () => {
         if (!token) throw new UnauthorizedError('Sesión expirada');
         const users = await getUserList({ token });
-        console.log(users);
         return users;
     }, [token]));
 

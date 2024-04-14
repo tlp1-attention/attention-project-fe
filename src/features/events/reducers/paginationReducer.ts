@@ -26,9 +26,6 @@ export const init = (urlParams: URLSearchParams) => {
 
 
 export function paginationReducer(state: PageState, action: Action) {
-    console.log("==========================");
-    console.log("PAGE STATE: ", state);
-    console.log("==========================");
     switch (action.type) {
         case PAGE_ACTIONS.SET_PAGE:
             return {

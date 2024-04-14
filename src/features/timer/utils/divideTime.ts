@@ -27,7 +27,6 @@ export function divideTime(minutes: number) {
     }
     i++;
   }
-  console.log(intervals);
   return intervals;
 }
 
@@ -36,7 +35,6 @@ export function divideTime(minutes: number) {
  * using the minutes it receives
  */
 function getTimerConfig(minutes: number) {
-  console.log("Minutes: ", minutes);
   switch (minutes) {
     case 60:
       return {

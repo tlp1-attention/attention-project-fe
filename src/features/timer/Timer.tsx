@@ -16,9 +16,6 @@ export function Timer({
   totalTime
 }: TimerProps) {
   const percentagePassed = (currentTime * 100) / totalTime;
-  console.log('currenTime', currentTime);
-  console.log('totalTime', totalTime);
-  console.log('percentagePassed', percentagePassed)
   return (
     <section className="m-4 flex-grow-1 w-auto d-flex justify-content-start align-items-center flex-column border shadow p-4">
       <h3 className="fs-2 fw-medium text-uppercase mt-2">{title}</h3>
