@@ -6,8 +6,9 @@ import React, { useState } from "react";
 import { ReadingWithQuestion } from "./interfaces/reading-with-questions";
 import { createReading } from "@services/readings";
 import toast from "react-hot-toast";
-import { ValidationError } from "@interfaces/validation.error";
 import { useAuth } from "@features/auth/hooks/useAuth";
+
+
 
 const submitReadingCreation = async (token: string, reading: ReadingWithQuestion) => {
     try {
@@ -21,16 +22,7 @@ const submitReadingCreation = async (token: string, reading: ReadingWithQuestion
     }
 }
 
-function getDataUrl(file?: File) {
-    if (!file) return "";
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    const url = reader.result;
-    console.log(url);
-    return url;
-}
-
-const DEFAULT_IMG = "https://placehold.co/600x400/EEE/31343C";
+const DEFAULT_IMG = "/assets/cover-placeholder.jpg";
 
 export function ReadingCreationForm() {
     const { token } = useAuth()!;
