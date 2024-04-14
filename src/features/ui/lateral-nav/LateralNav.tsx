@@ -4,50 +4,13 @@ import "./LateralNav.css";
 import { Link, type LinkProps } from "react-router-dom";
 import { useAuth } from "@features/auth/hooks/useAuth";
 
-const ROUTES = [
-  {
-    text: "Inicio",
-    icon: "home",
-    url: "/",
-  },
-  {
-    text: "Lectura",
-    icon: "book",
-    url: "/workspace/readings",
-  },
-  {
-    text: "Memorama",
-    icon: "lightbulb",
-    url: "/workspace/memoTest",
-  },
-  {
-    text: "Temporizador",
-    icon: "clock",
-    url: "/workspace/timer",
-  },
-  {
-    text: 'Eventos',
-    icon: 'calendar',
-    url: '/workspace/events'
-  },
-  {
-    text: "Espacio colaborativo",
-    icon: "columns",
-    url: "/workspace/colaboration",
-  },
-  {
-    text: 'Reportes',
-    icon: "columns",
-    url: "/workspace/report"
-  },
-  {
-    text: 'Perfil',
-    icon: "user",
-    url: "/workspace/user/profile"
-  }
-];
+export type RouteInfo = {
+  text: string;
+  icon: string;
+  url: string;
+};
 
-export function LateralNav() {
+export function LateralNav({ routes }: { routes: RouteInfo[] }) {
   const [isOpen, toggle] = useReducer((opened) => !opened, false);
   const { user, logout } = useAuth()!;
 
@@ -73,7 +36,7 @@ export function LateralNav() {
                 </a>
               </button>
             </li>
-            {ROUTES.map(({ text, icon, url }) => {
+            {routes.map(({ text, icon, url }) => {
               return <SlideButton text={text} icon={icon} to={url} key={url} />;
             })}
             <li>

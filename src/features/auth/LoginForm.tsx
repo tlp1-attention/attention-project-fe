@@ -8,14 +8,14 @@ import { useSocketContext } from "@features/real-time/context/useSocketContext";
 
 export function LoginForm() {
   const { connect } = useSocketContext()!;
-  const { token } = useAuth()!;
-  const { login, isAuthenticated } = useAuth()!;
+  const { token, user, hasFetchedUserInfo } = useAuth()!;
+  const { login, isAuthenticated, isAdmin } = useAuth()!;
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAuthenticated) return;
-    navigate('/workspace/timer');
-  }, [isAuthenticated, navigate]);
+    if (!isAuthenticated || !user || !hasFetchedUserInfo) return;
+    navigate(isAdmin ? '/admin/readings' : '/workspace/timer');
+  }, [isAdmin, isAuthenticated, navigate]);
 
   useEffect(() => {
     if (!token) return;
@@ -31,7 +31,6 @@ export function LoginForm() {
         try {
           await login(values.username, values.password);
           toast.success('¡Sesión iniciada correctamente!');
-          navigate('/workspace/timer');
         } catch (err) {
           if (
             err instanceof ValidationError

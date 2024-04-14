@@ -3,10 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import toast from "react-hot-toast";
 import { ValidationError } from "@interfaces/validation.error";
+import { useEffect } from "react";
 
 export function RegisterForm() {
-  const { register } = useAuth()!;
+  const { register, isAuthenticated, isAdmin } = useAuth()!;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    navigate(isAdmin ? "/admin/readings" : "/workspace/timer");
+  }, [isAdmin, isAuthenticated])
 
   return (
     <Formik
@@ -15,7 +21,7 @@ export function RegisterForm() {
         try {
           await register(values.username, values.password, values.email);
           toast.success("¡Sesión iniciada correctamente!");
-          navigate("/workspace/timer");
+          navigate(isAdmin ? "/admin/readings" : "/workspace/timer");
         } catch (err) {
           if (err instanceof ValidationError) {
             return toast.error(err?.message);

@@ -3,9 +3,10 @@ import { useGoogleLogin } from "@react-oauth/google";
 import toast from "react-hot-toast";
 import './GoogleSignIn.css';
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export function GoogleSignIn() {
-    const { googleLogin } = useAuth()!;
+    const { googleLogin, user, isAdmin, isAuthenticated, hasFetchedUserInfo } = useAuth()!; 
     const navigate = useNavigate();
     const signInWithGoogle = useGoogleLogin({
         onSuccess: async (response) => {
@@ -14,7 +15,6 @@ export function GoogleSignIn() {
             } catch(err) {
                 toast.error('Inicio de sesión con Google no disponible. Por favor, intente de nuevo más tarde.');
             }
-            navigate('/workspace/timer');
         },
         onError: async () => {
             toast.error('Error al iniciar sesión con Google. Intente de nuevo.');
@@ -22,6 +22,11 @@ export function GoogleSignIn() {
         ux_mode: 'popup',
         flow: 'auth-code'
     });
+
+    useEffect(() => {
+        if (!user || !isAuthenticated || !hasFetchedUserInfo) return;
+        navigate(isAdmin ? '/admin/readings' : '/workspace/timer');
+    }, [isAdmin, isAuthenticated, user, hasFetchedUserInfo])
 
     return (
         <div className="d-flex flex-column w-100 m-2">

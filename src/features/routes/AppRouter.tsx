@@ -8,6 +8,7 @@ import { AdminPanelPage } from "@pages/admin-panel/AdminPanelPage";
 import { Register } from "@pages/auth/Register";
 import LoginPage from "@pages/auth/login/LoginPage";
 import HomePage from "@pages/home/Home";
+import AdminPanelLayout from "@pages/layouts/AdminPanelLayout";
 import MainLayout from "@pages/layouts/MainLayout";
 import UserProfileLayout from "@pages/layouts/UserProfileLayout";
 import WorkspaceLayout from "@pages/layouts/WorkspaceLayout";
@@ -113,9 +114,9 @@ const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <WorkspaceLayout />,
+    element: <AdminPanelLayout />,
     children: [{
-      // FIXME: Modify app routes to match on user roles. 
+      index: true,
       path: '/admin/readings',
       element: <AdminPanelPage />
     }]

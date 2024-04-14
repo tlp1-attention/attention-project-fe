@@ -6,12 +6,14 @@ import toast from "react-hot-toast";
 import { loginWithGoogle } from "@services/auth/federated";
 
 type AuthContextValue = {
+    hasFetchedUserInfo: boolean;
     login: (username: string, password: string) => Promise<void>;
     googleLogin: (code: string) => Promise<void>;
     register: (username: string, password: string, email: string) => Promise<void>;
     logout: () => void;
     refetchUser: () => Promise<void>;
     isAuthenticated: boolean,
+    isAdmin: boolean,
     user?: IUser;
     token: string | null;
 }
@@ -20,11 +22,14 @@ export const AuthContext = createContext<
     AuthContextValue | null
 >(null);
 
+const ADMIN_ROLE_ID = 2;
+
 export function AuthContextProvider({ children }: { children: React.ReactElement }) {
     const [token, setToken] = useState<string | null>(
         () => localStorage.getItem('token')
     );
     const [user, setUser] = useState<IUser | undefined>(undefined);
+    const [hasFetchedUserInfo, setHasFetchedUserInfo] = useState(false);
 
     const login = async (username: string, password: string) => {
         const loginData = await loginUser({ username, password });
@@ -78,6 +83,7 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
 
     useEffect(() => {
         refetchUser();
+        setHasFetchedUserInfo(true);
     }, [token, refetchUser])
 
     const logout = () => {
@@ -91,11 +97,17 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
         return token != null;
     }, [token]);
 
+    const isAdmin = useMemo(() => {
+        return user?.roleId == ADMIN_ROLE_ID;
+    }, [user])
+
     return (
         <AuthContext.Provider value={{
+            hasFetchedUserInfo,
             login,
             register,
             isAuthenticated,
+            isAdmin,
             logout,
             user,
             googleLogin,

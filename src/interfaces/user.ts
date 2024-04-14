@@ -5,6 +5,7 @@ export interface IUser {
     name: string;
     email: string;
     ocupation: string;
+    roleId: number;
     preferences?: PreferencesAttributes[];
     description?: string;
     problem?: string;
