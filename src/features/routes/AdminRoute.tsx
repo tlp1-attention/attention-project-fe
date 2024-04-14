@@ -12,7 +12,7 @@ export function AdminRoute({ children }: AdminRouteProps) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!isAdmin) {
+        if (!isAdmin && hasFetchedUserInfo) {
             toast.error('No se encuentra autorizado. Por favor inicie sesión e intente ingresar nuevamente.')
             navigate('/');
         }

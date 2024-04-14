@@ -12,7 +12,7 @@ export type RouteInfo = {
 
 export function LateralNav({ routes }: { routes: RouteInfo[] }) {
   const [isOpen, toggle] = useReducer((opened) => !opened, false);
-  const { user, logout } = useAuth()!;
+  const { user, logout, isAdmin, hasFetchedUserInfo } = useAuth()!;
 
   return (
     <>
@@ -39,6 +39,13 @@ export function LateralNav({ routes }: { routes: RouteInfo[] }) {
             {routes.map(({ text, icon, url }) => {
               return <SlideButton text={text} icon={icon} to={url} key={url} />;
             })}
+            {isAdmin && hasFetchedUserInfo &&
+              <li>
+                <Link to="/admin/readings" id="a-1" className="text-decoration-none">
+                  <i className="fas fa-user-shield" />
+                  <span className="nav-item">ADMINISTRACIÓN</span>
+                </Link>
+              </li>}
             <li>
               <LogOut logout={logout} />
             </li>
@@ -68,7 +75,7 @@ function SlideButton({ text, icon, to, ...rest }: SlideButtonProps) {
 function LogOut({ logout }: { logout: () => void }) {
   return (
     <a id="a-1" onClick={logout} className="logout text-decoration-none cursor-pointer">
-      <i className="fas fa-user" />
+      <i className="fas fa-door-open" />
       <span className="nav-item">CERRAR SESIÓN</span>
     </a>
   );

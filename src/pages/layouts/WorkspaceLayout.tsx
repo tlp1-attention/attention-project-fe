@@ -4,7 +4,7 @@ import { PrivateRoute } from "@features/routes/PrivateRoute";
 import { Footer } from "@features/ui/footer/Footer";
 import { NotificationPanel } from "@features/notifications/NotificationPanel";
 
-const ROUTES: RouteInfo[] = [
+export const ROUTES: RouteInfo[] = [
   {
     text: "Inicio",
     icon: "home",

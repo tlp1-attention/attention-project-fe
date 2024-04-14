@@ -7,9 +7,14 @@ import { Outlet } from "react-router-dom";
 
 export const ADMIN_ROUTE: RouteInfo[] = [
     {
-       text: 'Creación de lecturas',
+       text: 'Lecturas',
        url: 'readings',
        icon: 'book',
+    },
+    {
+        text: 'Ver como usuario',
+        url: '/workspace/timer',
+        icon: 'briefcase',
     }
 ];
 

@@ -1,9 +1,9 @@
-import { createContext, useState, useMemo, useEffect, useCallback } from "react";
-import { getUserInfo, loginUser, registerUser } from "@services/auth/users";
-import { ValidationError } from "@interfaces/validation.error";
 import { IUser } from "@interfaces/user";
-import toast from "react-hot-toast";
+import { ValidationError } from "@interfaces/validation.error";
 import { loginWithGoogle } from "@services/auth/federated";
+import { getUserInfo, loginUser, registerUser } from "@services/auth/users";
+import { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 
 type AuthContextValue = {
     hasFetchedUserInfo: boolean;
@@ -67,6 +67,7 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
     // A function to refetch the user info
     // after it has been updated
     const refetchUser = useCallback(async () => {
+        setHasFetchedUserInfo(false);
         if (!token) return;
         getUserInfo(token)
             .then(({ user }) => {
@@ -77,13 +78,13 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
                     ocupation: user.ocupation ?? '',
                     preferences: user.preferences ?? []
                 });
+                setHasFetchedUserInfo(true);
             })
             .catch(() => toast.error('No se pudo conseguir la información del usuario'));
     }, [token]);
 
     useEffect(() => {
         refetchUser();
-        setHasFetchedUserInfo(true);
     }, [token, refetchUser])
 
     const logout = () => {
@@ -91,7 +92,7 @@ export function AuthContextProvider({ children }: { children: React.ReactElement
         setToken(null);
         setUser(undefined);
     }
-    
+
 
     const isAuthenticated = useMemo(() => {
         return token != null;
