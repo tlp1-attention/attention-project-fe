@@ -46,7 +46,8 @@
         left: 0;
         background: white;
         width: 90px;
-        overflow: hidden;
+        overflow-x: hidden;
+        scrollbar-width: none;
         transition: width 0.2s linear;
         box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
         border-right: solid rgb(241, 237, 237);
@@ -290,4 +291,12 @@
         position: absolute;
         max-height: 0;
     }
+}
+
+.navbar-link-list {
+    min-height: 100vh;
+}
+
+.logout-list-element {
+    margin-top: auto;
 }

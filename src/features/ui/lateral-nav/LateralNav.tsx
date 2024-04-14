@@ -25,7 +25,7 @@ export function LateralNav({ routes }: { routes: RouteInfo[] }) {
             }`}
           onClick={toggle}
         >
-          <ul className="list-unstyled slide-button">
+          <ul className="list-unstyled navbar-link-list d-flex flex-column ">
             <li className="d-flex justify-content-between align-items-center">
               <button className="bg-transparent border-0">
                 <a href="#" className="logo text-decoration-none">
@@ -39,14 +39,14 @@ export function LateralNav({ routes }: { routes: RouteInfo[] }) {
             {routes.map(({ text, icon, url }) => {
               return <SlideButton text={text} icon={icon} to={url} key={url} />;
             })}
-            {isAdmin && hasFetchedUserInfo &&
+            {isAdmin && hasFetchedUserInfo && !window.location.href.includes('/admin') &&
               <li>
                 <Link to="/admin/readings" id="a-1" className="text-decoration-none">
                   <i className="fas fa-user-shield" />
                   <span className="nav-item">ADMINISTRACIÓN</span>
                 </Link>
               </li>}
-            <li>
+            <li className="logout-list-element">
               <LogOut logout={logout} />
             </li>
           </ul>
