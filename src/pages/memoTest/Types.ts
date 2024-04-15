@@ -7,6 +7,8 @@ export interface MemoTestContextProps {
     setMemoComplete: React.Dispatch<React.SetStateAction<boolean>>,
     level: number,
     setLevel: React.Dispatch<React.SetStateAction<number>>,
+    emojis: string,
+    setEmojis: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface MemoBlockType {

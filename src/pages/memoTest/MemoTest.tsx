@@ -3,6 +3,7 @@ import ScoreTable from './components/ScoreTable/ScoreTable';
 import { useParams } from 'react-router-dom';
 import { useMemoTest } from './hook/useMemoTest';
 import { useMemoTestContext } from './context/MemoTestContext';
+import { useState, useEffect } from 'react';
 
 const MemoTest = () => {
 
@@ -12,24 +13,37 @@ const MemoTest = () => {
         throw new Error("El nivel no está definido");
     }
 
+    const [_update, setUpdate] = useState(false)
+
+    useEffect(() => {
+        setUpdate(_prevUpdate => !_prevUpdate)
+    }, [level])
+
     const memoTestContext = useMemoTestContext();
 
     if (!memoTestContext) {
         throw new Error("El contexto es nulo. Asegúrate de estar utilizando useMemoTestContext dentro de un MemoTestContextProvider")
     }
 
-    const { setLevel } = memoTestContext
+    const { setLevel, emojis } = memoTestContext
     setLevel(parseInt(level))
 
-    const emojis: string = 
-        parseInt(level) < 3 ? '❤🌹🎶🎂🎈🕶💎🏈🍕🍔' : 
-        parseInt(level) < 5 ? '❤🌹🎶🎂🎈🕶💎🏈🍕🍔🍟🍒' : '❤🌹🎶🎂🎈🕶💎🏈🍕🍔🍟🍒🎃🚀🌎'
+    // const [emojis, setEmojis] = useState('')
+
+    // useEffect(() => {
+    //     const newEmojis: string = 
+    //         parseInt(level) < 3 ? '❤🌹🎶🎂🎈🕶💎🏈🍕🍔' : 
+    //         parseInt(level) < 5 ? '❤🌹🎶🎂🎈🕶💎🏈🍕🍔🍟🍒' : '❤🌹🎶🎂🎈🕶💎🏈🍕🍔🍟🍒🎃🚀🌎'
+    //     setEmojis(_prevEmojis => newEmojis)
+    // }, [level])
 
     const {
         shuffledMemoBlocks,
         animating,
         handleMemoClick,
     } = useMemoTest(emojis)
+
+    console.log(shuffledMemoBlocks);
 
     return (
             <div 

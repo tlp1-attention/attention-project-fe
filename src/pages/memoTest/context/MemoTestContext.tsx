@@ -15,6 +15,7 @@ export const MemoTestProvider: React.FC<MemoTestProviderProps> = ({ children }) 
     const [ memoComplete, setMemoComplete ] = useState<boolean>(false);
     const [ runTime, setRunTime ] = useState<boolean>(true)
     const [ level, setLevel ] = useState(1)
+    const [emojis, setEmojis] = useState('❤🌹🎶🎂🎈🕶💎🏈🍕🍔')
 
     return (
         <MemoTestContext.Provider value={{
@@ -25,7 +26,9 @@ export const MemoTestProvider: React.FC<MemoTestProviderProps> = ({ children }) 
             memoComplete,
             setMemoComplete,
             level,
-            setLevel
+            setLevel,
+            emojis,
+            setEmojis
         }}>
             {children}
         </MemoTestContext.Provider>

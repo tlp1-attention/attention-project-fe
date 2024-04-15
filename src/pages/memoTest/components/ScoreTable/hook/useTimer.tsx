@@ -18,7 +18,8 @@ export const useTimer = (initialTime: number) => {
     const {
         runTime,
         setRunTime,
-        level
+        level,
+        setEmojis
     } = memoTestContext
 
     useEffect(() => {
@@ -50,10 +51,16 @@ export const useTimer = (initialTime: number) => {
         return () => clearInterval(interval)
     }, [runTime, setRunTime, timer]);
 
-    const handleClick = (e: React.MouseEvent) => {
+    const handleClick = async (e: React.MouseEvent) => {
         e.preventDefault()
         setTimer(initialTime)
         setRunTime(true)
+
+        const newEmojis: string = 
+            (level + 1) < 3 ? '❤🌹🎶🎂🎈🕶💎🏈🍕🍔' : 
+            (level + 1) < 5 ? '❤🌹🎶🎂🎈🕶💎🏈🍕🍔🍟🍒' : '❤🌹🎶🎂🎈🕶💎🏈🍕🍔🍟🍒🎃🚀🌎'
+        setEmojis(_prevEmojis => newEmojis)
+
         navigate(`/workspace/memoTest/${level + 1}`)
     }
 
